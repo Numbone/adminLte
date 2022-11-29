@@ -26,7 +26,7 @@ const AddProduct = () => {
                                 <div class="card-header p-0 pt-1 border-bottom-0">
                                     <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
                                         <li class="nav-item">
-                                            <a class="nav-link active" id="custom-tabs-one-home-tab" data-toggle="pill" href="#custom-tabs-one-home" role="tab" aria-controls="custom-tabs-one-home" aria-selected="true">Home</a>
+                                            <a class="nav-link active" id="custom-tabs-one-home-tab" data-toggle="pill" href="#custom-tabs-one-home" role="tab" aria-controls="custom-tabs-one-home" aria-selected="true">О товаре</a>
                                         </li>
                                         
                                     </ul>
@@ -36,43 +36,37 @@ const AddProduct = () => {
                                 <form>
                                     <div className="card-body">
                                         <div className="form-group">
-                                            <label htmlFor="exampleInputEmail1">Наименование или артикул</label>
-                                            <input type="email" className="form-control" id="exampleInputEmail1" placeholder='Часть или слово целиком' />
+                                            <label htmlFor="exampleInputEmail1">Наименование</label>
+                                            <input type="email" className="form-control" id="exampleInputEmail1" placeholder='Введите название товара' />
                                         </div>
                                         <div className="form-group">
-                                            <label htmlFor="exampleInputPassword1">Категория</label>
-                                            <input type="password" className="form-control" id="exampleInputPassword1" placeholder='Выбрать' />
+                                            <label htmlFor="exampleInputPassword1">Артикул</label>
+                                            <input type="password" className="form-control" id="exampleInputPassword1" placeholder='Введите уникальный артикул товара' />
                                         </div>
-                                        <div className='row'>
-                                            <div className='col-md-6'>
-                                                <div className="form-group">
-                                                    <label htmlFor="exampleInputPassword1">В наличии</label>
-                                                    <input type="phone" className="form-control" id="exampleInputPassword1" placeholder='Выбрать' />
-                                                </div>
-                                            </div>
-                                            <div className='col-md-6'>
-                                                <div className="form-group">
-                                                    <label htmlFor="exampleInputPassword1">В не наличии</label>
-                                                    <input type="phone" className="form-control" id="exampleInputPassword1" placeholder='Выбрать' />
-                                                </div>
-                                            </div>
+                                        <div className="form-group">
+                                            <label htmlFor="exampleInputPassword1">Цена</label>
+                                            <input type="password" className="form-control" id="exampleInputPassword1" placeholder='0' />
                                         </div>
-                                        <div className='row'>
-                                            <div className='col-md-6'>
-                                                <div className="form-group">
-                                                    <label htmlFor="exampleInputPassword1">Включен</label>
-                                                    <input type="phone" className="form-control" id="exampleInputPassword1" placeholder='Выбрать' />
-                                                </div>
-                                            </div>
-                                            <div className='col-md-6'>
-                                                <div className="form-group">
-                                                    <label htmlFor="exampleInputPassword1">Выключен</label>
-                                                    <input type="phone" className="form-control" id="exampleInputPassword1" placeholder='Выбрать' />
-                                                </div>
-                                            </div>
+                                        <div className="form-group">
+                                            <label htmlFor="exampleInputPassword1">Количество</label>
+                                            <input type="password" className="form-control" id="exampleInputPassword1" placeholder='0' />
                                         </div>
-
-
+                                        <div className="form-group">
+                                            <label htmlFor="exampleInputPassword1">Цена для почты (любая сумма в пределах 150 рублей)</label>
+                                            <input type="password" className="form-control" id="exampleInputPassword1" placeholder='0' />
+                                        </div>
+                                        <div className="form-group">
+                                            <label htmlFor="exampleInputPassword1">ТН ВЭД ЕАЭС</label>
+                                            <input type="password" className="form-control" id="exampleInputPassword1" placeholder='ТН ВЭД' />
+                                        </div>
+                                        <div className="form-group">
+                                            <label htmlFor="exampleInputPassword1">Точный вес</label>
+                                            <input type="password" className="form-control" id="exampleInputPassword1" placeholder='0' />
+                                        </div>
+                                        <div className="form-group">
+                                            <label htmlFor="exampleInputPassword1">Название на английском</label>
+                                            <input type="password" className="form-control" id="exampleInputPassword1" placeholder='Название на английском' />
+                                        </div>
                                     </div>
                                     {/* /.card-body */}
                                     <div className="card-footer">

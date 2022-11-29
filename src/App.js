@@ -4,6 +4,7 @@ import Header from './components/Header';
 import Sidebar from './components/Sidebar';
 import AddProduct from './pages/AddProduct';
 import Category from './pages/Category';
+import Etiket from './pages/Etiket';
 import Home from './pages/Home';
 import Order from './pages/Order';
 import Products from './pages/Products';
@@ -22,6 +23,7 @@ function App() {
         <Route path='/category' element={<Category/>}></Route>
         <Route path='/products' element={<Products/>}></Route>
         <Route path='/addproduct' element={<AddProduct/>}></Route>
+        <Route path='/etiket' element={<Etiket/>}></Route>
       </Routes>
     </div>
   );

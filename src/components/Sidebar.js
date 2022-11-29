@@ -71,13 +71,13 @@ const Sidebar = () => {
 
                         </li>
                         <li className="nav-item">
-                            <div  className="nav-link">
+                            <a  className="nav-link">
                                 <i className="nav-icon fas fa-table" />
                                 <p>
                                     Продукции
                                     <i className="fas fa-angle-left right" />
                                 </p>
-                            </div>
+                            </a>
                             <ul className="nav nav-treeview">
                                 <li className="nav-item">
                                     <NavLink to='/products' className="nav-link">
@@ -135,6 +135,7 @@ const Sidebar = () => {
                                 <p>
                                     Промо
                                     <i className="fas fa-angle-left right" />
+                                    
                                 </p>
                             </a>
                             <ul className="nav nav-treeview">
