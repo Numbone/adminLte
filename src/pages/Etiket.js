@@ -56,6 +56,33 @@ const Etiket = () => {
             </section>
             <div className="col-md-12">
                 <div className="card">
+                    <div className="card-header">
+                        <div className='row'>
+                            <div className='col-md-6'>
+                                <div class="input-group mb-3">
+                                    <select class="custom-select" id="inputGroupSelect02">
+                                        <option selected>Choose...</option>
+                                        <option value="1">One</option>
+                                        <option value="2">Two</option>
+                                        <option value="3">Three</option>
+                                    </select>
+
+                                </div>
+                            </div>
+                            <div className='col-md-6 d-flex'>
+                                <div className="card-tools">
+                                    <button type="button" className="btn btn-tool" data-card-widget="collapse">
+                                        <i className="fas fa-minus" />
+                                    </button>
+                                    <button type="button" className="btn btn-tool" data-card-widget="remove">
+                                        <i className="fas fa-times" />
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
 
                     <div className="card-body table-responsive p-0">
                         <table className="table table-hover text-nowrap">
