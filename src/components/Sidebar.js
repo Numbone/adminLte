@@ -92,40 +92,40 @@ const Sidebar = () => {
                                     </NavLink>
                                 </li>
                                 <li className="nav-item">
-                                    <a href="pages/tables/jsgrid.html" className="nav-link">
+                                    <NavLink to="/" className="nav-link">
 
                                         <p>Отзывы</p>
-                                    </a>
+                                    </NavLink>
                                 </li>
                             </ul>
                         </li>
 
                         <li className="nav-item">
-                            <a href="#" className="nav-link">
+                            <NavLink to="/deliverbybus" className="nav-link">
                                 <i className="nav-icon far fa-envelope" />
                                 <p>
                                     Доставка
                                     <i className="fas fa-angle-left right" />
                                 </p>
-                            </a>
+                            </NavLink>
                             <ul className="nav nav-treeview">
                                 <li className="nav-item">
-                                    <a href="pages/mailbox/mailbox.html" className="nav-link">
+                                    <NavLink to="/" className="nav-link">
 
                                         <p>1</p>
-                                    </a>
+                                    </NavLink>
                                 </li>
                                 <li className="nav-item">
-                                    <a href="pages/mailbox/compose.html" className="nav-link">
+                                    <NavLink to="/" className="nav-link">
 
                                         <p>2</p>
-                                    </a>
+                                    </NavLink>
                                 </li>
                                 <li className="nav-item">
-                                    <a href="pages/mailbox/read-mail.html" className="nav-link">
+                                    <NavLink to="NavLink" className="nav-link">
 
                                         <p>3</p>
-                                    </a>
+                                    </NavLink>
                                 </li>
                             </ul>
                         </li>
@@ -170,40 +170,35 @@ const Sidebar = () => {
                             </a>
                             <ul className="nav nav-treeview">
                                 <li className="nav-item">
-                                    <a href="#" className="nav-link">
+                                    <NavLink to="/ordered" className="nav-link">
                                         <i className="far fa-circle nav-icon" />
                                         <p>
                                             1
                                         </p>
-                                    </a>
-                                    <ul className="nav nav-treeview">
-                                        <li className="nav-item">
-                                            2
-                                        </li>
-
-                                    </ul>
+                                    </NavLink>
+                                   
                                 </li>
 
                             </ul>
                         </li>
                         <li className="nav-item">
-                            <a href="#" className="nav-link">
+                            <NavLink to="/settings" className="nav-link">
                                 <i className="nav-icon fas fa-search" />
                                 <p>
                                     Настройки
 
                                 </p>
-                            </a>
+                            </NavLink>
 
                         </li>
                         <li className="nav-item">
-                            <a href="#" className="nav-link">
+                            <NavLink to="/dilers" className="nav-link">
                                 <i className="nav-icon fas fa-search" />
                                 <p>
                                     Дилеры
 
                                 </p>
-                            </a>
+                            </NavLink>
 
                         </li>
                     </ul>
