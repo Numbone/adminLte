@@ -1,6 +1,36 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { Form, Modal } from 'react-bootstrap'
+import { TransactionAll } from '../api/transactions'
+import ModalItem from '../modal/ModalItem'
 
 const Order = () => {
+    /// state 
+    const [delivery, setDelivery] = useState("")
+    const [endTime, setEndTime] = useState("")
+    const [inBasket, setInBasket] = useState("")
+    const [nameORPhoneOREmail, setNameORPhoneOREmail] = useState("")
+    const [notInBasket, setNotInBasket] = useState("")
+    const [notPaid, setNotPaid] = useState(true)
+    const [startTime, setStartTime] = useState("")
+    const [status, setStatus] = useState("")
+    const [transactionID, setTransactionID] = useState(0)
+    /// get data //
+    const [data, setData] = useState([])
+    console.log(startTime);
+    const getTransactionAll = async () => {
+        const { data } = await TransactionAll(delivery, endTime, inBasket, nameORPhoneOREmail, notInBasket, notPaid, startTime, status, Number(transactionID))
+        setData(data)
+
+    }
+    ////modal modalitem ///
+    const [modalShow, setModalShow] = React.useState(false);
+    const [iModal,setIModal]=useState(0)
+    const setIndexModal=(index)=>{
+        setIModal(index)
+        setModalShow(true)
+    }
+    console.log(iModal)
+    console.log(data)
     return (
         <div className="content-wrapper">
             {/* Content Header (Page header) */}
@@ -25,7 +55,10 @@ const Order = () => {
                             <div className='col-md-6'> <div className="form-group">
                                 <label>Заказы от даты:</label>
                                 <div className="input-group date" id="reservationdate" data-target-input="nearest">
-                                    <input type="date" className="form-control datetimepicker-input" data-target="#reservationdate" />
+                                    <input type="date"
+                                        className="form-control "
+                                        data-target="#reservationdate"
+                                        onChange={e => setStartTime(e.target.value)} />
                                     <div className="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
 
                                     </div>
@@ -37,7 +70,11 @@ const Order = () => {
                                 <div className="form-group">
                                     <label>Заказы до даты:</label>
                                     <div className="input-group date" id="reservationdatetime" data-target-input="nearest">
-                                        <input type="date" className="form-control datetimepicker-input" data-target="#reservationdatetime" />
+                                        <input
+                                            type="date"
+                                            className="form-control "
+                                            data-target="#reservationdatetime"
+                                            onChange={e => setEndTime(e.target.value)} />
                                         <div className="input-group-append" data-target="#reservationdatetime" data-toggle="datetimepicker">
 
                                         </div>
@@ -49,35 +86,46 @@ const Order = () => {
                             <div className='col-md-3'>
                                 <div className="form-group">
                                     <label>ID заказа</label>
-                                    <input class="form-control" type="text" placeholder="ID"></input>
+                                    <input
+                                        class="form-control"
+                                        type="text"
+                                        placeholder="ID"
+                                        onChange={e => (setTransactionID(e.target.value))}></input>
                                 </div>
                             </div>
                             <div className='col-md-9'>
                                 <div className="form-group">
                                     <label>Имя,email или телефон</label>
-                                    <input class="form-control" type="text" placeholder="Часть или слово целиком"></input>
+                                    <input
+                                        className="form-control"
+                                        type="text"
+                                        placeholder="Часть или слово целиком"
+                                        onChange={e => setNameORPhoneOREmail(e.target.value)}></input>
                                 </div>
                             </div>
                         </div>
-                        <div className='row'>
-                            <div className='col-md-12'>
-                                <div className="form-group">
-                                    <label>Кроме IDs (несколько через запятую)</label>
-                                    <input class="form-control" type="text" placeholder="ID"></input>
-                                </div>
-                            </div>
-                        </div>
+
                         <div className='row'>
                             <div className='col-md-6'>
                                 <div className="form-group">
                                     <label>Способ доставки</label>
-                                    <input class="form-control" type="text" placeholder="Выбрать"></input>
+                                    <Form.Select onChange={e => setDelivery(e.target.value)} className="form-control" aria-label="Default select example">
+                                        <option></option>
+                                        <option value="1">One</option>
+                                        <option value="2">Two</option>
+                                        <option value="3">Three</option>
+                                    </Form.Select>
                                 </div>
                             </div>
                             <div className='col-md-6'>
                                 <div className="form-group">
                                     <label>Статус заказа</label>
-                                    <input class="form-control" type="text" placeholder="Выбрать"></input>
+                                    <Form.Select onChange={e => setStatus(e.target.value)} className="form-control" aria-label="Default select example">
+                                        <option></option>
+                                        <option value="1">One</option>
+                                        <option value="2">Two</option>
+                                        <option value="3">Three</option>
+                                    </Form.Select>
                                 </div>
                             </div>
                         </div>
@@ -85,7 +133,12 @@ const Order = () => {
                             <div className='col-md-12'>
                                 <div className="form-group">
                                     <label>Товар в корзине</label>
-                                    <input class="form-control" type="text" placeholder="Выбрать"></input>
+                                    <Form.Select onChange={e => setInBasket(e.target.value)} className="form-control" aria-label="Default select example">
+                                        <option></option>
+                                        <option value="1">One</option>
+                                        <option value="2">Two</option>
+                                        <option value="3">Three</option>
+                                    </Form.Select>
                                 </div>
                             </div>
                         </div>
@@ -93,7 +146,12 @@ const Order = () => {
                             <div className='col-md-12'>
                                 <div className="form-group">
                                     <label>Товар не в корзине</label>
-                                    <input class="form-control" type="text" placeholder="Выбрать"></input>
+                                    <Form.Select onChange={e => setNotInBasket(e.target.value)} className="form-control" aria-label="Default select example">
+                                        <option></option>
+                                        <option value="1">One</option>
+                                        <option value="2">Two</option>
+                                        <option value="3">Three</option>
+                                    </Form.Select>
                                 </div>
                             </div>
                         </div>
@@ -101,7 +159,12 @@ const Order = () => {
                             <div className='col-md-12'>
                                 <div className="form-group">
                                     <label>Партнер</label>
-                                    <input class="form-control" type="text" placeholder="Выбрать"></input>
+                                    <Form.Select className="form-control" aria-label="Default select example">
+                                        <option></option>
+                                        <option value="1">One</option>
+                                        <option value="2">Two</option>
+                                        <option value="3">Three</option>
+                                    </Form.Select>
                                 </div>
                             </div>
                         </div>
@@ -109,24 +172,36 @@ const Order = () => {
                             <div className='col-md-12'>
                                 <div className="form-group">
                                     <label>Из сахара</label>
-                                    <input class="form-control" type="text" placeholder="Выбрать"></input>
+                                    <input className="form-control" type="text" placeholder="Выбрать"></input>
                                 </div>
                             </div>
                         </div>
                         <div className='row'>
                             <div className='col-md-2'>
-                                <button type="button" class="btn btn-block btn-primary">Поиск</button>
+                                <button onClick={() => getTransactionAll()} type="button" class="btn btn-block btn-primary">Поиск</button>
                             </div>
-                            <div className='col-md-3'>
+                            <div className='col-md-2'>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" />
-                                    <label class="form-check-label">Показать неоплаченные</label>
+                                    <input className="form-check-input" type="checkbox" />
+                                    <label className="form-check-label">Показать неоплаченные</label>
                                 </div>
                             </div>
-                            <div className='col-md-3'>
+                            <div className='col-md-2'>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" />
-                                    <label class="form-check-label">Показать без этикетки</label>
+                                    <input className="form-check-input" type="checkbox" />
+                                    <label className="form-check-label">Показать без этикетки</label>
+                                </div>
+                            </div>
+                            <div className='col-md-2'>
+                                <div class="form-check">
+                                    <input className="form-check-input" type="checkbox" />
+                                    <label className="form-check-label">Сахара 1</label>
+                                </div>
+                            </div>
+                            <div className='col-md-2'>
+                                <div class="form-check">
+                                    <input className="form-check-input" type="checkbox" />
+                                    <label className="form-check-label">Сахара 2</label>
                                 </div>
                             </div>
                         </div>
@@ -164,122 +239,49 @@ const Order = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td><input type="checkbox" /></td>
-                                    <td>183</td>
-                                    <td>John Doe</td>
-                                    <td>"@mail.ru"</td>
-                                    <td>+79012342656</td>
-                                    <td>basket</td>
-                                    <td>Сумма</td>
-                                    <td>Доставка</td>
-                                    <td><button type="button" class="btn btn-block btn-secondary btn-sm">В обработке    </button></td>
-                                    <td >
-                                        <div style={{ display: 'flex', alignItems: 'center' }}>
-                                            <i className='fas fa-eye' style={{ marginRight: '5px' }}></i>
-                                            <div class="dropdown">
-                                                <div>
-                                                    <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" />
-                                                    <div className="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style={{ position: 'absolute', transform: 'translate3d(0px, 38px, 0px)', top: 0, left: 0, willChange: 'transform' }}>
-                                                        <a className="dropdown-item" href="#">1</a>
-                                                        <a className="dropdown-item" href="#">Another action</a>
-                                                        <a className="dropdown-item" href="#">Something else here</a>
+                                {
+                                    data?.transactions?.map((item, index) =>
+                                        <tr key={index}>
+                                            <td><input type="checkbox" /></td>
+                                            <td>{item?.id}</td>
+                                            <td>{item?.user[0]?.first_name} {item?.user[0]?.father_name}</td>
+                                            <td>{item?.user[0]?.email}</td>
+                                            <td>{item?.user[0]?.phone_number}</td>
+                                            <td>{item?.products?.map(data =>
+                                                <div>{data?.name} {data?.count} шт</div>)}</td>
+                                            <td>{item?.total_cost}</td>
+                                            <td>{item?.delivery}</td>
+                                            <td><button type="button" class="btn btn-block btn-secondary btn-sm">{item?.status[0]?.status_text}   </button></td>
+                                            <td >
+                                                <div  style={{ display: 'flex', alignItems: 'center' }}>
+                                                    <i  onClick={() => setIndexModal(index)}  className='fas fa-eye' style={{ marginRight: '5px' }}></i>
+                                                    <div class="dropdown">
+                                                        <div>
+                                                            <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" />
+                                                            <div className="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style={{ position: 'absolute', transform: 'translate3d(0px, 38px, 0px)', top: 0, left: 0, willChange: 'transform' }}>
+                                                                <a className="dropdown-item" href="#">Написать комментарии</a>
+
+                                                            </div>
+                                                        </div>
+
                                                     </div>
                                                 </div>
+                                            </td>
+                                        </tr>)
 
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><input type="checkbox" /></td>
-                                    <td>183</td>
-                                    <td>John Doe</td>
-                                    <td>"@mail.ru"</td>
-                                    <td>+79012342656</td>
-                                    <td>basket</td>
-                                    <td>Сумма</td>
-                                    <td>Доставка</td>
-                                    <td><button type="button" class="btn btn-block btn-secondary btn-sm">В обработке    </button></td>
-                                    <td >
-                                        <div style={{ display: 'flex', alignItems: 'center' }}>
-                                            <i className='fas fa-eye' style={{ marginRight: '5px' }}></i>
-                                            <div class="dropdown">
-                                                <div>
-                                                    <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" />
-                                                    <div className="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style={{ position: 'absolute', transform: 'translate3d(0px, 38px, 0px)', top: 0, left: 0, willChange: 'transform' }}>
-                                                        <a className="dropdown-item" href="#">1</a>
-                                                        <a className="dropdown-item" href="#">Another action</a>
-                                                        <a className="dropdown-item" href="#">Something else here</a>
-                                                    </div>
-                                                </div>
+                                }
 
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><input type="checkbox" /></td>
-                                    <td>183</td>
-                                    <td>John Doe</td>
-                                    <td>"@mail.ru"</td>
-                                    <td>+79012342656</td>
-                                    <td>basket</td>
-                                    <td>Сумма</td>
-                                    <td>Доставка</td>
-                                    <td><button type="button" class="btn btn-block btn-secondary btn-sm">В обработке    </button></td>
-                                    <td >
-                                        <div style={{ display: 'flex', alignItems: 'center' }}>
-                                            <i className='fas fa-eye' style={{ marginRight: '5px' }}></i>
-                                            <div class="dropdown">
-                                                <div>
-                                                    <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" />
-                                                    <div className="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style={{ position: 'absolute', transform: 'translate3d(0px, 38px, 0px)', top: 0, left: 0, willChange: 'transform' }}>
-                                                        <a className="dropdown-item" href="#">1</a>
-                                                        <a className="dropdown-item" href="#">Another action</a>
-                                                        <a className="dropdown-item" href="#">Something else here</a>
-                                                    </div>
-                                                </div>
 
-                                            </div>
-                                        </div>
-                                    </td>
-
-                                </tr>
-                                <tr>
-                                    <td><input type="checkbox" /></td>
-                                    <td>183</td>
-                                    <td>John Doe</td>
-                                    <td>"@mail.ru"</td>
-                                    <td>+79012342656</td>
-                                    <td>basket</td>
-                                    <td>Сумма</td>
-                                    <td>Доставка</td>
-                                    <td>
-
-                                        <button type="button" class="btn btn-block btn-secondary btn-sm">В обработке    </button>
-
-                                    </td>
-                                    <td >
-                                        <div style={{ display: 'flex', alignItems: 'center' }}>
-                                            <i className='fas fa-eye' style={{ marginRight: '5px' }}></i>
-                                            <div class="dropdown">
-                                                <div>
-                                                    <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" />
-                                                    <div className="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style={{ position: 'absolute', transform: 'translate3d(0px, 38px, 0px)', top: 0, left: 0, willChange: 'transform' }}>
-                                                        <a className="dropdown-item" href="#">1</a>
-                                                        <a className="dropdown-item" href="#">Another action</a>
-                                                        <a className="dropdown-item" href="#">Something else here</a>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
 
                             </tbody>
                         </table>
+                        <ModalItem
+                            show={modalShow}
+                            onHide={() => setModalShow(false)}
+                            state={data.length===0
+                            ?null
+                            :data.transactions[iModal]} 
+                            />
                     </div>
                 </div>
             </div>

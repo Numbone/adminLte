@@ -1,4 +1,5 @@
 import React from 'react'
+import { Form } from 'react-bootstrap'
 
 const Products = () => {
     return (
@@ -31,10 +32,16 @@ const Products = () => {
                                         <div className="form-group">
                                             <label htmlFor="exampleInputEmail1">Наименование или артикул</label>
                                             <input type="email" className="form-control" id="exampleInputEmail1" placeholder='Часть или слово целиком' />
+                                            
                                         </div>
                                         <div className="form-group">
                                             <label htmlFor="exampleInputPassword1">Категория</label>
-                                            <input type="password" className="form-control" id="exampleInputPassword1" placeholder='Выбрать' />
+                                            <Form.Select aria-label="Default select example" className="form-control" placeholder='Часть или слово целиком'>
+                                                <option>Выбрать</option>
+                                                <option value="1">One</option>
+                                                <option value="2">Two</option>
+                                                <option value="3">Three</option>
+                                            </Form.Select>
                                         </div>
                                         <div className='row'>
                                             <div className='col-md-6'>
@@ -118,7 +125,7 @@ const Products = () => {
                                         </div>
                                     </td>
                                 </tr>
-                                
+
                             </tbody>
                         </table>
                     </div>
