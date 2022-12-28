@@ -251,7 +251,7 @@ const Order = () => {
                                                 <div>{data?.name} {data?.count} шт</div>)}</td>
                                             <td>{item?.total_cost}</td>
                                             <td>{item?.delivery}</td>
-                                            <td><button type="button" class="btn btn-block btn-secondary btn-sm">{item?.status[0]?.status_text}   </button></td>
+                                            <td><button type="button" className="btn btn-block btn-secondary btn-sm">{item?.status[0]?.status_text}   </button></td>
                                             <td >
                                                 <div  style={{ display: 'flex', alignItems: 'center' }}>
                                                     <i  onClick={() => setIndexModal(index)}  className='fas fa-eye' style={{ marginRight: '5px' }}></i>
