@@ -15,19 +15,24 @@ const ModalItem = (props) => {
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
-            <div className="content-header">
-                <div className="container-fluid">
-                    <div className="row mb-2">
-                        <div className="col-sm-6">
-                            <h1 class="m-0">Заказы</h1>
-                        </div>{/* /.col */}
-                        <div className="col-sm-6">
+                <div className="content-header">
+                    <div className="container-fluid">
+                        <div className="row mb-2">
+                            <div className="col-sm-6">
+                                <h1 class="m-0">Заказы</h1>
+                            </div>{/* /.col */}
+                            <div className="col-sm-6">
 
-                        </div>{/* /.col */}
-                    </div>{/* /.row */}
-                </div>{/* /.container-fluid */}
-            </div>
-                
+                            </div>{/* /.col */}
+                        </div>{/* /.row */}
+                    </div>{/* /.container-fluid */}
+                </div>
+                <section className="content">
+                    <div className="container-fluid">
+
+                    </div>
+                </section>
+
             </Modal.Body>
             <Modal.Footer>
                 <Button onClick={props.onHide}>Close</Button>
