@@ -1,7 +1,12 @@
+import { format } from 'date-fns';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import { TransactionCopy } from '../api/transactions';
 const ModalItem = (props) => {
-    console.log(props.state);
+    const copyTrans=async(id)=>{
+        const {data}=await TransactionCopy(id)
+        console.log(data);
+    }
     return (
         <Modal
             {...props}
@@ -31,7 +36,7 @@ const ModalItem = (props) => {
                                     <div className='row'>
                                         <div className='col-12'>
                                             <h4>
-                                                {props?.state?.date}
+                                                {props.state==null?null: format(new Date(props?.state?.date), "d/M/yyyy H:mm:s") }
                                                 <div
                                                     className="btn  btn-secondary btn-sm"
                                                     style={{ float: 'right' }}>Status </div>
@@ -39,7 +44,7 @@ const ModalItem = (props) => {
                                         </div>
                                     </div>
                                     <div className='row  invoice-info'>
-                                        <div className="col-sm-4">
+                                        <div className="col-sm-6">
                                             Данные получателя
                                             <address>
                                                 <strong>{props?.state?.user[0]?.first_name} {props?.state?.user[0]?.father_name}</strong>
@@ -62,10 +67,10 @@ const ModalItem = (props) => {
                                             <address>
                                                 <strong>Заказ #{props?.state?.id} </strong>
                                             </address>
-                                            <address>
-                                                <div><strong>Дата создания</strong> {props?.state?.date}</div>
+                                            
+                                                <div><strong>Дата создания</strong> {props.state==null?null: format(new Date(props?.state?.date), "d/M/yyyy H:mm:s") }</div>
                                                 <div><strong>Статус оплаты</strong> {props?.state?.status[0]?.status_text}</div>
-                                            </address>
+                                            
                                         </div>
                                     </div>
                                     <div className='row' style={{ marginBottom: '1rem' }}>
@@ -77,7 +82,7 @@ const ModalItem = (props) => {
                                     </div>
                                     <div className='row' style={{ marginBottom: '1rem' }}>
                                         <div className='col-12'>
-                                            <button type="button" class="btn btn-default  float-right">
+                                            <button  type="button" class="btn btn-default  float-right">
                                                 Копировать заказ
                                             </button>
                                         </div>

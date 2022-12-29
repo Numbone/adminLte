@@ -4,3 +4,7 @@
 .pagination{
     display: none;
 }
+th.asc::before{
+    content: "↑";
+    right: 1em;
+}

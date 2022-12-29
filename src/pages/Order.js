@@ -26,6 +26,9 @@ const Order = () => {
 
         console.log(starDate);
         const { data } = await TransactionAll(delivery, EndDate, inBasket, nameORPhoneOREmail, notInBasket, notPaid, starDate, status, Number(transactionID))
+        if ((data?.products_info==null)||(data.transactions==null)) {
+            data=[]
+        }
         setData(data)
 
     }
@@ -37,8 +40,8 @@ const Order = () => {
         setIModal(index)
         setModalShow(true)
     }
-    const navigate=useNavigate()
-
+    const navigate = useNavigate()
+    console.log(data)
     return (
         <div className="content-wrapper">
             {/* Content Header (Page header) */}
@@ -225,9 +228,12 @@ const Order = () => {
                     <div className="card-header">
                         <h3 className="card-title"></h3>
                         <div className="card-tools">
-                            <div className="input-group input-group-sm" style={{ width: 250 }}>
-                                <button type="button" class="btn btn-block" onClick={()=>navigate('/statistics',{state:data?.products_info})}>Открыть статистику</button>
-                            </div>
+                            {data.length == 0
+                                ? null
+                                : <div className="input-group input-group-sm" style={{ width: 250 }}>
+                                    <button type="button" class="btn btn-block" onClick={() => navigate('/statistics', { state: { 0: data?.products_info, 1: data.transactions_info } })}>Открыть статистику</button>
+                                </div>}
+
                         </div>
                     </div>
                     <div className="card-body table-responsive p-0">
@@ -291,17 +297,17 @@ const Order = () => {
                                 : data.transactions[iModal]}
                         />
                         <ModalStatistics
-                        show={modalShowStat}
-                        onHide={() => setModalShowStat(false)}
-                        state={data?.length === 0
-                            ? null
-                            : data}
-                    />
+                            show={modalShowStat}
+                            onHide={() => setModalShowStat(false)}
+                            state={data?.length === 0
+                                ? null
+                                : data}
+                        />
                     </div>
                 </div>
             </div>
-         
-      
+
+
 
         </div >
     )
