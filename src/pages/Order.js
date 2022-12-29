@@ -1,7 +1,10 @@
+import { format } from 'date-fns'
 import React, { useState } from 'react'
 import { Form, Modal } from 'react-bootstrap'
+import { useNavigate } from 'react-router-dom'
 import { TransactionAll } from '../api/transactions'
 import ModalItem from '../modal/ModalItem'
+import ModalStatistics from '../modal/ModalStatistics'
 
 const Order = () => {
     /// state 
@@ -16,21 +19,26 @@ const Order = () => {
     const [transactionID, setTransactionID] = useState(0)
     /// get data //
     const [data, setData] = useState([])
-    console.log(startTime);
+
     const getTransactionAll = async () => {
-        const { data } = await TransactionAll(delivery, endTime, inBasket, nameORPhoneOREmail, notInBasket, notPaid, startTime, status, Number(transactionID))
+        const starDate = startTime == "" ? "" : format(new Date(startTime), 'MMM d, yyyy',) + " " + "at 00:00pm (MST)"
+        const EndDate = endTime == "" ? "" : format(new Date(endTime), 'MMM d, yyyy',) + " " + "at 00:00pm (MST)"
+
+        console.log(starDate);
+        const { data } = await TransactionAll(delivery, EndDate, inBasket, nameORPhoneOREmail, notInBasket, notPaid, starDate, status, Number(transactionID))
         setData(data)
 
     }
     ////modal modalitem ///
     const [modalShow, setModalShow] = React.useState(false);
-    const [iModal,setIModal]=useState(0)
-    const setIndexModal=(index)=>{
+    const [modalShowStat, setModalShowStat] = React.useState(false);
+    const [iModal, setIModal] = useState(0)
+    const setIndexModal = (index) => {
         setIModal(index)
         setModalShow(true)
     }
-    console.log(iModal)
-    console.log(data)
+    const navigate=useNavigate()
+
     return (
         <div className="content-wrapper">
             {/* Content Header (Page header) */}
@@ -218,7 +226,7 @@ const Order = () => {
                         <h3 className="card-title"></h3>
                         <div className="card-tools">
                             <div className="input-group input-group-sm" style={{ width: 250 }}>
-                                <button type="button" class="btn btn-block" data-toggle="modal" data-target=".bd-example-modal-lg">Открыть статистику</button>
+                                <button type="button" class="btn btn-block" onClick={()=>navigate('/statistics',{state:data?.products_info})}>Открыть статистику</button>
                             </div>
                         </div>
                     </div>
@@ -253,8 +261,8 @@ const Order = () => {
                                             <td>{item?.delivery}</td>
                                             <td><button type="button" className="btn btn-block btn-secondary btn-sm">{item?.status[0]?.status_text}   </button></td>
                                             <td >
-                                                <div  style={{ display: 'flex', alignItems: 'center' }}>
-                                                    <i  onClick={() => setIndexModal(index)}  className='fas fa-eye' style={{ marginRight: '5px' }}></i>
+                                                <div style={{ display: 'flex', alignItems: 'center' }}>
+                                                    <i onClick={() => setIndexModal(index)} className='fas fa-eye' style={{ marginRight: '5px' }}></i>
                                                     <div class="dropdown">
                                                         <div>
                                                             <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" />
@@ -278,104 +286,22 @@ const Order = () => {
                         <ModalItem
                             show={modalShow}
                             onHide={() => setModalShow(false)}
-                            state={data.length===0
-                            ?null
-                            :data.transactions[iModal]} 
-                            />
+                            state={data?.length === 0
+                                ? null
+                                : data.transactions[iModal]}
+                        />
+                        <ModalStatistics
+                        show={modalShowStat}
+                        onHide={() => setModalShowStat(false)}
+                        state={data?.length === 0
+                            ? null
+                            : data}
+                    />
                     </div>
                 </div>
             </div>
-            <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div className="container-fluid">
-                            <div className="row" >
-
-                                <div class="col-sm-12">
-                                    <div class="card-header">
-                                        <div className='container'>
-                                            <div className='row' style={{ fontWeight: '500' }}>
-                                                <h2>Статистика заказов</h2>
-                                                <div className='col-sm-12'>
-                                                    <h3 class="card-title">Сумма Доставки </h3>
-                                                </div>
-                                                <div className='col-sm-12'>
-                                                    <h3 class="card-title">Сумма Доставки (OZON)</h3>
-                                                </div>
-                                                <div className='col-sm-12'>
-                                                    <h3 class="card-title">Сумма Доставки (СДЭК) </h3>
-                                                </div>
-                                                <div className='col-sm-12'>
-                                                    <h3 class="card-title">Сумма Доставки (СДЭК курьер) </h3>
-                                                </div>
-                                                <div className='col-sm-12'>
-                                                    <h3 class="card-title">Сумма Доставки (Boxberry)</h3>
-                                                </div>
-                                                <div className='col-sm-12'>
-                                                    <h3 class="card-title">Сумма Доставки (Почта) </h3>
-                                                </div>
-                                                <div className='col-sm-12'>
-                                                    <h3 class="card-title">Сумма Доставки </h3>
-                                                </div>
-                                                <div className='col-sm-12'>
-                                                    <h3 class="card-title">Сумма Скидки  </h3>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-12"><table id="example2" class="table table-bordered table-hover dataTable dtr-inline" aria-describedby="example2_info">
-                                    <thead>
-                                        <tr>
-                                            <th class="sorting sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column descending" aria-sort="ascending">#</th>
-                                            <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending">Наименование</th>
-                                            <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending">Артикул</th>
-                                            <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending">Продано шт</th>
-                                            <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending">Продано на сумму</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr class="odd">
-                                            <td class="dtr-control sorting_1" tabindex="0">1</td>
-                                            <td>Firefox 1.0</td>
-                                            <td>Win 98+ / OSX.2+</td>
-                                            <td>1.7</td>
-                                            <td>A</td>
-                                        </tr>
-                                        <tr class="even">
-                                            <td class="dtr-control sorting_1" tabindex="0">1</td>
-                                            <td>Firefox 1.5</td>
-                                            <td>Win 98+ / OSX.2+</td>
-                                            <td>1.8</td>
-                                            <td>A</td>
-                                        </tr>
-                                        <tr class="odd">
-                                            <td class="dtr-control sorting_1" tabindex="0">1</td>
-                                            <td>Firefox 2.0</td>
-                                            <td>Win 98+ / OSX.2+</td>
-                                            <td>1.8</td>
-                                            <td>A</td>
-                                        </tr>
-                                        <tr class="even">
-                                            <td class="dtr-control sorting_1" tabindex="0">1</td>
-                                            <td>Firefox 3.0</td>
-                                            <td>Win 2k+ / OSX.3+</td>
-                                            <td>1.9</td>
-                                            <td>A</td>
-                                        </tr>
-
-                                    </tbody>
-
-                                </table></div>
-                                {/* /.col */}
-                            </div>
-                            {/* /.row */}
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-
+         
+      
 
         </div >
     )

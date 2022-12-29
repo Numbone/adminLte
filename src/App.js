@@ -8,6 +8,7 @@ import Etiket from './pages/Etiket';
 import Home from './pages/Home';
 import Order from './pages/Order';
 import Products from './pages/Products';
+import Statistics from './pages/Statistics';
 import Users from './pages/Users';
 
 
@@ -25,6 +26,7 @@ function App() {
         <Route path='/addproduct' element={<AddProduct/>}></Route>
         <Route path='/etiket' element={<Etiket/>}></Route>
         <Route path='/products/:id' element={<Products/>}></Route>
+        <Route path='/statistics' element={<Statistics/>}></Route>
       </Routes>
     </div>
   );
