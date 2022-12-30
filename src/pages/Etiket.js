@@ -43,7 +43,7 @@ const Etiket = () => {
                                             <div class="col-md-2">
                                                 <div class="form-check">
                                                     <input class="form-check-input" type="checkbox" />
-                                                    <label class="form-check-label">Показать неоплаченные</label>
+                                                    <label class="form-check-label">Все этикеты</label>
                                                 </div>
                                             </div>
                                         </div>
@@ -69,7 +69,7 @@ const Etiket = () => {
 
                                 </div>
                             </div>
-                            <div className='col-md-6 d-flex'>
+                            <div className='col-md-6 d-flex justify-content-end'>
                                 <div className="card-tools">
                                     <button type="button" className="btn btn-tool" data-card-widget="collapse">
                                         <i className="fas fa-minus" />
@@ -85,7 +85,7 @@ const Etiket = () => {
                     </div>
 
                     <div className="card-body table-responsive p-0">
-                        <table className="table table-hover text-nowrap">
+                        <table className="table table-hover text-nowrap table-striped">
                             <thead>
                                 <tr>
                                     <th><input type="checkbox" /></th>
@@ -113,39 +113,7 @@ const Etiket = () => {
                                         </div>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td>183</td>
-                                    <td>John Doe</td>
-                                    <td>"@mail.ru"</td>
-                                    <td>+79012342656</td>
-                                    <td >
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>183</td>
-                                    <td>John Doe</td>
-                                    <td>"@mail.ru"</td>
-                                    <td>+79012342656</td>
-                                    <td >
-                                        <div style={{ display: 'flex', alignItems: 'center' }}>
-                                            <i className='fas fa-eye' style={{ marginRight: '5px' }}></i>
-
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>183</td>
-                                    <td>John Doe</td>
-                                    <td>"@mail.ru"</td>
-                                    <td>+79012342656</td>
-                                    <td >
-                                        <div style={{ display: 'flex', alignItems: 'center' }}>
-                                            <i className='fas fa-eye' style={{ marginRight: '5px' }}></i>
-
-                                        </div>
-                                    </td>
-                                </tr>
+                              
                             </tbody>
                         </table>
                     </div>

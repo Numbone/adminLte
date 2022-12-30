@@ -40,8 +40,12 @@ const Order = () => {
         setIModal(index)
         setModalShow(true)
     }
+    //// checked checkbox 
+    const [isChecked,setIsChecked]=useState(false)
+    const [allChecked,setAllChecked]=useState(false)
+    const [listChecked,setListChecked]=useState()
     const navigate = useNavigate()
-    console.log(data)
+    console.log(allChecked,"allchecked")
     return (
         <div className="content-wrapper">
             {/* Content Header (Page header) */}
@@ -237,7 +241,7 @@ const Order = () => {
                         </div>
                     </div>
                     <div className="card-body table-responsive p-0">
-                        <table className="table table-hover text-nowrap">
+                        <table className="table table-hover text-nowrap table-striped">
                             <thead>
                                 <tr>
                                     <th><input type="checkbox" /></th>
@@ -256,7 +260,7 @@ const Order = () => {
                                 {
                                     data?.transactions?.map((item, index) =>
                                         <tr key={index}>
-                                            <td><input type="checkbox" /></td>
+                                            <td><input type="checkbox" onChange={(e)=>setAllChecked(e.target.checked)} /></td>
                                             <td>{item?.id}</td>
                                             <td>{item?.user[0]?.first_name} {item?.user[0]?.father_name}</td>
                                             <td>{item?.user[0]?.email}</td>

@@ -87,9 +87,9 @@ const Statistics = (props) => {
                                         </div>
                                     </div>
                                 </div>
-                                <div className="card-body">
+                                <div className="card-body table-responsive p-0">
                                     <div id="example2_wrapper" className="dataTables_wrapper dt-bootstrap4">
-                                        <div className="container">
+                                        <div className="">
                                             {/* Apply the table props */}
                                             <table className="table table-bordered table-hover dataTable dtr-inline" {...getTableProps()}>
                                                 <thead>
