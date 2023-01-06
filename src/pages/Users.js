@@ -1,6 +1,16 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { getUsers } from '../api/users'
 
 const Users = () => {
+    const [users,setUsers]=useState([])
+    const sendUsers=async()=>{
+        const {data} = await getUsers()
+        setUsers(data?.users)
+    }
+    useEffect(()=>{
+        sendUsers()
+    },[])
+    console.log(users);
     return (
         <div className="content-wrapper">
             {/* Content Header (Page header) */}
@@ -68,54 +78,23 @@ const Users = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>183</td>
-                                    <td>John Doe</td>
-                                    <td>"@mail.ru"</td>
-                                    <td>+79012342656</td>
-                                    <td >
-                                        <div style={{ display: 'flex', alignItems: 'center' }}>
-                                            <i className='fas fa-eye' style={{ marginRight: '5px' }}></i>
-
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>183</td>
-                                    <td>John Doe</td>
-                                    <td>"@mail.ru"</td>
-                                    <td>+79012342656</td>
-                                    <td >
-                                        <div style={{ display: 'flex', alignItems: 'center' }}>
-                                            <i className='fas fa-eye' style={{ marginRight: '5px' }}></i>
-
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>183</td>
-                                    <td>John Doe</td>
-                                    <td>"@mail.ru"</td>
-                                    <td>+79012342656</td>
-                                    <td >
-                                        <div style={{ display: 'flex', alignItems: 'center' }}>
-                                            <i className='fas fa-eye' style={{ marginRight: '5px' }}></i>
-
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>183</td>
-                                    <td>John Doe</td>
-                                    <td>"@mail.ru"</td>
-                                    <td>+79012342656</td>
-                                    <td >
-                                        <div style={{ display: 'flex', alignItems: 'center' }}>
-                                            <i className='fas fa-eye' style={{ marginRight: '5px' }}></i>
-
-                                        </div>
-                                    </td>
-                                </tr>
+                                {
+                                    users?.map(item=>
+                                        <tr>
+                                        <td>{item.id}</td>
+                                        <td>{item.first_name} {item.father_name}</td>
+                                        <td>{item.email}</td>
+                                        <td>{item.phone_number}</td>
+                                        <td >
+                                            <div style={{ display: 'flex', alignItems: 'center' }}>
+                                                <i className='fas fa-eye' style={{ marginRight: '5px' }}></i>
+    
+                                            </div>
+                                        </td>
+                                    </tr> )
+                                }
+                              
+                                
                             </tbody>
                         </table>
                     </div>

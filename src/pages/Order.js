@@ -26,8 +26,8 @@ const Order = () => {
 
         console.log(starDate);
         const { data } = await TransactionAll(delivery, EndDate, inBasket, nameORPhoneOREmail, notInBasket, notPaid, starDate, status, Number(transactionID))
-        if ((data?.products_info==null)||(data.transactions==null)) {
-            data=[]
+        if ((data?.products_info == null) || (data.transactions == null)) {
+            data = []
         }
         setData(data)
 
@@ -41,11 +41,26 @@ const Order = () => {
         setModalShow(true)
     }
     //// checked checkbox 
-    const [isChecked,setIsChecked]=useState(false)
-    const [allChecked,setAllChecked]=useState(false)
-    const [listChecked,setListChecked]=useState()
+    const [isChecked, setIsChecked] = useState(false)
+    const [allChecked, setAllChecked] = useState(false)
+    const [listChecked, setListChecked] = useState()
     const navigate = useNavigate()
-    console.log(allChecked,"allchecked")
+    function Checktion() {
+        if (!allChecked) {
+            var ele = document.getElementsByName('oneCheck')
+            for (var i = 0; i < ele.length; i++) {
+                if (ele[i].type == 'checkbox')
+                    ele[i].checked = true;
+            }
+        }else{
+             var ele = document.getElementsByName('oneCheck')
+            for (var i = 0; i < ele.length; i++) {
+                if (ele[i].type == 'checkbox')
+                    ele[i].checked = false;
+            }
+        }
+    }
+    console.log(allChecked, "allchecked")
     return (
         <div className="content-wrapper">
             {/* Content Header (Page header) */}
@@ -244,7 +259,7 @@ const Order = () => {
                         <table className="table table-hover text-nowrap table-striped">
                             <thead>
                                 <tr>
-                                    <th><input type="checkbox" /></th>
+                                    <th><input type="checkbox" name='allCheckbox' onChange={(e) => setAllChecked(e.target.checked)} onClick={()=>Checktion()} /></th>
                                     <th>#</th>
                                     <th>ФИО</th>
                                     <th>Почта</th>
@@ -260,7 +275,7 @@ const Order = () => {
                                 {
                                     data?.transactions?.map((item, index) =>
                                         <tr key={index}>
-                                            <td><input type="checkbox" onChange={(e)=>setAllChecked(e.target.checked)} /></td>
+                                            <td><input type="checkbox" name='oneCheck' /></td>
                                             <td>{item?.id}</td>
                                             <td>{item?.user[0]?.first_name} {item?.user[0]?.father_name}</td>
                                             <td>{item?.user[0]?.email}</td>

@@ -1,6 +1,40 @@
-import React from 'react'
+import React, { useRef, useState } from 'react'
+import { productCreate } from '../api/product'
 
 const AddProduct = () => {
+    const [action, setAction] = useState("")
+    const [article, setArticle] = useState("")
+    const [category, setCategory] = useState("")
+    const [compound, setCompound] = useState("")
+    const [contraindications, setContraindications] = useState("")
+    const [count, setCount] = useState(0)
+    const [description, setDescription] = useState("")
+    const [modeOfApp, setModeOfApp] = useState("")
+    const [name, setName] = useState("")
+    const [price, setPrice] = useState(0)
+    const [weight, setWeight] = useState("")
+    const [file, setFile] = useState({})
+    console.log(file);
+    const form=useRef()
+    const postProductCreate=async(e)=>{
+        e.preventDefault()
+        // let formData = new FormData()
+        // formData.append('action', action)
+        // formData.append('article', article)
+        // formData.append('category', category)
+        // formData.append('compound', compound)
+        // formData.append('contraindications', contraindications)
+        // formData.append('count', Number(count))
+        // formData.append('description', description)
+        // formData.append('modeOfApp', modeOfApp)
+        // formData.append('name', name)
+        // formData.append('price', Number(price))
+        // formData.append('weight', weight)
+        // formData.append('file', file)
+
+        const data =await productCreate(form.current)
+        console.log(data)
+    }
     return (
         <div className="content-wrapper">
             {/* Content Header (Page header) */}
@@ -28,49 +62,142 @@ const AddProduct = () => {
                                         <li class="nav-item">
                                             <a class="nav-link active" id="custom-tabs-one-home-tab" data-toggle="pill" href="#custom-tabs-one-home" role="tab" aria-controls="custom-tabs-one-home" aria-selected="true">О товаре</a>
                                         </li>
-                                        
+
                                     </ul>
                                 </div>
                                 {/* /.card-header */}
                                 {/* form start */}
-                                <form>
+                                <form ref={form} onSubmit={postProductCreate}>
                                     <div className="card-body">
                                         <div className="form-group">
-                                            <label htmlFor="exampleInputEmail1">Наименование</label>
-                                            <input type="email" className="form-control" id="exampleInputEmail1" placeholder='Введите название товара' />
+                                            <label htmlFor="action">Действие</label>
+                                            <input
+                                                onChange={(e) => setAction(e.target.value)}
+                                                type="text"
+                                                className="form-control"
+                                                id="exampleInputEmail1"
+                                                placeholder='Введите название товара' 
+                                                name='action'/>
                                         </div>
                                         <div className="form-group">
-                                            <label htmlFor="exampleInputPassword1">Артикул</label>
-                                            <input type="password" className="form-control" id="exampleInputPassword1" placeholder='Введите уникальный артикул товара' />
+                                            <label htmlFor="article">Артикул</label>
+                                            <input
+                                                onChange={(e) => setArticle(e.target.value)}
+                                                type="text"
+                                                className="form-control"
+                                                id="exampleInputPassword1"
+                                                placeholder='Введите уникальный артикул товара' 
+                                                name='article'/>
                                         </div>
                                         <div className="form-group">
-                                            <label htmlFor="exampleInputPassword1">Цена</label>
-                                            <input type="password" className="form-control" id="exampleInputPassword1" placeholder='0' />
+                                            <label htmlFor="category">Категория</label>
+                                            <input
+                                                onChange={(e) => setCategory(e.target.value)}
+                                                type="text"
+                                                className="form-control"
+                                                id="exampleInputPassword1"
+                                                placeholder='0' 
+                                                name='category'/>
                                         </div>
                                         <div className="form-group">
-                                            <label htmlFor="exampleInputPassword1">Количество</label>
-                                            <input type="password" className="form-control" id="exampleInputPassword1" placeholder='0' />
+                                            <label htmlFor="compound">Состав</label>
+                                            <input
+                                                onChange={(e) => setCompound(e.target.value)}
+                                                type="text"
+                                                className="form-control"
+                                                id="exampleInputPassword1"
+                                                placeholder='0' 
+                                                name='compound'/>
                                         </div>
                                         <div className="form-group">
-                                            <label htmlFor="exampleInputPassword1">Цена для почты (любая сумма в пределах 150 рублей)</label>
-                                            <input type="password" className="form-control" id="exampleInputPassword1" placeholder='0' />
+                                            <label htmlFor="contraindications">Противопоказание</label>
+                                            <input
+                                                onChange={(e) => setContraindications(e.target.value)}
+                                                type="text"
+                                                className="form-control"
+                                                id="exampleInputPassword1"
+                                                placeholder='0' 
+                                                name='contraindications'/>
                                         </div>
                                         <div className="form-group">
-                                            <label htmlFor="exampleInputPassword1">ТН ВЭД ЕАЭС</label>
-                                            <input type="password" className="form-control" id="exampleInputPassword1" placeholder='ТН ВЭД' />
+                                            <label htmlFor="count">Количество</label>
+                                            <input
+                                                onChange={(e) => setCount(e.target.value)}
+                                                type="number"
+                                                className="form-control"
+                                                id="exampleInputPassword1"
+                                                placeholder='ТН ВЭД'
+                                                name='count' />
                                         </div>
                                         <div className="form-group">
-                                            <label htmlFor="exampleInputPassword1">Точный вес</label>
-                                            <input type="password" className="form-control" id="exampleInputPassword1" placeholder='0' />
+                                            <label htmlFor="description">Описание</label>
+                                            <input
+                                                onChange={(e) => setDescription(e.target.value)}
+                                                type="text"
+                                                className="form-control"
+                                                id="exampleInputPassword1"
+                                                placeholder='Название на английском'
+                                                name='description' />
                                         </div>
                                         <div className="form-group">
-                                            <label htmlFor="exampleInputPassword1">Название на английском</label>
-                                            <input type="password" className="form-control" id="exampleInputPassword1" placeholder='Название на английском' />
+                                            <label htmlFor="modeOfApp">modeOfApp</label>
+                                            <input
+                                                onChange={(e) => setModeOfApp(e.target.value)}
+                                                type="text"
+                                                className="form-control"
+                                                id="exampleInputPassword1"
+                                                placeholder='Название на английском'
+                                                name='modeOfApp' />
+                                        </div>
+                                        <div className="form-group">
+                                            <label htmlFor="name">Наименование</label>
+                                            <input
+                                                onChange={(e) => setName(e.target.value)}
+                                                type="text"
+                                                className="form-control"
+                                                id="exampleInputPassword1"
+                                                placeholder='Название на английском'
+                                                name='name' />
+                                        </div>
+                                        <div className="form-group">
+                                            <label htmlFor="price">Цена</label>
+                                            <input
+                                                onChange={(e) => setPrice(e.target.value)}
+                                                type="number"
+                                                className="form-control"
+                                                id="exampleInputPassword1"
+                                                placeholder='Название на английском'
+                                                name='price' />
+                                        </div>
+                                        <div className="form-group">
+                                            <label htmlFor="weight">Точный вес</label>
+                                            <input
+                                                onChange={(e) => setWeight(e.target.value)}
+                                                type="text"
+                                                className="form-control"
+                                                id="exampleInputPassword1"
+                                                placeholder='Название на английском'
+                                                name='weight' />
+                                        </div>
+                                        <div className="form-group">
+                                            <label htmlFor="file">Фото</label>
+                                            <input
+                                                type="file"
+                                                multiple
+                                                onChange={(e) => setFile(e.target.files)}
+                                                className="form-control"
+                                                id="exampleInputPassword1"
+                                                placeholder='Название на английском' 
+                                                name='file'/>
                                         </div>
                                     </div>
                                     {/* /.card-body */}
                                     <div className="card-footer">
-                                        <button type="submit" className="btn btn-primary">Поиск</button>
+                                        <button
+                                        type='submit'
+                                         className="btn btn-primary"
+                                        //  onClick={(e)=>postProductCreate(e)}
+                                         >Добавить</button>
                                     </div>
                                 </form>
                             </div>

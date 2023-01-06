@@ -1,7 +1,17 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Form } from 'react-bootstrap'
+import { AllProduct } from '../api/product'
 
 const Products = () => {
+    const [products, setProducts] = useState([])
+    const getAllProduct = async () => {
+        const { data } = await AllProduct()
+        setProducts(data?.all_product)
+    }
+    useEffect(() => {
+        getAllProduct()
+    }, [])
+    console.log(products);
     return (
         <div className="content-wrapper">
             {/* Content Header (Page header) */}
@@ -9,7 +19,7 @@ const Products = () => {
                 <div className="container-fluid">
                     <div className="row mb-2">
                         <div className="col-sm-6">
-                            <h1 class="m-0">Пользователи</h1>
+                            <h1 class="m-0">Все товары</h1>
                         </div>{/* /.col */}
                         <div className="col-sm-6">
 
@@ -32,7 +42,7 @@ const Products = () => {
                                         <div className="form-group">
                                             <label htmlFor="exampleInputEmail1">Наименование или артикул</label>
                                             <input type="email" className="form-control" id="exampleInputEmail1" placeholder='Часть или слово целиком' />
-                                            
+
                                         </div>
                                         <div className="form-group">
                                             <label htmlFor="exampleInputPassword1">Категория</label>
@@ -103,28 +113,32 @@ const Products = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td><input type="checkbox" /></td>
-                                    <td>1</td>
-                                    <td>Наименование</td>
-                                    <td>Артикул</td>
-                                    <td>Цена</td>
-                                    <td>Кол-во</td>
-                                    <td>Статистика</td>
-                                    <td class="project-state">
-                                        <span class="badge badge-success">Success</span>
-                                        <span class="badge badge-danger">Success</span>
-                                    </td>
-                                    <td >
-                                        <div style={{ display: 'flex', alignItems: 'center' }}>
-                                            <a class="btn btn-info btn-sm" href="#">
-                                                <i class="fas fa-pencil-alt">
-                                                </i>
-                                            </a>
+                                {
+                                    products?.map(item =>
+                                        <tr>
+                                            <td><input type="checkbox" /></td>
+                                            <td>{item?.ID}</td>
+                                            <td>{item?.Name}</td>
+                                            <td>{item.Article}</td>
+                                            <td>{item.Price}</td>
+                                            <td>{item.Count}</td>
+                                            <td>Статистика</td>
+                                            <td class="project-state">
+                                                <span class="badge badge-success">Success</span>
+                                                <span class="badge badge-danger">Success</span>
+                                            </td>
+                                            <td >
+                                                <div style={{ display: 'flex', alignItems: 'center' }}>
+                                                    <a class="btn btn-info btn-sm" href="#">
+                                                        <i class="fas fa-pencil-alt">
+                                                        </i>
+                                                    </a>
 
-                                        </div>
-                                    </td>
-                                </tr>
+                                                </div>
+                                            </td>
+                                        </tr>)
+                                }
+
 
                             </tbody>
                         </table>
