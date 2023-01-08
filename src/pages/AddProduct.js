@@ -13,7 +13,7 @@ const AddProduct = () => {
     const [name, setName] = useState("")
     const [price, setPrice] = useState(0)
     const [weight, setWeight] = useState("")
-    const [file, setFile] = useState({})
+    const [file, setFile] = useState([])
     console.log(file);
     const form=useRef()
     const postProductCreate=async(e)=>{
@@ -140,7 +140,17 @@ const AddProduct = () => {
                                                 name='description' />
                                         </div>
                                         <div className="form-group">
-                                            <label htmlFor="modeOfApp">modeOfApp</label>
+                                            <label htmlFor="lang">Язык</label>
+                                            <input
+                                                onChange={(e) => setModeOfApp(e.target.value)}
+                                                type="text"
+                                                className="form-control"
+                                                id="exampleInputPassword1"
+                                                placeholder='Название на английском'
+                                                name='lang' />
+                                        </div>
+                                        <div className="form-group">
+                                            <label htmlFor="modeOfApp">Способы применение</label>
                                             <input
                                                 onChange={(e) => setModeOfApp(e.target.value)}
                                                 type="text"
@@ -149,6 +159,7 @@ const AddProduct = () => {
                                                 placeholder='Название на английском'
                                                 name='modeOfApp' />
                                         </div>
+                                       
                                         <div className="form-group">
                                             <label htmlFor="name">Наименование</label>
                                             <input
