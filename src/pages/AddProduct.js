@@ -33,7 +33,7 @@ const AddProduct = () => {
         // formData.append('file', file)
 
         const data =await productCreate(form.current)
-        console.log(data)
+        console.log(data,"data")
     }
     return (
         <div className="content-wrapper">
