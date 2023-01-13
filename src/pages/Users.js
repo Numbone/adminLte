@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from 'react'
+import { NavLink } from 'react-router-dom'
 import { getUsers } from '../api/users'
 
 const Users = () => {
-    const [users,setUsers]=useState([])
-    const sendUsers=async()=>{
-        const {data} = await getUsers()
+    const [users, setUsers] = useState([])
+    const sendUsers = async () => {
+        const { data } = await getUsers()
         setUsers(data?.users)
     }
-    useEffect(()=>{
+    useEffect(() => {
         sendUsers()
-    },[])
+    }, [])
     console.log(users);
     return (
         <div className="content-wrapper">
@@ -26,16 +27,15 @@ const Users = () => {
                     </div>{/* /.row */}
                 </div>{/* /.container-fluid */}
             </div>
-            <section className="content">
+            {/* <section className="content">
                 <div className="container-fluid">
                     <div className="row">
-                        {/* left column */}
+                      
                         <div className="col-md-12">
-                            {/* general form elements */}
+                   
                             <div className="card card-primary">
 
-                                {/* /.card-header */}
-                                {/* form start */}
+                              
                                 <form>
                                     <div className="card-body">
                                         <div className="form-group">
@@ -52,7 +52,7 @@ const Users = () => {
                                         </div>
 
                                     </div>
-                                    {/* /.card-body */}
+                                    
                                     <div className="card-footer">
                                         <button type="submit" className="btn btn-primary">Поиск</button>
                                     </div>
@@ -61,10 +61,21 @@ const Users = () => {
                         </div>
                     </div>
                 </div>
-            </section>
+            </section> */}
             <div className="col-md-12">
                 <div className="card">
+                <div className="card-header">
+                        <h3 className="card-title"></h3>
+                        <div className="card-tools">
 
+
+                            <div className="input-group input-group-sm" >
+                                <button type="button" className="btn btn-block btn-danger"
+                                    >Удалить</button>
+                            </div>
+
+                        </div>
+                    </div>
                     <div className="card-body table-responsive p-0">
                         <table className="table table-hover text-nowrap">
                             <thead>
@@ -79,22 +90,40 @@ const Users = () => {
                             </thead>
                             <tbody>
                                 {
-                                    users?.map(item=>
+                                    users?.map(item =>
                                         <tr>
-                                        <td>{item.id}</td>
-                                        <td>{item.first_name} {item.father_name}</td>
-                                        <td>{item.email}</td>
-                                        <td>{item.phone_number}</td>
-                                        <td >
-                                            <div style={{ display: 'flex', alignItems: 'center' }}>
+                                            <td>{item.id}</td>
+                                            <td>{item.first_name} {item.father_name}</td>
+                                            <td>{item.email}</td>
+                                            <td>{item.phone_number}</td>
+                                            <td >
+                                                <div style={{ display: 'flex', alignItems: 'center' }}>
+                                                <NavLink to={"users/"+item.id}>
                                                 <i className='fas fa-eye' style={{ marginRight: '5px' }}></i>
-    
-                                            </div>
-                                        </td>
-                                    </tr> )
+                                            </NavLink>
+
+                                                </div>
+                                            </td>
+                                        </tr>)
                                 }
-                              
-                                
+                                <tr>
+                                    <td>1</td>
+                                    <td>name surname</td>
+                                    <td>email</td>
+                                    <td>phone_number</td>
+                                    <td >
+                                        <div style={{ display: 'flex', alignItems: 'center' }}>
+                                            <NavLink to="/users/1">
+                                                <i className='fas fa-eye' style={{ marginRight: '5px' }}></i>
+                                            </NavLink>
+
+
+                                        </div>
+                                    </td>
+                                </tr>
+
+
+
                             </tbody>
                         </table>
                     </div>

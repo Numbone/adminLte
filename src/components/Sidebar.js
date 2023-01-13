@@ -16,7 +16,7 @@ const Sidebar = () => {
                     <ul className="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                         {/* Add icons to the links using the .nav-icon class
          with font-awesome or any other icon font library */}
-                        <li className="nav-item">
+                        {/* <li className="nav-item">
                             <NavLink to="/" className="nav-link ">
                                 <i className="nav-icon fas fa-tachometer-alt" />
                                 <p>
@@ -24,7 +24,7 @@ const Sidebar = () => {
                                 </p>
                             </NavLink>
 
-                        </li>
+                        </li> */}
                         <li className="nav-item">
                             <NavLink to="/orders" className="nav-link">
                                 <i class="nav-icon fas fa-shopping-basket"></i>
@@ -34,7 +34,7 @@ const Sidebar = () => {
                                 </p>
                             </NavLink>
                         </li>
-                        <li className="nav-item">
+                        {/* <li className="nav-item">
                             <NavLink to="/partners" className="nav-link">
                                 <i className="nav-icon fas fa-copy" />
                                 <p>
@@ -42,13 +42,13 @@ const Sidebar = () => {
                                 </p>
                             </NavLink>
 
-                        </li>
+                        </li> */}
                         <li className="nav-item">
                             <NavLink to="/etiket" className="nav-link">
                                 <i className="nav-icon fas fa-chart-pie" />
                                 <p>
                                     Этикеты ШК
-                                    <span class="right badge badge-danger">New</span>
+                                    {/* <span class="right badge badge-danger">New</span> */}
                                 </p>
                             </NavLink>
                         </li>
@@ -91,16 +91,16 @@ const Sidebar = () => {
                                         <p>Добавить товар</p>
                                     </NavLink>
                                 </li>
-                                <li className="nav-item">
+                                {/* <li className="nav-item">
                                     <NavLink to="/" className="nav-link">
 
                                         <p>Отзывы</p>
                                     </NavLink>
-                                </li>
+                                </li> */}
                             </ul>
                         </li>
 
-                        <li className="nav-item">
+                        {/* <li className="nav-item">
                             <NavLink to="/deliverbybus" className="nav-link">
                                 <i className="nav-icon far fa-envelope" />
                                 <p>
@@ -128,7 +128,7 @@ const Sidebar = () => {
                                     </NavLink>
                                 </li>
                             </ul>
-                        </li>
+                        </li> */}
                         <li className="nav-item">
                             <a href="#" className="nav-link">
                                 <i className="nav-icon fas fa-book" />

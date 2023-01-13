@@ -1,12 +1,21 @@
 import React, { useEffect, useState } from 'react'
 import { Form } from 'react-bootstrap'
-import { AllProduct } from '../api/product'
+import { NavLink } from 'react-router-dom'
+import { AllProduct, deleteProductId } from '../api/product'
 
 const Products = () => {
     const [products, setProducts] = useState([])
+    const [id, setId] = useState([])
     const getAllProduct = async () => {
         const { data } = await AllProduct()
         setProducts(data?.all_product)
+    }
+    const deleteProduct = async () => {
+        for (let i = 0; i < id.length; i++) {
+            const data = await deleteProductId(id[i])
+            console.log(data)
+        }
+        getAllProduct()
     }
     useEffect(() => {
         getAllProduct()
@@ -25,18 +34,17 @@ const Products = () => {
 
                         </div>{/* /.col */}
                     </div>{/* /.row */}
-                </div>{/* /.container-fluid */}
+                </div>
             </div>
-            <section className="content">
+            {/*  <section className="content">
                 <div className="container-fluid">
                     <div className="row">
-                        {/* left column */}
+                        
                         <div className="col-md-12">
-                            {/* general form elements */}
+                            
                             <div className="card card-primary">
 
-                                {/* /.card-header */}
-                                {/* form start */}
+                               
                                 <form>
                                     <div className="card-body">
                                         <div className="form-group">
@@ -84,7 +92,7 @@ const Products = () => {
 
 
                                     </div>
-                                    {/* /.card-body */}
+                                 
                                     <div className="card-footer">
                                         <button type="submit" className="btn btn-primary">Поиск</button>
                                     </div>
@@ -93,15 +101,28 @@ const Products = () => {
                         </div>
                     </div>
                 </div>
-            </section>
+            </section>*/}
             <div className="col-md-12">
                 <div className="card">
+                    <div className="card-header">
+                        <h3 className="card-title"></h3>
+                        <div className="card-tools">
 
+
+                            <div className="input-group input-group-sm" >
+                                <button type="button" className="btn btn-block btn-danger"
+                                    onClick={() => deleteProduct()} >Удалить</button>
+                            </div>
+
+                        </div>
+                    </div>
                     <div className="card-body table-responsive p-0">
                         <table className="table table-hover text-nowrap">
                             <thead>
                                 <tr>
-                                    <th><input type="checkbox" /></th>
+                                    <th>
+                                        {/* <input type="checkbox" /> */}
+                                    </th>
                                     <th>#</th>
                                     <th>Наименование</th>
                                     <th>Артикул</th>
@@ -116,7 +137,10 @@ const Products = () => {
                                 {
                                     products?.map(item =>
                                         <tr>
-                                            <td><input type="checkbox" /></td>
+                                            <td><input type="checkbox" onChange={(e) =>
+                                                e.target.checked
+                                                    ? setId(s => [...s, item?.id])
+                                                    : setId(id.filter((el) => el !== item.id))} /></td>
                                             <td>{item?.ID}</td>
                                             <td>{item?.Name}</td>
                                             <td>{item.Article}</td>
@@ -129,10 +153,10 @@ const Products = () => {
                                             </td>
                                             <td >
                                                 <div style={{ display: 'flex', alignItems: 'center' }}>
-                                                    <a class="btn btn-info btn-sm" href="#">
+                                                    <NavLink to={"/products/" + item?.ID} className="btn btn-info btn-sm" >
                                                         <i class="fas fa-pencil-alt">
                                                         </i>
-                                                    </a>
+                                                    </NavLink>
 
                                                 </div>
                                             </td>

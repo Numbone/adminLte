@@ -1,9 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Form } from 'react-bootstrap'
+import { useParams } from 'react-router-dom'
 import { categoryAll } from '../api/category'
-import { productCreate } from '../api/product'
+import { productCreate, productId, productUpdate } from '../api/product'
 
-const AddProduct = () => {
+const ChangeProduct = () => {
     const [action, setAction] = useState("")
     const [article, setArticle] = useState("")
     const [category, setCategory] = useState("")
@@ -11,41 +12,38 @@ const AddProduct = () => {
     const [contraindications, setContraindications] = useState("")
     const [count, setCount] = useState(0)
     const [description, setDescription] = useState("")
+    const [lang,setLang]=useState("ru")
     const [modeOfApp, setModeOfApp] = useState("")
     const [name, setName] = useState("")
     const [price, setPrice] = useState(0)
     const [weight, setWeight] = useState("")
     const [file, setFile] = useState([])
+
+
+    const { id } = useParams()
+
+    const [product, setProductt] = useState({})
     console.log(file);
     const form = useRef()
-    const postProductCreate = async (e) => {
-        e.preventDefault()
-        const {data} = await productCreate(form.current)
-        console.log(data)
-        if (data.message=="ok"){
-            setAction("")
-            setArticle("")
-            setCompound("")
-            setContraindications("")
-            setCount(0)
-            setDescription("")
-            setModeOfApp("")
-            setName("")
-            setPrice(0)
-            setWeight("")
-            setFile(null)
-        }
-    }
-    
-
 
     const [categoryMassive,setCategoryMassive]=useState([])
     const getCategory = async () => {
         const { data } = await categoryAll()
         setCategoryMassive(data?.all_category)
     }
+
+    const getProduct = async (e) => {
+        const { data } = await productId(id)
+        setProductt(data)
+    }
+
+    const changeProduct=async()=>{
+        const data =await productUpdate(action,category,compound,contraindications,Number(count),description,Number(id),modeOfApp,name,Number(price),weight)
+        console.log(data)
+    }
     useEffect(() => {
         getCategory()
+        getProduct()
     }, [])
     console.log(categoryMassive)
     return (
@@ -55,7 +53,7 @@ const AddProduct = () => {
                 <div className="container-fluid">
                     <div className="row mb-2">
                         <div className="col-sm-6">
-                            <h1 class="m-0">Добавить продукт (раздел в разработке)</h1>
+                            <h1 class="m-0">Изменить продукт (раздел в разработке)</h1>
                         </div>{/* /.col */}
                         <div className="col-sm-6">
 
@@ -80,7 +78,7 @@ const AddProduct = () => {
                                 </div>
                                 {/* /.card-header */}
                                 {/* form start */}
-                                <form ref={form} onSubmit={postProductCreate}>
+                               
                                     <div className="card-body">
                                         <div className="form-group">
                                             <label htmlFor="action">Действие</label>
@@ -89,9 +87,8 @@ const AddProduct = () => {
                                                 type="text"
                                                 className="form-control"
                                                 id="exampleInputEmail1"
-                                                placeholder='Введите действие товара'
-                                                name='action' 
-                                                value={action}/>
+                                                placeholder={product?.Action}
+                                                name='action' />
                                         </div>
                                         <div className="form-group">
                                             <label htmlFor="article">Артикул</label>
@@ -100,13 +97,13 @@ const AddProduct = () => {
                                                 type="text"
                                                 className="form-control"
                                                 id="exampleInputPassword1"
-                                                placeholder='Введите уникальный артикул товара'
-                                                name='article' 
-                                                value={article}/>
+                                                placeholder={product?.Article}
+                                                name='article' />
                                         </div>
                                         <div className="form-group">
                                             <label htmlFor="category">Категория</label>
-                                            <Form.Select
+                                           
+                                                <Form.Select
                                                 className="form-control"
                                                 onChange={e => setCategory(e.target.value)}
                                                 name="category"
@@ -126,10 +123,9 @@ const AddProduct = () => {
                                                 onChange={(e) => setCompound(e.target.value)}
                                                 type="text"
                                                 className="form-control"
-                                                id="exampleInputPassword1"
-                                                placeholder='Введите состав товара'
-                                                name='compound'
-                                                value={compound} />
+                                                placeholder={product?.Compound}
+                                            
+                                                name='compound' />
                                         </div>
                                         <div className="form-group">
                                             <label htmlFor="contraindications">Противопоказание</label>
@@ -137,10 +133,8 @@ const AddProduct = () => {
                                                 onChange={(e) => setContraindications(e.target.value)}
                                                 type="text"
                                                 className="form-control"
-                                  
-                                                placeholder='Введите противопоказание товара'
-                                                name='contraindications'
-                                                value={contraindications}  />
+                                                placeholder={product?.Contraindications}
+                                                name='contraindications' />
                                         </div>
                                         <div className="form-group">
                                             <label htmlFor="count">Количество</label>
@@ -148,10 +142,8 @@ const AddProduct = () => {
                                                 onChange={(e) => setCount(e.target.value)}
                                                 type="number"
                                                 className="form-control"
-                                                id="exampleInputPassword1"
-                                                placeholder='Количество товара'
-                                                name='count'
-                                                value={count} />
+                                                placeholder={product?.Count}
+                                                name='count' />
                                         </div>
                                         <div className="form-group">
                                             <label htmlFor="description">Описание</label>
@@ -159,14 +151,13 @@ const AddProduct = () => {
                                                 onChange={(e) => setDescription(e.target.value)}
                                                 type="text"
                                                 className="form-control"
-                                                id="exampleInputPassword1"
-                                                placeholder='Описание товара'
-                                                name='description'
-                                                value={description} />
+                                                placeholder={product?.Description}
+                                                name='description' />
                                         </div>
                                         <div className="form-group">
                                             <label htmlFor="lang">Язык</label>
                                             <Form.Select
+                                                onChange={e => setLang(e.target.value)}
                                                 className="form-control"
                                                 name='lang'
                                             >
@@ -181,10 +172,8 @@ const AddProduct = () => {
                                                 onChange={(e) => setModeOfApp(e.target.value)}
                                                 type="text"
                                                 className="form-control"
-                                                id="exampleInputPassword1"
-                                                placeholder='Введите способ применений товара'
-                                                name='modeOfApp'
-                                                value={modeOfApp} />
+                                                placeholder={product?.ModeOfApp}
+                                                name='modeOfApp' />
                                         </div>
 
                                         <div className="form-group">
@@ -193,10 +182,8 @@ const AddProduct = () => {
                                                 onChange={(e) => setName(e.target.value)}
                                                 type="text"
                                                 className="form-control"
-                                                id="exampleInputPassword1"
-                                                placeholder='Введите наименование товара'
-                                                name='name'
-                                                value={name}  />
+                                                placeholder={product?.Name}
+                                                name='name' />
                                         </div>
                                         <div className="form-group">
                                             <label htmlFor="price">Цена</label>
@@ -204,10 +191,8 @@ const AddProduct = () => {
                                                 onChange={(e) => setPrice(e.target.value)}
                                                 type="number"
                                                 className="form-control"
-                                                id="exampleInputPassword1"
-                                                placeholder='Цена'
-                                                name='price'
-                                                value={price} />
+                                                placeholder={product?.Price}
+                                                name='price' />
                                         </div>
                                         <div className="form-group">
                                             <label htmlFor="weight">Точный вес</label>
@@ -215,12 +200,10 @@ const AddProduct = () => {
                                                 onChange={(e) => setWeight(e.target.value)}
                                                 type="text"
                                                 className="form-control"
-                                                id="exampleInputPassword1"
-                                                placeholder='Точный вес'
-                                                name='weight'
-                                                value={weight} />
+                                                placeholder={product?.Weight}
+                                                name='weight' />
                                         </div>
-                                        
+                                     
                                         <div className="form-group">
                                             <label htmlFor="file">Фото</label>
                                             <input
@@ -228,8 +211,6 @@ const AddProduct = () => {
                                                 multiple
                                                 onChange={(e) => setFile(e.target.files)}
                                                 className="form-control"
-                                                id="exampleInputPassword1"
-                                                
                                                 name='file' />
                                         </div>
                                     </div>
@@ -238,10 +219,10 @@ const AddProduct = () => {
                                         <button
                                             type='submit'
                                             className="btn btn-primary"
-                                        //  onClick={(e)=>postProductCreate(e)}
-                                        >Добавить</button>
+                                            onClick={changeProduct}
+                                        >Изменить</button>
                                     </div>
-                                </form>
+                               
                             </div>
                         </div>
                     </div>
@@ -252,4 +233,4 @@ const AddProduct = () => {
     )
 }
 
-export default AddProduct
+export default ChangeProduct
