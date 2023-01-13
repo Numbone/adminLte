@@ -129,7 +129,7 @@ const Sidebar = () => {
                                 </li>
                             </ul>
                         </li> */}
-                        <li className="nav-item">
+                        {/* <li className="nav-item">
                             <a href="#" className="nav-link">
                                 <i className="nav-icon fas fa-book" />
                                 <p>
@@ -159,8 +159,8 @@ const Sidebar = () => {
                                 </li>
 
                             </ul>
-                        </li>
-                        <li className="nav-item">
+                        </li> */}
+                        {/* <li className="nav-item">
                             <a href="#" className="nav-link">
 
                                 <p>
@@ -200,7 +200,7 @@ const Sidebar = () => {
                                 </p>
                             </NavLink>
 
-                        </li>
+                        </li> */}
                     </ul>
                 </nav>
                 {/* /.sidebar-menu */}
