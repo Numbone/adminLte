@@ -10,6 +10,7 @@ import Etiket from './pages/Etiket';
 import Home from './pages/Home';
 import Order from './pages/Order';
 import Products from './pages/Products';
+import PromocodePage from './pages/PromocodePage';
 import Statistics from './pages/Statistics';
 import UserChange from './pages/UserChange';
 import Users from './pages/Users';
@@ -32,6 +33,7 @@ function App() {
         <Route path='/etiket' element={<Etiket/>}></Route>
         <Route path='/products/:id' element={<ChangeProduct/>}></Route>
         <Route path='/statistics' element={<Statistics/>}></Route>
+        <Route path='/promocode' element={<PromocodePage/>}></Route>
       </Routes>
     </div>
   );

@@ -71,7 +71,7 @@ const Sidebar = () => {
 
                         </li>
                         <li className="nav-item">
-                            <a  className="nav-link">
+                            <a className="nav-link">
                                 <i className="nav-icon fas fa-table" />
                                 <p>
                                     Продукции
@@ -129,37 +129,16 @@ const Sidebar = () => {
                                 </li>
                             </ul>
                         </li> */}
-                        {/* <li className="nav-item">
-                            <a href="#" className="nav-link">
+                        <li className="nav-item">
+                            <NavLink to="/promocode" className="nav-link">
                                 <i className="nav-icon fas fa-book" />
                                 <p>
-                                    Промо
-                                    <i className="fas fa-angle-left right" />
-                                    
+                                    Промокоды
                                 </p>
-                            </a>
-                            <ul className="nav nav-treeview">
-                                <li className="nav-item">
-                                    <a href="pages/examples/invoice.html" className="nav-link">
+                            </NavLink>
 
-                                        <p>1</p>
-                                    </a>
-                                </li>
-                                <li className="nav-item">
-                                    <a href="pages/examples/profile.html" className="nav-link">
 
-                                        <p>2</p>
-                                    </a>
-                                </li>
-                                <li className="nav-item">
-                                    <a href="pages/examples/e-commerce.html" className="nav-link">
-
-                                        <p>3</p>
-                                    </a>
-                                </li>
-
-                            </ul>
-                        </li> */}
+                        </li>
                         {/* <li className="nav-item">
                             <a href="#" className="nav-link">
 

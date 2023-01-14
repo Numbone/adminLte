@@ -64,14 +64,14 @@ const Users = () => {
             </section> */}
             <div className="col-md-12">
                 <div className="card">
-                <div className="card-header">
+                    <div className="card-header">
                         <h3 className="card-title"></h3>
                         <div className="card-tools">
 
 
                             <div className="input-group input-group-sm" >
                                 <button type="button" className="btn btn-block btn-danger"
-                                    >Удалить</button>
+                                >Удалить</button>
                             </div>
 
                         </div>
@@ -98,29 +98,14 @@ const Users = () => {
                                             <td>{item.phone_number}</td>
                                             <td >
                                                 <div style={{ display: 'flex', alignItems: 'center' }}>
-                                                <NavLink to={"users/"+item.id}>
-                                                <i className='fas fa-eye' style={{ marginRight: '5px' }}></i>
-                                            </NavLink>
+                                                    <NavLink to={"users/" + item.id}>
+                                                        <i className='fas fa-eye' style={{ marginRight: '5px' }}></i>
+                                                    </NavLink>
 
                                                 </div>
                                             </td>
                                         </tr>)
                                 }
-                                <tr>
-                                    <td>1</td>
-                                    <td>name surname</td>
-                                    <td>email</td>
-                                    <td>phone_number</td>
-                                    <td >
-                                        <div style={{ display: 'flex', alignItems: 'center' }}>
-                                            <NavLink to="/users/1">
-                                                <i className='fas fa-eye' style={{ marginRight: '5px' }}></i>
-                                            </NavLink>
-
-
-                                        </div>
-                                    </td>
-                                </tr>
 
 
 

@@ -36,11 +36,14 @@ const Category = () => {
         const { data } = await categoryAll()
         setCategory(data?.all_category)
     }
-    const deleteCategory = async () => {
+    const deleteCategory1 =  async() => {
         for (let i = 0; i < id.length; i++) {
-            const data = await deleteCategorybyId(id[i])
-            console.log(data)
-        }
+                console.log(id[i])
+                const data =  await deleteCategorybyId(id[i])
+                console.log(data)
+            }
+            
+        
         getCategory()
     }
 
@@ -163,7 +166,7 @@ const Category = () => {
 
                             <div className="input-group input-group-sm" >
                                 <button type="button" className="btn btn-block btn-danger"
-                                    onClick={() => deleteCategory()} >Удалить</button>
+                                    onClick={() => deleteCategory1()} >Удалить</button>
                             </div>
 
                         </div>

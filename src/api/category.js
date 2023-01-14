@@ -18,5 +18,6 @@ export const categoryUpdate=async(cursive,description,id,lang,name)=>{
     return data
 }
 export const deleteCategorybyId=async(id)=>{
-    const data =await instance.delete('category/delete',{id})
+    const data =await instance.delete(`category/delete/${id}`)
+    return data
 }

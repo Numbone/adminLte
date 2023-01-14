@@ -19,5 +19,5 @@ export const productUpdate=async(action,category,compound,contraindications,coun
 }
 
 export const deleteProductId=async(id)=>{
-    const data =await instance.delete("/product/delete",{id})
+    const data =await instance.delete(`/product/delete/${id}`,)
 }
