@@ -21,13 +21,13 @@ const Category = () => {
 
     const createCategory = async (e) => {
         e.preventDefault()
-        // const formData=new FormData()
-        // formData.append("cursive",cursive)
-        // formData.append("description",description)
-        // formData.append("lang",lang)
-        // formData.append("name",name)
-        // formData.append("file",file)
-        const data = await categoryAdd(form.current)
+        const formData=new FormData()
+        formData.append("cursive",cursive)
+        formData.append("description",description)
+        formData.append("lang",lang)
+        formData.append("name",name)
+        formData.append("file",file)
+        const data = await categoryAdd(formData)
         getCategory()
         console.log(data)
     }
@@ -38,21 +38,20 @@ const Category = () => {
     }
     const deleteCategory1 =  async() => {
         for (let i = 0; i < id.length; i++) {
-                console.log(id[i])
+                console.log(id[i],i)
                 const data =  await deleteCategorybyId(id[i])
                 console.log(data)
             }
-            
+        setId([])    
         
         getCategory()
     }
 
 
-
     useEffect(() => {
         getCategory()
     }, [])
-    console.log(id, "files")
+   
     return (
         <div className="content-wrapper">
             {/* Content Header (Page header) */}
@@ -97,8 +96,8 @@ const Category = () => {
                                                 onChange={e => setCursive(e.target.value)}
                                                 name="cursive"
                                             >
-                                                <option value={false}>Выключен</option>
-                                                <option value={true}>Включен</option>
+                                                <option value={"0"}>Выключен</option>
+                                                <option value={"1"}>Включен</option>
 
                                             </Form.Select>
                                         </div>

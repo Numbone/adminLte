@@ -15,6 +15,7 @@ const Products = () => {
             const data = await deleteProductId(id[i])
             console.log(data)
         }
+        setId([])    
         getAllProduct()
     }
     useEffect(() => {
@@ -129,7 +130,7 @@ const Products = () => {
                                     <th>Цена</th>
                                     <th>Кол-во</th>
                                     <th>Статистика</th>
-                                    <th>Статус</th>
+                                    {/* <th>Статус</th> */}
                                     <th> </th>
                                 </tr>
                             </thead>
@@ -139,18 +140,18 @@ const Products = () => {
                                         <tr>
                                             <td><input type="checkbox" onChange={(e) =>
                                                 e.target.checked
-                                                    ? setId(s => [...s, item?.id])
-                                                    : setId(id.filter((el) => el !== item.id))} /></td>
+                                                    ? setId(s => [...s, item?.ID])
+                                                    : setId(id.filter((el) => el !== item.ID))} /></td>
                                             <td>{item?.ID}</td>
                                             <td>{item?.Name}</td>
-                                            <td>{item.Article}</td>
-                                            <td>{item.Price}</td>
-                                            <td>{item.Count}</td>
-                                            <td>Статистика</td>
-                                            <td class="project-state">
+                                            <td>{item?.Article}</td>
+                                            <td>{item?.Price}</td>
+                                            <td>{item?.Count}</td>
+                                            <td>{item?.Stars}</td>
+                                            {/* <td class="project-state">
                                                 <span class="badge badge-success">Success</span>
                                                 <span class="badge badge-danger">Success</span>
-                                            </td>
+                                            </td> */}
                                             <td >
                                                 <div style={{ display: 'flex', alignItems: 'center' }}>
                                                     <NavLink to={"/products/" + item?.ID} className="btn btn-info btn-sm" >

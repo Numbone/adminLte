@@ -38,14 +38,20 @@ const ChangeProduct = () => {
     }
 
     const changeProduct=async()=>{
-        const data =await productUpdate(action,category,compound,contraindications,Number(count),description,Number(id),modeOfApp,name,Number(price),weight)
+        let number
+        number =count
+        if (number==0){
+            number=-999
+        }
+        console.log(count)
+        const data =await productUpdate(action,category,compound,contraindications,Number(number),description,Number(id),lang,modeOfApp,name,Number(price),weight)
         console.log(data)
     }
     useEffect(() => {
         getCategory()
         getProduct()
     }, [])
-    console.log(categoryMassive)
+    console.log(product)
     return (
         <div className="content-wrapper">
             {/* Content Header (Page header) */}
@@ -156,13 +162,13 @@ const ChangeProduct = () => {
                                         </div>
                                         <div className="form-group">
                                             <label htmlFor="lang">Язык</label>
-                                            <Form.Select
+                                           <Form.Select
                                                 onChange={e => setLang(e.target.value)}
                                                 className="form-control"
                                                 name='lang'
                                             >
-                                                <option value={"ru"}>На русском </option>
-                                                <option value={"en"}>На английском</option>
+                                                <option value={product?.Lang == "ru" ? "ru" : "en"}>{product?.Lang == "ru" ? "На русском" : "На английском"}</option>
+                                                <option value={product?.Lang != "ru" ? "ru" : "en"}>{product?.Lang != "ru" ? "На русском" : "На английском"}</option>
 
                                             </Form.Select>
                                         </div>

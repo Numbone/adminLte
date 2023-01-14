@@ -8,3 +8,39 @@ th.asc::before{
     content: "↑";
     right: 1em;
 }
+
+.custom_checbox input[type=checkbox] {
+    position: relative;
+    cursor: pointer;
+    margin-right: 7px;
+}
+.custom_checbox input[type=checkbox]:before {
+    content: "";
+    display: block;
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    top: 0;
+    left: 0;
+    border: 2px solid #555555;
+    border-radius: 10px;
+    background-color: white;
+}
+.custom_checbox input[type=checkbox]:checked:after {
+    content: "";
+    display: block;
+    width: 5px;
+    height: 10px;
+    border: solid blue ;
+    border-width: 4px 2px 2px 4px;
+  
+    position: absolute;
+    top: 2px;
+    left: 6px;
+    margin-right: 5px;
+    border-radius: 10px;
+}
+.custom_checbox{
+    margin-right: 7px;
+    
+}

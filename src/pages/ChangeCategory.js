@@ -8,7 +8,7 @@ const ChangeCategory = () => {
     const [category, setCategory] = useState({})
 
 
-    const [cursive, setCursive] = useState(false)
+    const [cursive, setCursive] = useState(null)
     const [description, setDescription] = useState("")
     const [lang, setLang] = useState("ru")
     const [name, setName] = useState("")
@@ -18,23 +18,24 @@ const ChangeCategory = () => {
         setCategory(data)
     }
     const changeCategory = async () => {
-        if (description==""){
-            description=category?.description
-        }
-        if (name==""){
-            name=category?.name
-        }
-        const { data } = await categoryUpdate(Boolean(cursive),description,Number(id),lang,name)
+      
+        
+        
+        const { data } = await categoryUpdate(cursive,description,Number(id),lang,name)
         console.log(data)
     }
 
     const [image, setImage] = useState(null)
 
-   
+    console.log(category?.cursive,"lang/////")
+    // console.log(cursive)
+    // console.log(description)
+    // console.log(lang)
+    // console.log(id)
     useEffect(() => {
         getCategoryId()
     }, [])
-    console.log(category);
+   
     return (
         <div className="content-wrapper">
             {/* Content Header (Page header) */}
@@ -73,15 +74,16 @@ const ChangeCategory = () => {
                                     <div className="card-body">
 
                                         <div className="form-group">
-                                            <label htmlFor="cursive">Курсив</label>
+                                            <label htmlFor="cursive">Курсив : {category?.cursive==="1" ?"Включен":"Выключен"}</label>
                                             <Form.Select
                                                 className="form-control"
                                                 onChange={e => setCursive(e.target.value)}
                                                 name="cursive"
-                                            >
+                                                placeholder={category?.cursive}
+                                            >   
+                                                <option value={"1"}>{category?.cursive =="0" ? "Выключен":"Включен"}</option>
+                                                <option value={"0"}>{category?.cursive !="0" ? "Выключен":"Включен"}</option>
 
-                                                <option value={category?.cursive}>{category?.cursive ? "Включен" : "Выключен"}</option>
-                                                <option value={!category?.cursive}>{!category?.cursive ? "Включен" : "Выключен"}</option>
                                             </Form.Select>
                                         </div>
                                         <div className="form-group">
@@ -101,8 +103,8 @@ const ChangeCategory = () => {
                                                 className="form-control"
                                                 name='lang'
                                             >
-                                                <option value={category?.lang}>{category?.lang == "ru" ? "На русском" : "На английском"}</option>
-                                                <option value={category?.lang}>{!category?.lang == "ru" ? "На русском" : "На английском"}</option>
+                                                <option value={"ru"}>{category?.lang == "ru" ? "На русском" : "На английском"}</option>
+                                                <option value={"en"}>{category?.lang != "ru" ? "На русском" : "На английском"}</option>
 
                                             </Form.Select>
                                         </div>
