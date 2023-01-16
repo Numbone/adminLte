@@ -1,57 +1,80 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Form } from 'react-bootstrap'
 import { NavLink } from 'react-router-dom'
-import { categoryAdd, categoryAll, deleteCategorybyId } from '../api/category'
+import { categoryAdd, categoryAll, deleteCategorybyId, setPhotosEn, setPhotosRu } from '../api/category'
 
 const Category = () => {
     ///// useState create Category 
-    const [cursive, setCursive] = useState(false)
-    const [description, setDescription] = useState("")
-    const [lang, setLang] = useState("ru")
-    const [name, setName] = useState("")
-    const [file, setFile] = useState(null)
+    const [cursive, setCursive] = useState(0)
+    const [descriptionRu, setDescriptionRu] = useState("")
+    const [descriptionEn, setDescriptionEn] = useState("")
+    const [nameRu, setNameRu] = useState("")
+    const [nameEn, setNameEn] = useState("")
+    const [fileEn, setFileEn] = useState(null)
+    const [fileRu, setFileRu] = useState(null)
 
 
     const [id, setId] = useState([])
 
     const form = useRef()
 
+    const [changeRus, setChangeRus] = useState(false)
+    const [changeEn, setChangeEn] = useState(false)
     ///category api state
     const [category, setCategory] = useState()
 
     const createCategory = async (e) => {
         e.preventDefault()
-        const formData=new FormData()
-        formData.append("cursive",cursive)
-        formData.append("description",description)
-        formData.append("lang",lang)
-        formData.append("name",name)
-        formData.append("file",file)
+        const formData = new FormData()
+        formData.append("cursive", cursive)
+        formData.append("description_ru", descriptionRu)
+        formData.append("description_en", descriptionEn)
+        formData.append("name_en", nameRu)
+        formData.append("name_ru", nameEn)
         const data = await categoryAdd(formData)
         getCategory()
+        setDescriptionRu("")
+        setDescriptionEn("")
+        setNameRu("")
+        setNameEn("")
         console.log(data)
     }
 
     const getCategory = async () => {
         const { data } = await categoryAll()
+        console.log(data)
         setCategory(data?.all_category)
     }
-    const deleteCategory1 =  async() => {
+    const deleteCategory1 = async () => {
         for (let i = 0; i < id.length; i++) {
-                console.log(id[i],i)
-                const data =  await deleteCategorybyId(id[i])
-                console.log(data)
-            }
-        setId([])    
-        
+            console.log(id[i], i)
+            const data = await deleteCategorybyId(id[i])
+            console.log(data)
+        }
+        setId([])
+
         getCategory()
+    }
+    const setImageEn = async (id) => {
+        let car = new FormData
+        car.append("id",String(id))
+        car.append("file", fileEn)
+        const data = await setPhotosEn(car)
+        console.log(data)
+    }
+    const setImageRu = async (id) => {
+        let formData = new FormData
+        formData.append("id", String(id))
+        formData.append("file", fileRu)
+        const data = await setPhotosRu(formData)
+        console.log(data)
     }
 
 
     useEffect(() => {
         getCategory()
     }, [])
-   
+
     return (
         <div className="content-wrapper">
             {/* Content Header (Page header) */}
@@ -101,47 +124,104 @@ const Category = () => {
 
                                             </Form.Select>
                                         </div>
-                                        <div className="form-group">
-                                            <label htmlFor="description">Описание</label>
-                                            <input
-                                                onChange={e => setDescription(e.target.value)}
-                                                type="text"
-                                                className="form-control"
-                                                placeholder='Напишите описание категории'
-                                                name='description'
-                                            />
-                                        </div>
-                                        <div className="form-group">
-                                            <label htmlFor="lang">Язык</label>
-                                            <Form.Select
-                                                onChange={e => setLang(e.target.value)}
-                                                className="form-control"
-                                                name='lang'
-                                            >
-                                                <option value={"ru"}>На русском </option>
-                                                <option value={"en"}>На английском</option>
 
-                                            </Form.Select>
-                                        </div>
-                                        <div className="form-group">
-                                            <label htmlFor="name">Название категории</label>
-                                            <input
-                                                name='name'
-                                                onChange={e => setName(e.target.value)}
-                                                type="text"
-                                                className="form-control"
-                                                placeholder='Напишите название категории'
-                                            />
-                                        </div>
-                                        <div className="form-group">
-                                            <label htmlFor="file">Фото</label>
-                                            <input
-                                                name="file"
-                                                type="file"
-                                                className="form-control"
 
-                                                onChange={e => setFile(e.target.files[0])} />
+                                        <div className="form-group ">
+                                            <input
+                                                onChange={(e) => setChangeRus(e.target.checked)}
+                                                className="custom_checbox"
+                                                type="checkbox"
+                                                id="1"
+                                                name='rub'
+                                                value="ru"></input>
+                                            <label>на русском</label>
                                         </div>
+                                        {
+                                            changeRus
+
+                                                ?
+                                                <>
+                                                    <div className="form-group">
+                                                        <label htmlFor="description">Описание</label>
+                                                        <input
+                                                            onChange={e => setDescriptionRu(e.target.value)}
+                                                            type="text"
+                                                            className="form-control"
+                                                            placeholder='Напишите описание категории'
+                                                            name='description'
+                                                        />
+                                                    </div>
+                                                    <div className="form-group">
+                                                        <label htmlFor="name">Название категории</label>
+                                                        <input
+                                                            name='name'
+                                                            onChange={e => setNameRu(e.target.value)}
+                                                            type="text"
+                                                            className="form-control"
+                                                            placeholder='Напишите название категории'
+                                                        />
+                                                    </div>
+                                                    {/* <div className="form-group">
+                                                        <label htmlFor="file">Фото</label>
+                                                        <input
+                                                            name="file"
+                                                            type="file"
+                                                            className="form-control"
+
+                                                            onChange={e => setFile(e.target.files[0])} />
+                                                    </div> */}
+                                                </>
+                                                : null
+
+                                        }
+
+                                        <div className="form-group ">
+                                            <input
+                                                onChange={(e) => setChangeEn(e.target.checked)}
+                                                className="custom_checbox"
+                                                type="checkbox"
+                                                id="1"
+                                                name='rub'
+                                                value="ru"></input>
+                                            <label>на английском</label>
+                                        </div>
+                                        {
+                                            changeEn
+                                                ?
+                                                <>
+                                                    <div className="form-group">
+                                                        <label htmlFor="description">Описание</label>
+                                                        <input
+                                                            onChange={e => setDescriptionEn(e.target.value)}
+                                                            type="text"
+                                                            className="form-control"
+                                                            placeholder='Напишите описание категории'
+                                                            name='description'
+                                                        />
+                                                    </div>
+                                                    <div className="form-group">
+                                                        <label htmlFor="name">Название категории</label>
+                                                        <input
+                                                            name='name'
+                                                            onChange={e => setNameEn(e.target.value)}
+                                                            type="text"
+                                                            className="form-control"
+                                                            placeholder='Напишите название категории'
+                                                        />
+                                                    </div>
+                                                    {/* <div className="form-group">
+                                                        <label htmlFor="file">Фото</label>
+                                                        <input
+                                                            name="file"
+                                                            type="file"
+                                                            className="form-control"
+
+                                                            onChange={e => setFile(e.target.files[0])} />
+                                                    </div> */}
+                                                </>
+                                                : null
+                                        }
+
                                     </div>
                                     {/* /.card-body */}
                                     <div className="card-footer">
@@ -176,12 +256,13 @@ const Category = () => {
                                 <tr>
                                     <th></th>
                                     <th>#</th>
-                                    <th>Наименование</th>
-                                    <th>Описание</th>
-                                    <th>Ссылка</th>
+                                    <th>Наименование рус</th>
+                                    <th>Наименование анг</th>
+                                    <th>Описание рус</th>
+                                    <th>Описание анг</th>
                                     <th>Курсив</th>
-                                    <th>Язык</th>
-                                    <th> </th>
+                                    <th> Фото русском </th>
+                                    <th> Фото английском </th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -192,16 +273,41 @@ const Category = () => {
                                                 e.target.checked
                                                     ? setId(s => [...s, item?.id])
                                                     : setId(id.filter((el) => el !== item.id))} /></td>
-                                            <td>{item?.id}</td>
-                                            <td>{item?.name}</td>
-                                            <td>{item?.description}</td>
                                             <td>
-                                                <a target="_blank" href={"https://back.lemousse.beauty/product/category/" + item?.name + "?" + "lang=" + item?.lang}>
-                                                    product/category/{item?.name}?lang={item?.lang}
-                                                </a>
+                                                {item?.id}
                                             </td>
+                                            <td>{item?.name_ru}</td>
+                                            <td>{item?.name_en}</td>
+                                            <td>{item?.description_ru}</td>
+                                            <td>{item?.description_en}</td>
                                             <td>{String(item.cursive)}</td>
-                                            <td>{item?.lang} </td>
+                                            <td>
+
+                                                <div class="mb-3 input-group">
+                                                    <button type="button" id="button-addon1" class="btn btn-block bg-gradient-primary btn-sm"
+                                                    onClick={()=>setImageRu(item?.id)}>
+                                                        Button
+                                                    </button>
+                                                    <input type="file" class="form-control"
+                                                     onChange={e=>setFileRu(e.target.files[0])} />
+
+                                                </div>
+                                            </td>
+                                            <td>
+
+
+                                                <div class="mb-3 input-group">
+                                                    <button type="button" id="button-addon1" class="btn btn-block bg-gradient-primary btn-sm"
+                                                    onClick={()=>setImageEn(item?.id)}>
+                                                        Button
+                                                    </button>
+                                                    <input
+                                                    onChange={e=>setFileEn(e.target.files[0])}
+                                                     type="file" class="form-control" />
+
+                                                </div>
+
+                                            </td>
                                             <td >
                                                 <div style={{ display: 'flex', alignItems: 'center' }}>
                                                     <NavLink to={"/category/" + item?.id} className="btn btn-info btn-sm" >
@@ -211,6 +317,7 @@ const Category = () => {
                                                     </NavLink>
 
                                                 </div>
+
                                             </td>
                                         </tr>)
                                 }

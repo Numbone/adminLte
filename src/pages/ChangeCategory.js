@@ -8,10 +8,15 @@ const ChangeCategory = () => {
     const [category, setCategory] = useState({})
 
 
-    const [cursive, setCursive] = useState(null)
-    const [description, setDescription] = useState("")
-    const [lang, setLang] = useState("ru")
-    const [name, setName] = useState("")
+    const [cursive, setCursive] = useState("0")
+    const [descriptionRu, setDescriptionRu] = useState("")
+    const [descriptionEn, setDescriptionEn] = useState("")
+    const [nameRu, setNameRu] = useState("")
+    const [nameEn, setNameEn] = useState("")
+   
+    const [changeRus, setChangeRus] = useState(false)
+    const [changeEn, setChangeEn] = useState(false)
+
 
     const getCategoryId = async () => {
         const { data } = await categoryId(id)
@@ -21,13 +26,13 @@ const ChangeCategory = () => {
       
         
         
-        const { data } = await categoryUpdate(cursive,description,Number(id),lang,name)
+        const { data } = await categoryUpdate(cursive,descriptionEn,descriptionRu,Number(id),nameEn,nameRu)
         console.log(data)
     }
 
     const [image, setImage] = useState(null)
 
-    console.log(category?.cursive,"lang/////")
+    console.log(category,"categoryif")
     // console.log(cursive)
     // console.log(description)
     // console.log(lang)
@@ -35,7 +40,7 @@ const ChangeCategory = () => {
     useEffect(() => {
         getCategoryId()
     }, [])
-   
+    
     return (
         <div className="content-wrapper">
             {/* Content Header (Page header) */}
@@ -86,41 +91,117 @@ const ChangeCategory = () => {
 
                                             </Form.Select>
                                         </div>
-                                        <div className="form-group">
-                                            <label htmlFor="description">Описание</label>
+                                        <div className="form-group ">
                                             <input
-                                                onChange={e => setDescription(e.target.value)}
-                                                type="text"
-                                                className="form-control"
-                                                placeholder={category?.description}
-                                                name='description'
-                                            />
+                                                onChange={(e) => setChangeRus(e.target.checked)}
+                                                className="custom_checbox"
+                                                type="checkbox"
+                                                id="1"
+                                                name='rub'
+                                                value="ru"></input>
+                                            <label>на русском</label>
                                         </div>
-                                        <div className="form-group">
-                                            <label htmlFor="lang">Язык</label>
-                                            <Form.Select
-                                                onChange={e => setLang(e.target.value)}
-                                                className="form-control"
-                                                name='lang'
-                                            >
-                                                <option value={"ru"}>{category?.lang == "ru" ? "На русском" : "На английском"}</option>
-                                                <option value={"en"}>{category?.lang != "ru" ? "На русском" : "На английском"}</option>
+                                        {
+                                            changeRus
 
-                                            </Form.Select>
-                                        </div>
-                                        <div className="form-group">
-                                            <label htmlFor="name">Название категории</label>
+                                                ?
+                                                <>
+                                                    <div className="form-group">
+                                                        <label htmlFor="description">Описание</label>
+                                                        <input
+                                                            onChange={e => setDescriptionRu(e.target.value)}
+                                                            type="text"
+                                                            className="form-control"
+                                                            placeholder='Напишите описание категории'
+                                                            name='description'
+                                                        />
+                                                    </div>
+                                                    <div className="form-group">
+                                                        <label htmlFor="name">Название категории</label>
+                                                        <input
+                                                            name='name'
+                                                            onChange={e => setNameRu(e.target.value)}
+                                                            type="text"
+                                                            className="form-control"
+                                                            placeholder='Напишите название категории'
+                                                        />
+                                                    </div>
+                                                    {/* <div className="form-group">
+                                                        <label htmlFor="file">Фото</label>
+                                                        <input
+                                                            name="file"
+                                                            type="file"
+                                                            className="form-control"
+
+                                                            onChange={e => setFile(e.target.files[0])} />
+                                                    </div> */}
+                                                </>
+                                                : null
+
+                                        }
+
+                                        <div className="form-group ">
                                             <input
-                                                name='name'
-                                                onChange={e => setName(e.target.value)}
-                                                type="text"
-                                                className="form-control"
-                                                placeholder={category?.name}
-                                            />
+                                                onChange={(e) => setChangeEn(e.target.checked)}
+                                                className="custom_checbox"
+                                                type="checkbox"
+                                                id="1"
+                                                name='rub'
+                                                value="ru"></input>
+                                            <label>на английском</label>
                                         </div>
-                                    
-                                         <img src={category?.images === undefined ? null : category?.images[0]}></img>
+                                        {
+                                            changeEn
+                                                ?
+                                                <>
+                                                    <div className="form-group">
+                                                        <label htmlFor="description">Описание</label>
+                                                        <input
+                                                            onChange={e => setDescriptionEn(e.target.value)}
+                                                            type="text"
+                                                            className="form-control"
+                                                            placeholder='Напишите описание категории'
+                                                            name='description'
+                                                        />
+                                                    </div>
+                                                    <div className="form-group">
+                                                        <label htmlFor="name">Название категории</label>
+                                                        <input
+                                                            name='name'
+                                                            onChange={e => setNameEn(e.target.value)}
+                                                            type="text"
+                                                            className="form-control"
+                                                            placeholder='Напишите название категории'
+                                                        />
+                                                    </div>
+                                                    {/* <div className="form-group">
+                                                        <label htmlFor="file">Фото</label>
+                                                        <input
+                                                            name="file"
+                                                            type="file"
+                                                            className="form-control"
+
+                                                            onChange={e => setFile(e.target.files[0])} />
+                                                    </div> */}
+                                                </>
+                                                : null
+                                        }
+                                        <div className="form-group">
+                                        <label htmlFor="name">фото на анг</label>
+                                        {
+                                            category?.ImagesEn?.map(item=>
+                                                <img src={item}></img>)
+                                        }
                                         
+                                         </div>
+                                         <div className="form-group">
+                                        <label htmlFor="name">фото на русс</label>
+                                        {
+                                            category?.ImagesRu?.map(item=>
+                                                <img src={item}></img>)
+                                        }
+                                         </div>
+
 
 
 

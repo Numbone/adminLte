@@ -21,7 +21,7 @@ const Products = () => {
     useEffect(() => {
         getAllProduct()
     }, [])
-    console.log(products);
+
     return (
         <div className="content-wrapper">
             {/* Content Header (Page header) */}
@@ -147,7 +147,7 @@ const Products = () => {
                                             <td>{item?.Article}</td>
                                             <td>{item?.Price}</td>
                                             <td>{item?.Count}</td>
-                                            <td>{item?.Stars}</td>
+                                            <td>{item?.Stars[0]}</td>
                                             {/* <td class="project-state">
                                                 <span class="badge badge-success">Success</span>
                                                 <span class="badge badge-danger">Success</span>
