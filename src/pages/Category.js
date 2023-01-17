@@ -45,6 +45,7 @@ const Category = () => {
         console.log(data)
         setCategory(data?.all_category)
     }
+    const [checked, setChecked] = useState(false)
     const deleteCategory1 = async () => {
         for (let i = 0; i < id.length; i++) {
             console.log(id[i], i)
@@ -52,12 +53,13 @@ const Category = () => {
             console.log(data)
         }
         setId([])
-
+        var clist = document.getElementsByTagName("input");
+        for (var i = 0; i < clist.length; ++i) { clist[i].checked = false; }
         getCategory()
     }
     const setImageEn = async (id) => {
         let car = new FormData
-        car.append("id",String(id))
+        car.append("id", String(id))
         car.append("file", fileEn)
         const data = await setPhotosEn(car)
         console.log(data)
@@ -74,7 +76,7 @@ const Category = () => {
     useEffect(() => {
         getCategory()
     }, [])
-
+    console.log(id)
     return (
         <div className="content-wrapper">
             {/* Content Header (Page header) */}
@@ -256,32 +258,41 @@ const Category = () => {
                                 <tr>
                                     <th></th>
                                     <th>#</th>
-                                    <th>Наименование рус</th>
-                                    <th>Наименование анг</th>
-                                    <th>Описание рус</th>
-                                    <th>Описание анг</th>
+                                    <th>Наименование </th>
+
+                                    <th>Описание </th>
+
                                     <th>Курсив</th>
-                                    <th> Фото русском </th>
-                                    <th> Фото английском </th>
+                                    <th style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Изменить категорию</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {
                                     category?.map(item =>
                                         <tr>
-                                            <td><input type="checkbox" onChange={(e) =>
-                                                e.target.checked
-                                                    ? setId(s => [...s, item?.id])
-                                                    : setId(id.filter((el) => el !== item.id))} /></td>
+                                            <td><input type="checkbox"
+                                                // checked={checked}
+                                                onChange={(e) =>
+                                                    e.target.checked
+                                                        ? setId(s => [...s, item?.id])
+                                                        : setId(id.filter((el) => el !== item.id))}
+                                            /></td>
                                             <td>
                                                 {item?.id}
                                             </td>
-                                            <td>{item?.name_ru}</td>
-                                            <td>{item?.name_en}</td>
-                                            <td>{item?.description_ru}</td>
-                                            <td>{item?.description_en}</td>
-                                            <td>{String(item.cursive)}</td>
+                                            <td> русс :{item?.name_ru}
+                                                <br></br>
+                                                анг :{item?.name_en}
+                                            </td>
+
+                                            <td>русс :{item?.description_ru}
+                                                <br></br>
+                                                анг : {item?.description_en}</td>
+
                                             <td>
+                                                {String(item.cursive) == "0" ? "Выключен" : "Включен"}
+                                            </td>
+                                            {/* <td>
 
                                                 <div class="mb-3 input-group">
                                                     <button type="button" id="button-addon1" class="btn btn-block bg-gradient-primary btn-sm"
@@ -307,9 +318,9 @@ const Category = () => {
 
                                                 </div>
 
-                                            </td>
+                                            </td> */}
                                             <td >
-                                                <div style={{ display: 'flex', alignItems: 'center' }}>
+                                                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                                                     <NavLink to={"/category/" + item?.id} className="btn btn-info btn-sm" >
                                                         <i className="fas fa-pencil-alt">
                                                         </i>

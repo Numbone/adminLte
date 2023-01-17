@@ -21,7 +21,7 @@ const Products = () => {
     useEffect(() => {
         getAllProduct()
     }, [])
-
+    console.log(products)
     return (
         <div className="content-wrapper">
             {/* Content Header (Page header) */}
@@ -129,7 +129,7 @@ const Products = () => {
                                     <th>Артикул</th>
                                     <th>Цена</th>
                                     <th>Кол-во</th>
-                                    <th>Статистика</th>
+                                    <th>Категория</th>
                                     {/* <th>Статус</th> */}
                                     <th> </th>
                                 </tr>
@@ -143,11 +143,15 @@ const Products = () => {
                                                     ? setId(s => [...s, item?.ID])
                                                     : setId(id.filter((el) => el !== item.ID))} /></td>
                                             <td>{item?.ID}</td>
-                                            <td>{item?.Name}</td>
-                                            <td>{item?.Article}</td>
-                                            <td>{item?.Price}</td>
-                                            <td>{item?.Count}</td>
-                                            <td>{item?.Stars[0]}</td>
+                                            <td> рус :{item?.nameRu}
+                                            <br></br>
+                                            анг : {item?.nameEn} </td>
+                                            <td>{item?.article}</td>
+                                            <td>{item?.price}</td>
+                                            <td>{item?.count}</td>
+                                            <td> рус :{item?.categoryRu}
+                                            <br></br>
+                                            анг :{item?.categoryRu}</td>
                                             {/* <td class="project-state">
                                                 <span class="badge badge-success">Success</span>
                                                 <span class="badge badge-danger">Success</span>

@@ -18,6 +18,7 @@ const AddProduct = () => {
     const [file, setFile] = useState([])
     console.log(file);
     const form = useRef()
+    const [clickCategory, setClickCategory] = useState(0)
     const postProductCreate = async (e) => {
         e.preventDefault()
         const { data } = await productCreate(form.current)
@@ -46,10 +47,11 @@ const AddProduct = () => {
         const { data } = await categoryAll()
         setCategoryMassive(data?.all_category)
     }
+
     useEffect(() => {
         getCategory()
     }, [])
-    console.log(category)
+    console.log(clickCategory, "asd")
     return (
         <div className="content-wrapper">
             {/* Content Header (Page header) */}
@@ -102,8 +104,8 @@ const AddProduct = () => {
                                                 name="categoryRu"
                                             >
                                                 {
-                                                    categoryMassive?.map(item =>
-                                                        <option value={item?.name_ru}>{String(item?.name_ru)}</option>)
+                                                    categoryMassive?.map((item, index) =>
+                                                        <option onClick={() => setClickCategory(item?.name_ru)} value={item?.name_ru}>{String(item?.name_ru)}</option>)
                                                 }
 
 
@@ -118,8 +120,12 @@ const AddProduct = () => {
                                                 name="categoryEn"
                                             >
                                                 {
-                                                    categoryMassive?.map(item =>
-                                                        <option value={category === item?.name_ru ? item?.name_en : null}>{category === item?.name_ru ? item?.name_en : null}</option>)
+                                                    categoryMassive?.map((item, index) =>
+                                                        <option
+                                                        style={category === item?.name_ru ? {display:"block"}:{display:'none'}}
+                                                            value={category === item?.name_ru ? item?.name_en : null}>
+                                                            {category === item?.name_ru ? item?.name_en : null}
+                                                        </option>)
                                                 }
 
 
@@ -129,32 +135,32 @@ const AddProduct = () => {
                                         <div className="form-group">
                                             <label htmlFor="count">Количество</label>
                                             <input
-                                               
+
                                                 type="number"
                                                 className="form-control"
                                                 placeholder='Количество товара'
                                                 name='count'
-                                                 />
+                                            />
                                         </div>
                                         <div className="form-group">
                                             <label htmlFor="weight">Точный вес</label>
                                             <input
-                                              
+
                                                 type="text"
                                                 className="form-control"
                                                 placeholder='Точный вес'
                                                 name='weight'
-                                                 />
+                                            />
                                         </div>
                                         <div className="form-group">
                                             <label htmlFor="price">Цена</label>
                                             <input
-                                              
+
                                                 type="number"
                                                 className="form-control"
                                                 placeholder='Цена'
                                                 name='price'
-                                                />
+                                            />
                                         </div>
                                         <div className="form-group">
                                             <label htmlFor="lang">Язык</label>
@@ -184,64 +190,64 @@ const AddProduct = () => {
                                                     <div className="form-group">
                                                         <label htmlFor="nameRu">Наименование </label>
                                                         <input
-                                                           
+
                                                             type="text"
                                                             className="form-control"
                                                             placeholder='Введите наименование товара'
                                                             name='nameRu'
-                                                            />
+                                                        />
                                                     </div>
                                                     <div className="form-group">
                                                         <label htmlFor="compoundRu">Состав</label>
                                                         <textarea
-                                                           
+
                                                             type="text"
                                                             className="form-control"
                                                             placeholder='Введите состав товара'
                                                             name='compoundRu'
-                                                             />
+                                                        />
                                                     </div>
                                                     <div className="form-group">
                                                         <label htmlFor="action">Действие</label>
                                                         <textarea
-                                                           
+
                                                             type="text"
                                                             className="form-control"
                                                             id="exampleInputEmail1"
                                                             placeholder='Введите действие товара'
                                                             name='actionRu'
-                                                             />
+                                                        />
                                                     </div>
                                                     <div className="form-group">
                                                         <label htmlFor="description">Описание</label>
                                                         <textarea
-                                                           
+
                                                             type="text"
                                                             className="form-control"
                                                             placeholder='Описание товара'
                                                             name='descriptionRu'
-                                                            />
+                                                        />
                                                     </div>
                                                     <div className="form-group">
                                                         <label htmlFor="contraindicationsRu">Противопоказание</label>
                                                         <textarea
-                                                           
+
                                                             type="text"
                                                             className="form-control"
 
                                                             placeholder='Введите противопоказание товара'
                                                             name='contraindicationsRu'
-                                                             />
+                                                        />
                                                     </div>
                                                     <div className="form-group">
                                                         <label htmlFor="modeOfAppRus">Способы применение</label>
                                                         <textarea
-                                                           
+
                                                             type="text"
                                                             className="form-control"
                                                             placeholder='Введите способ применений товара'
                                                             name='modeOfAppRus'
-                                                             />
+                                                        />
                                                     </div>
                                                 </>
                                                 : null
@@ -249,7 +255,7 @@ const AddProduct = () => {
 
                                         <div className="form-group ">
                                             <input
-                                                  onChange={(e) => setChangeEn(e.target.checked)}
+                                                onChange={(e) => setChangeEn(e.target.checked)}
                                                 className="custom_checbox"
                                                 type="checkbox"
                                                 id="1"
@@ -263,64 +269,64 @@ const AddProduct = () => {
                                                     <div className="form-group">
                                                         <label htmlFor="nameEn">Наименование </label>
                                                         <input
-                                                           
+
                                                             type="text"
                                                             className="form-control"
                                                             placeholder='Введите наименование товара'
                                                             name='nameEn'
-                                                             />
+                                                        />
                                                     </div>
                                                     <div className="form-group">
                                                         <label htmlFor="compoundEn">Состав</label>
                                                         <textarea
-                                                           
+
                                                             type="text"
                                                             className="form-control"
                                                             placeholder='Введите состав товара'
                                                             name='compoundEn'
-                                                             />
+                                                        />
                                                     </div>
                                                     <div className="form-group">
                                                         <label htmlFor="action">Действие</label>
                                                         <textarea
-                                                           
+
                                                             type="text"
                                                             className="form-control"
                                                             id="exampleInputEmail1"
                                                             placeholder='Введите действие товара'
                                                             name='actionEn'
-                                                             />
+                                                        />
                                                     </div>
                                                     <div className="form-group">
                                                         <label htmlFor="description">Описание</label>
                                                         <textarea
-                                                           
+
                                                             type="text"
                                                             className="form-control"
                                                             placeholder='Описание товара'
                                                             name='descriptionEn'
-                                                             />
+                                                        />
                                                     </div>
                                                     <div className="form-group">
                                                         <label htmlFor="contraindicationsEn">Противопоказание</label>
                                                         <textarea
-                                                          
+
                                                             type="text"
                                                             className="form-control"
 
                                                             placeholder='Введите противопоказание товара'
                                                             name='contraindicationsEn'
-                                                             />
+                                                        />
                                                     </div>
                                                     <div className="form-group">
                                                         <label htmlFor="modeOfAppEn">Способы применение</label>
                                                         <textarea
-                                                            
+
                                                             type="text"
                                                             className="form-control"
                                                             placeholder='Введите способ применений товара'
                                                             name='modeOfAppEn'
-                                                            />
+                                                        />
                                                     </div>
 
                                                 </>
