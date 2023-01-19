@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Form } from 'react-bootstrap'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { categoryAll } from '../api/category'
 import { productCreate } from '../api/product'
 
@@ -19,23 +20,12 @@ const AddProduct = () => {
     console.log(file);
     const form = useRef()
     const [clickCategory, setClickCategory] = useState(0)
+    const navigate=useNavigate()
     const postProductCreate = async (e) => {
         e.preventDefault()
         const { data } = await productCreate(form.current)
-        console.log(data)
-        if (data.message == "ok") {
-            setAction("")
-            setArticle("")
-            setCompound("")
-            setContraindications("")
-            setCount(0)
-            setDescription("")
-            setModeOfApp("")
-            setName("")
-            setPrice(0)
-            setWeight("")
-            setFile(null)
-        }
+        navigate('/products')
+       
     }
 
     const [changeRus, setChangeRus] = useState(false)
@@ -45,13 +35,14 @@ const AddProduct = () => {
     const [categoryMassive, setCategoryMassive] = useState([])
     const getCategory = async () => {
         const { data } = await categoryAll()
-        setCategoryMassive(data?.all_category)
+        setCategoryMassive([{"id":0,"name_ru":"Выберите категорию "},...data?.all_category])
+    
     }
 
     useEffect(() => {
         getCategory()
     }, [])
-    console.log(clickCategory, "asd")
+    console.log(categoryMassive, "asd")
     return (
         <div className="content-wrapper">
             {/* Content Header (Page header) */}
@@ -102,10 +93,13 @@ const AddProduct = () => {
                                                 className="form-control"
                                                 onChange={e => setCategory(e.target.value)}
                                                 name="categoryRu"
+                                                placeholder='Выберите категорию'
                                             >
                                                 {
                                                     categoryMassive?.map((item, index) =>
-                                                        <option onClick={() => setClickCategory(item?.name_ru)} value={item?.name_ru}>{String(item?.name_ru)}</option>)
+                                                        <option 
+                                                        onClick={() => setClickCategory(item?.name_ru)} 
+                                                        value={item?.name_ru}>{String(item?.name_ru)}</option>)
                                                 }
 
 

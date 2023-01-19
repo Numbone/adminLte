@@ -29,8 +29,8 @@ const Category = () => {
         formData.append("cursive", cursive)
         formData.append("description_ru", descriptionRu)
         formData.append("description_en", descriptionEn)
-        formData.append("name_en", nameRu)
-        formData.append("name_ru", nameEn)
+        formData.append("name_en", nameEn)
+        formData.append("name_ru", nameRu)
         const data = await categoryAdd(formData)
         getCategory()
         setDescriptionRu("")
@@ -145,7 +145,7 @@ const Category = () => {
                                                 <>
                                                     <div className="form-group">
                                                         <label htmlFor="description">Описание</label>
-                                                        <input
+                                                        <textarea
                                                             onChange={e => setDescriptionRu(e.target.value)}
                                                             type="text"
                                                             className="form-control"
@@ -184,7 +184,7 @@ const Category = () => {
                                                 type="checkbox"
                                                 id="1"
                                                 name='rub'
-                                                value="ru"></input>
+                                                value="ru"/>
                                             <label>на английском</label>
                                         </div>
                                         {
@@ -193,7 +193,7 @@ const Category = () => {
                                                 <>
                                                     <div className="form-group">
                                                         <label htmlFor="description">Описание</label>
-                                                        <input
+                                                        <textarea
                                                             onChange={e => setDescriptionEn(e.target.value)}
                                                             type="text"
                                                             className="form-control"

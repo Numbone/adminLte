@@ -15,6 +15,8 @@ const Products = () => {
             const data = await deleteProductId(id[i])
             console.log(data)
         }
+        var clist = document.getElementsByTagName("input");
+        for (var i = 0; i < clist.length; ++i) { clist[i].checked = false; }
         setId([])    
         getAllProduct()
     }
@@ -151,7 +153,7 @@ const Products = () => {
                                             <td>{item?.count}</td>
                                             <td> рус :{item?.categoryRu}
                                             <br></br>
-                                            анг :{item?.categoryRu}</td>
+                                            анг :{item?.categoryEn}</td>
                                             {/* <td class="project-state">
                                                 <span class="badge badge-success">Success</span>
                                                 <span class="badge badge-danger">Success</span>

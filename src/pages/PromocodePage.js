@@ -159,7 +159,7 @@ const PromocodePage = () => {
                       <td>{item?.count}</td>
                       <td >
                         <div style={{ display: 'flex', alignItems: 'center' }}>
-                          <NavLink to={"/promocode/"+index} state={data[index]} className="btn btn-info btn-sm" >
+                          <NavLink to={"/promocode/"+item?.id} state={data[index]} className="btn btn-info btn-sm" >
                             <i className="fas fa-pencil-alt">
                             </i>
 

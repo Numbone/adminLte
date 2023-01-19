@@ -1,17 +1,19 @@
 import React, { useState } from 'react'
-import { useLocation, useParams } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { promocodeUpdate } from '../api/promocode'
 
 const PromocodeId = () => {
     const locate = useLocation()
     console.log(locate)
     const {id}=useParams()
+    const navigate=useNavigate()
     const [code, setCode] = useState("")
     const [count, setCount] = useState(0)
     const [discount, setDiscount] = useState(0)
     const [type, setType] = useState("")
     const updatePromo=async()=>{
-        const data =await promocodeUpdate(code,Number(count),Number(discount),type)
+        const data =await promocodeUpdate(code,Number(count),Number(id),Number(discount),type)
+        navigate("/promocode")
         console.log(data)
       }
     return (

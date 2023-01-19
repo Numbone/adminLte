@@ -9,7 +9,7 @@ export const promocodeCreate=async(code,count,discount,type)=>{
     const data =await instance.post("promocode/create",{code,count,discount,type})
     return data
 }
-export const promocodeUpdate=async(code,count,discount,type)=>{
-    const data =await instance.patch("promocode/update",{code,count,discount,type})
+export const promocodeUpdate=async(code,count,id,discount,type)=>{
+    const data =await instance.patch("promocode/update",{code,count,id,discount,type})
     return data
 }

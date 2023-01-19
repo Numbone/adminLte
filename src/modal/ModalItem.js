@@ -1,12 +1,16 @@
 import { format } from 'date-fns';
+import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { TransactionCopy } from '../api/transactions';
 const ModalItem = (props) => {
     const copyTrans=async(id)=>{
         const {data}=await TransactionCopy(id)
-        console.log(data);
+       
     }
+    // const [edit,setEdit]=useState(false)
+
+    console.log(props,"props");
     return (
         <Modal
             {...props}
@@ -73,14 +77,14 @@ const ModalItem = (props) => {
                                             
                                         </div>
                                     </div>
-                                    <div className='row' style={{ marginBottom: '1rem' }}>
+                                    {/* <div className='row' style={{ marginBottom: '1rem' }}>
                                         <div className='col-12'>
                                             <button type="button" class="btn btn-default float-right">
                                                 Редактировать данные
                                             </button>
                                         </div>
-                                    </div>
-                                    <div className='row' style={{ marginBottom: '1rem' }}>
+                                    </div> */}
+                                    <div className='row' style={{ marginBottom: '1rem' }} onClick={()=>copyTrans(props?.state.id)}>
                                         <div className='col-12'>
                                             <button  type="button" class="btn btn-default  float-right">
                                                 Копировать заказ
@@ -103,7 +107,7 @@ const ModalItem = (props) => {
                                                         props?.state?.products?.map(item =>
                                                             <tr>
 
-                                                                <td>{item?.name}</td>
+                                                                <td>{item?.nameRu}</td>
                                                                 <td>артикул</td>
                                                                 <td>{item?.count}</td>
                                                             </tr>)
@@ -112,18 +116,21 @@ const ModalItem = (props) => {
                                                     <tr>
 
                                                         <td><strong>Сумма товаров</strong></td>
+                                                        <td></td>
                                                         <td>{props?.state?.total_cost}</td>
 
                                                     </tr>
                                                     <tr>
 
                                                         <td><strong>Промокод</strong></td>
+                                                        <td></td>
                                                         <td>{props?.state?.promo_code}</td>
 
                                                     </tr>
                                                     <tr>
 
                                                         <td><strong>Итого</strong></td>
+                                                        <td></td>
                                                         <td>{props?.state?.final_payment}</td>
 
                                                     </tr>

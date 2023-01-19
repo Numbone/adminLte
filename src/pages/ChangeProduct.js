@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { Form } from 'react-bootstrap'
 import { useParams } from 'react-router-dom'
 import { categoryAll } from '../api/category'
-import { productCreate, productId, productUpdate, setPhotosProductRu, setPhotsProductEn } from '../api/product'
+import { deletePhotosEn, deletePhotosRu, productCreate, productId, productUpdate, setPhotosProductRu, setPhotsProductEn } from '../api/product'
 
 const ChangeProduct = () => {
     const [category, setCategory] = useState({})
@@ -47,7 +47,7 @@ const ChangeProduct = () => {
     const [categoryMassive, setCategoryMassive] = useState([])
     const getCategory = async () => {
         const { data } = await categoryAll()
-        setCategoryMassive(data?.all_category)
+        setCategoryMassive([{"id":0,"name_ru":"Выберите категорию "},...data?.all_category])
     }
 
     const getProduct = async (e) => {
@@ -60,7 +60,7 @@ const ChangeProduct = () => {
         car.append("file", fileEn)
         const data = await setPhotsProductEn(car)
         console.log(data)
-
+        getProduct()
     }
 
     const setImageRu = async (id) => {
@@ -69,7 +69,15 @@ const ChangeProduct = () => {
         formData.append("file", fileRu)
         const data = await setPhotosProductRu(formData)
         console.log(data)
-
+        getProduct()
+    }
+    const deleteImageRu= async(id)=>{
+        const data =await deletePhotosRu(id)
+        getProduct()
+    }
+    const deleteImageEn= async(id)=>{
+        const data =await deletePhotosEn(id)
+        getProduct()
     }
 
     const changeProduct = async () => {
@@ -296,9 +304,9 @@ const ChangeProduct = () => {
                                                         <button type="button" id="button-addon1" class="btn bg-gradient-primary"
                                                             onClick={() => setImageRu(product?.ID)}
                                                         >
-                                                            Button
+                                                              Добавить фото
                                                         </button>
-                                                        <input type="file" class="form-control"
+                                                        <input type="file" class="form-control" multiple
                                                             onChange={e => setFileRu(e.target.files[0])}
                                                         />
 
@@ -308,7 +316,8 @@ const ChangeProduct = () => {
 
                                                     {
                                                         product?.imagesRu?.map(item =>
-                                                            <div style={{ width: "64px", height: "64px" }}>
+                                                            <div style={{ width: "64px", height: "64px",position:'relative' }}>
+                                                                 <div className='close_img' onClick={()=>deleteImageRu(item)}>X</div>
                                                                 <img style={{ width: '100%', height: '100%', objectFit: 'cover' }} src={item}></img>
                                                             </div>)
                                                     }
@@ -398,9 +407,9 @@ const ChangeProduct = () => {
                                             <button type="button" id="button-addon1" class="btn bg-gradient-primary"
                                                 onClick={() => setImageEn(product?.ID)}
                                             >
-                                                Button
+                                                Добавить фото
                                             </button>
-                                            <input type="file" class="form-control"
+                                            <input type="file" class="form-control" multiple
                                                 onChange={e => setFileEn(e.target.files[0])}
                                             />
 
@@ -410,7 +419,8 @@ const ChangeProduct = () => {
 
                                         {
                                             product?.imagesEn?.map(item =>
-                                                <div style={{ width: "64px", height: "64px" }}>
+                                                <div style={{ width: "64px", height: "64px" ,position:'relative'}}>
+                                                    <div className='close_img' onClick={()=>deleteImageEn(item)}>X</div>
                                                     <img style={{ width: '100%', height: '100%', objectFit: 'cover' }} src={item}></img>
                                                 </div>)
                                         }
@@ -429,7 +439,7 @@ const ChangeProduct = () => {
 
                                         className="btn btn-primary"
                                         onClick={() => changeProduct()}
-                                    >Добавить</button>
+                                    >Сохранить</button>
                                 </div>
 
                             </div>

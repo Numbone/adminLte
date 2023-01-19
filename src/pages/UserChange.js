@@ -20,7 +20,7 @@ const UserChange = () => {
     const [second_name, setSecond_name] = useState("")
     const postUser = async () => {
         const { data } = await updateUser(email, father_name, first_name, Number(id), password, phone_number, second_name)
-        console.log(data)
+       
         setEmail("")
         setFather_name("")
         setFirst_name("")
@@ -33,6 +33,7 @@ const UserChange = () => {
     useEffect(() => {
         userId()
     }, [])
+    console.log(user)
     return (
         <div className="content-wrapper">
             {/* Content Header (Page header) */}
@@ -74,7 +75,7 @@ const UserChange = () => {
                                             onChange={(e) => { setEmail(e.target.value) }}
                                             type="mail"
                                             className="form-control"
-                                            placeholder={user?.email}
+                                            placeholder={user?.user?.email}
 
                                             name='action' />
                                     </div>
@@ -85,7 +86,7 @@ const UserChange = () => {
                                             type="text"
                                             className="form-control"
                                             id="exampleInputPassword1"
-                                            placeholder={user?.father_name}
+                                            placeholder={user?.user?.father_name}
                                             name='article' />
                                     </div>
 
@@ -95,7 +96,7 @@ const UserChange = () => {
                                             onChange={(e) => { setFirst_name(e.target.value) }}
                                             type="text"
                                             className="form-control"
-                                            placeholder={user?.first_name}
+                                            placeholder={user?.user?.first_name}
 
                                             name='compound' />
                                     </div>
@@ -105,7 +106,7 @@ const UserChange = () => {
                                             onChange={(e) => { setPassword(e.target.value) }}
                                             type="text"
                                             className="form-control"
-                                            placeholder={user?.password}
+                                            placeholder={user?.user?.password}
                                             name='contraindications' />
                                     </div>
                                     <div className="form-group">
@@ -114,7 +115,7 @@ const UserChange = () => {
                                             onChange={(e) => { setPhone_number(e.target.value) }}
                                             type="number"
                                             className="form-control"
-                                            placeholder={user?.phone_number}
+                                            placeholder={user?.user?.phone_number}
                                             name='count' />
                                     </div>
                                     <div className="form-group">
@@ -123,7 +124,7 @@ const UserChange = () => {
                                             onChange={(e) => { setSecond_name(e.target.value) }}
                                             type="text"
                                             className="form-control"
-                                            placeholder={user?.second_name}
+                                            placeholder={user?.user?.second_name}
                                             name='description' />
                                     </div>
                                 </div>

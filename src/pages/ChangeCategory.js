@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Form, NavItem, NavLink } from 'react-bootstrap'
-import { useParams } from 'react-router-dom';
-import { categoryId, categoryUpdate, setPhotosEn, setPhotosRu } from '../api/category';
+import { useNavigate, useParams } from 'react-router-dom';
+import { categoryId, categoryUpdate, deletePhotosEn, deletePhotosRu, setPhotosEn, setPhotosRu } from '../api/category';
 
 const ChangeCategory = () => {
     const { id } = useParams()
@@ -17,6 +17,8 @@ const ChangeCategory = () => {
     const [changeRus, setChangeRus] = useState(false)
     const [changeEn, setChangeEn] = useState(false)
 
+
+    const navigate =useNavigate()
 
     const [fileEn, setFileEn] = useState(null)
     const [fileRu, setFileRu] = useState(null)
@@ -37,21 +39,30 @@ const ChangeCategory = () => {
         console.log(data)
         getCategoryId()
     }
+
+    const deleteImageRu= async(id)=>{
+        const data =await deletePhotosRu(id)
+        getCategoryId()
+    }
+    const deleteImageEn= async(id)=>{
+        const data =await deletePhotosEn(id)
+        getCategoryId()
+    }
+
+
     const getCategoryId = async () => {
         const { data } = await categoryId(id)
         setCategory(data)
     }
     const changeCategory = async () => {
-
-
-
-        const { data } = await categoryUpdate(cursive, descriptionEn, descriptionRu, Number(id), nameEn, nameRu)
+     const { data } = await categoryUpdate(cursive, descriptionEn, descriptionRu, Number(id), nameEn, nameRu)
         console.log(data)
+        navigate("/category")
     }
 
     const [image, setImage] = useState(null)
 
-    console.log(category, "categoryif")
+    console.log(cursive, "cursive")
     // console.log(cursive)
     // console.log(description)
     // console.log(lang)
@@ -105,8 +116,9 @@ const ChangeCategory = () => {
                                             name="cursive"
                                             placeholder={category?.cursive}
                                         >
-                                            <option value={"1"}>{category?.cursive == "0" ? "Выключен" : "Включен"}</option>
-                                            <option value={"0"}>{category?.cursive != "0" ? "Выключен" : "Включен"}</option>
+                                            <option value={""}>{"Выберите категорию"}</option>
+                                            <option value={category?.cursive == "0" ? "0" : "1"}>{category?.cursive == "0" ? "Выключен" : "Включен"}</option>
+                                            <option value={category?.cursive == "0" ? "1" : "0"}>{category?.cursive != "0" ? "Выключен" : "Включен"}</option>
 
                                         </Form.Select>
                                     </div>
@@ -150,9 +162,9 @@ const ChangeCategory = () => {
                                                         <button type="button" id="button-addon1" class="btn bg-gradient-primary"
                                                             onClick={() => setImageRu(category?.id)}
                                                         >
-                                                            Button
+                                                             Добавить фото
                                                         </button>
-                                                        <input type="file" class="form-control"
+                                                        <input type="file" class="form-control" multiple
                                                             onChange={e => setFileRu(e.target.files[0])}
                                                         />
 
@@ -162,7 +174,8 @@ const ChangeCategory = () => {
 
                                                     {
                                                         category?.ImagesRu?.map(item =>
-                                                            <div style={{ width: "64px", height: "64px" }}>
+                                                            <div style={{ width: "64px", height: "64px",position:"relative" }}>
+                                                                <div className='close_img' onClick={()=>deleteImageRu(item)}>X</div>
                                                                 <img style={{width:'100%',height:'100%',objectFit:'cover'}} src={item}></img>
                                                             </div>)
                                                     }
@@ -221,9 +234,9 @@ const ChangeCategory = () => {
                                                         <button type="button" id="button-addon1" class="btn bg-gradient-primary"
                                                             onClick={() => setImageEn(category?.id)}
                                                         >
-                                                            Button
+                                                            Добавить фото
                                                         </button>
-                                                        <input type="file" class="form-control"
+                                                        <input type="file" class="form-control" multiple
                                                             onChange={e => setFileEn(e.target.files[0])}
                                                         />
 
@@ -233,7 +246,8 @@ const ChangeCategory = () => {
 
                                                     {
                                                         category?.ImagesEn?.map(item =>
-                                                            <div style={{ width: "64px", height: "64px",display:'block' }}>
+                                                            <div style={{ width: "64px", height: "64px",display:'block',position:'relative' }}>
+                                                                <div className='close_img' onClick={()=>deleteImageEn(item)}>X</div>
                                                                 <img style={{width:'100%',height:'100%',objectFit:'cover'}} src={item}></img>
                                                             </div>)
                                                     }
@@ -268,7 +282,7 @@ const ChangeCategory = () => {
                                         onClick={changeCategory}
 
                                         className="btn btn-primary"
-                                    >Добавить</button>
+                                    >Сохранить</button>
 
                                 </div>
 

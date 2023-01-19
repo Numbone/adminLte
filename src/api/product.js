@@ -25,10 +25,18 @@ export const deleteProductId=async(id)=>{
     return data
 }
 export const setPhotsProductEn=async(formData)=>{
-    const data =await instance.post("/product/photos_en",formData)
+    const data =await instance.post("/product/photos/create_en",formData)
     return data 
 }
 export const setPhotosProductRu=async(formData)=>{
-    const data =await instance.post("/product/photos_ru",formData)
+    const data =await instance.post("/product/photos/create_ru",formData)
+    return data 
+}
+export const deletePhotosEn=async(id)=>{
+    const data =await instance.delete(`/product/photos/delete_en?url=${id}`)
+    return data 
+}
+export const deletePhotosRu=async(id)=>{
+    const data =await instance.delete(`/product/photos/delete_ru?url=${id}`)
     return data 
 }

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { NavLink } from 'react-router-dom'
-import { getUsers } from '../api/users'
+import { deleteUser, getUsers } from '../api/users'
 
 const Users = () => {
     const [users, setUsers] = useState([])
@@ -11,6 +11,19 @@ const Users = () => {
     useEffect(() => {
         sendUsers()
     }, [])
+
+    const [id, setId] = useState([])
+    const deleteUsers = async () => {
+        for (let i = 0; i < id.length; i++) {
+            console.log(id[i], i)
+            const data = await deleteUser(id[i])
+            console.log(data)
+        }
+        setId([])
+        var clist = document.getElementsByTagName("input");
+        for (var i = 0; i < clist.length; ++i) { clist[i].checked = false; }
+        sendUsers()
+    }
     console.log(users);
     return (
         <div className="content-wrapper">
@@ -80,7 +93,7 @@ const Users = () => {
                         <table className="table table-hover text-nowrap">
                             <thead>
                                 <tr>
-
+                                    
                                     <th>#</th>
                                     <th>Имя</th>
                                     <th>Email</th>
@@ -92,13 +105,20 @@ const Users = () => {
                                 {
                                     users?.map(item =>
                                         <tr>
+                                            <td><input type="checkbox"
+            
+                                                onChange={(e) =>
+                                                    e.target.checked
+                                                        ? setId(s => [...s, item?.id])
+                                                        : setId(id.filter((el) => el !== item.id))}
+                                            /></td>
                                             <td>{item.id}</td>
                                             <td>{item.first_name} {item.father_name}</td>
                                             <td>{item.email}</td>
                                             <td>{item.phone_number}</td>
                                             <td >
                                                 <div style={{ display: 'flex', alignItems: 'center' }}>
-                                                    <NavLink to={"users/" + item.id}>
+                                                    <NavLink to={"/users/"+item.id}>
                                                         <i className='fas fa-eye' style={{ marginRight: '5px' }}></i>
                                                     </NavLink>
 

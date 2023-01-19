@@ -22,10 +22,19 @@ export const deleteCategorybyId=async(id)=>{
     return data
 }
 export const setPhotosEn=async(formData)=>{
-    const data =await instance.post("/category/photos_en",formData)
+    const data =await instance.post("/category/photos/create_en",formData)
     return data 
 }
 export const setPhotosRu=async(formData)=>{
-    const data =await instance.post("/category/photos_ru",formData)
+    const data =await instance.post("/category/photos/create_ru",formData)
+    return data 
+}
+
+export const deletePhotosEn=async(id)=>{
+    const data =await instance.delete(`/category/photos/delete_en?url=${id}`)
+    return data 
+}
+export const deletePhotosRu=async(id)=>{
+    const data =await instance.delete(`/category/photos/delete_ru?url=${id}`)
     return data 
 }
