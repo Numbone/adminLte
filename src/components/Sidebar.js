@@ -43,15 +43,15 @@ const Sidebar = () => {
                             </NavLink>
 
                         </li> */}
-                        <li className="nav-item">
+                        {/* <li className="nav-item">
                             <NavLink to="/etiket" className="nav-link">
                                 <i className="nav-icon fas fa-chart-pie" />
                                 <p>
                                     Этикеты ШК
-                                    {/* <span class="right badge badge-danger">New</span> */}
+                                    
                                 </p>
                             </NavLink>
-                        </li>
+                        </li> */}
                         <li className="nav-item">
                             <NavLink to="/users" className="nav-link">
                                 <i className="nav-icon fas fa-tree" />

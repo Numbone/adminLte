@@ -38,6 +38,7 @@ const Category = () => {
         setNameRu("")
         setNameEn("")
         console.log(data)
+        document.getElementById("form").reset();
     }
 
     const getCategory = async () => {
@@ -111,7 +112,7 @@ const Category = () => {
                                 </div>
                                 {/* /.card-header */}
                                 {/* form start */}
-                                <form ref={form} onSubmit={createCategory}>
+                                <form id="form" ref={form} onSubmit={createCategory}>
                                     <div className="card-body">
 
                                         <div className="form-group">
