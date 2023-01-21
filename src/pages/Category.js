@@ -77,7 +77,7 @@ const Category = () => {
     useEffect(() => {
         getCategory()
     }, [])
-    console.log(id)
+   
     return (
         <div className="content-wrapper">
             {/* Content Header (Page header) */}
