@@ -13,7 +13,7 @@ const Order = () => {
     const [inBasket, setInBasket] = useState("")
     const [nameORPhoneOREmail, setNameORPhoneOREmail] = useState("")
     const [notInBasket, setNotInBasket] = useState("")
-    const [notPaid, setNotPaid] = useState(true)
+    const [notPaid, setNotPaid] = useState(false)
     const [startTime, setStartTime] = useState("")
     const [status, setStatus] = useState("")
     const [transactionID, setTransactionID] = useState(0)
@@ -25,7 +25,7 @@ const Order = () => {
         const EndDate = endTime == "" ? "" : format(new Date(endTime), 'MMM d, yyyy',) + " " + "at 00:00pm (MST)"
 
         console.log(starDate);
-        const { data } = await TransactionAll(delivery, EndDate, inBasket, nameORPhoneOREmail, notInBasket, notPaid, starDate, status, Number(transactionID))
+        const { data } = await TransactionAll(delivery, EndDate, inBasket, nameORPhoneOREmail, notInBasket, Boolean(notPaid), starDate, status, Number(transactionID))
         if ((data?.products_info == null) || (data.transactions == null)) {
             data = []
         }
@@ -139,9 +139,9 @@ const Order = () => {
                                 <div className="form-group">
                                     <label>Способ доставки</label>
                                     <Form.Select onChange={e => setDelivery(e.target.value)} className="form-control" aria-label="Default select example">
-                                        <option>Выберите способ доставки</option>
+                                        <option value="">Все</option>
                                         <option value="CDEK">CDEK</option>
-                                        <option value="posta russia"> Почты России</option>
+                                        <option value="Самовывоз в Волгограде"> Самовывоз в Волгограде</option>
                                  
                                     </Form.Select>
                                 </div>
@@ -181,18 +181,17 @@ const Order = () => {
                                 </div>
                             </div>
                         </div>
-                        {/* <div className='row'>
+                        <div className='row'>
                             <div className='col-md-12'>
                                 <div className="form-group">
                                     <label>Товар не в корзине</label>
-                                    <Form.Select onChange={e => setNotInBasket(e.target.value)} className="form-control" aria-label="Default select example">
-                                        <option>Любое </option>
-                                        <option value="1">Да</option>
-                                        <option value="2">Нет</option>
+                                    <Form.Select onChange={e => setNotPaid(e.target.value)} className="form-control" aria-label="Default select example">
+                                        <option value={true}>Да</option>
+                                        <option value={""}>Нет</option>
                                     </Form.Select>
                                 </div>
                             </div>
-                        </div> */}
+                        </div>
                         {/* <div className='row'>
                             <div className='col-md-12'>
                                 <div className="form-group">
