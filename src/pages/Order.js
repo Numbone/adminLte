@@ -1,12 +1,13 @@
 import { format } from 'date-fns'
 import React, { useState } from 'react'
-import { Form, Modal } from 'react-bootstrap'
+import { Dropdown, DropdownButton, Form, Modal } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
-import { TransactionAll } from '../api/transactions'
+import { TransactionAll, transactionChangeStatus } from '../api/transactions'
 import ModalItem from '../modal/ModalItem'
 import ModalStatistics from '../modal/ModalStatistics'
 
 const Order = () => {
+    const [id, setId] = useState([])
     /// state 
     const [delivery, setDelivery] = useState("")
     const [endTime, setEndTime] = useState("")
@@ -42,7 +43,16 @@ const Order = () => {
     }
     //// checked checkbox 
     const [allChecked, setAllChecked] = useState(false)
-
+    const changeTransStatus=async(text)=>{
+        for (let i = 0; i < id.length; i++) {
+            const element = id[i];
+            const data =await transactionChangeStatus(text,element)
+            console.log(data)
+        }
+        var clist = document.getElementsByTagName("input");
+        for (var i = 0; i < clist.length; ++i) { clist[i].checked = false; }
+        getTransactionAll()
+    }
     const navigate = useNavigate()
     function Checktion() {
         if (!allChecked) {
@@ -59,7 +69,7 @@ const Order = () => {
             }
         }
     }
-    console.log(data, "data")
+    console.log(id, "id")
     return (
         <div className="content-wrapper">
             {/* Content Header (Page header) */}
@@ -140,9 +150,9 @@ const Order = () => {
                                     <label>Способ доставки</label>
                                     <Form.Select onChange={e => setDelivery(e.target.value)} className="form-control" aria-label="Default select example">
                                         <option value="">Все</option>
-                                        <option value="CDEK">CDEK</option>
+                                        {/* <option value="CDEK">CDEK</option> */}
                                         <option value="Самовывоз в Волгограде"> Самовывоз в Волгограде</option>
-                                 
+
                                     </Form.Select>
                                 </div>
                             </div>
@@ -170,13 +180,13 @@ const Order = () => {
                                 <div className="form-group">
                                     <label>Товар в корзине</label>
                                     <Form.Select onChange={e => setInBasket(e.target.value)} className="form-control" aria-label="Default select example">
-                                    <option value="0">Выберите товар </option>
+                                        <option value="0">Выберите товар </option>
                                         {
-                                            data?.products_info?.map(item=>
-                                                <option value={item?.article}>{item?.artice} {item?.nameRu}</option> )
+                                            data?.products_info?.map(item =>
+                                                <option value={item?.article}>{item?.artice} {item?.nameRu}</option>)
                                         }
-                                       
-                                      
+
+
                                     </Form.Select>
                                 </div>
                             </div>
@@ -229,7 +239,7 @@ const Order = () => {
                                     <label className="form-check-label">Показать без этикетки</label>
                                 </div>
                             </div> */}
-                          
+
                         </div>
 
 
@@ -241,7 +251,20 @@ const Order = () => {
             <div className="col-md-12">
                 <div className="card">
                     <div className="card-header">
-                        <h3 className="card-title"></h3>
+                        <h3 className="card-title">
+                            <DropdownButton id="dropdown-basic-button" title="Действие ">
+                                <Dropdown.Item onClick={()=>changeTransStatus("В обработке")} >В обработке</Dropdown.Item>
+                                <Dropdown.Item onClick={()=>changeTransStatus("Обработан")} >Обработан</Dropdown.Item>
+                                <Dropdown.Item onClick={()=>changeTransStatus("Отправлен в сборку на склад")} >Отправлен в сборку на склад</Dropdown.Item>
+                                <Dropdown.Item onClick={()=>changeTransStatus("Собран на складе")} >Собран на складе</Dropdown.Item>
+                                <Dropdown.Item onClick={()=>changeTransStatus("Готов к выдаче")} >Готов к выдаче</Dropdown.Item>
+                                <Dropdown.Item onClick={()=>changeTransStatus("Выдан")} >Выдан</Dropdown.Item>
+                                <Dropdown.Item onClick={()=>changeTransStatus("Возврат")} >Возврат</Dropdown.Item>
+                                <Dropdown.Item onClick={()=>changeTransStatus("Ошибка в заказе")} >Ошибка в заказе</Dropdown.Item>
+                                <Dropdown.Item onClick={()=>changeTransStatus("Ожидает оплаты")} >Ожидает оплаты</Dropdown.Item>
+                            </DropdownButton>
+
+                        </h3>
                         <div className="card-tools">
                             {data.length == 0
                                 ? null
@@ -255,7 +278,9 @@ const Order = () => {
                         <table className="table table-hover text-nowrap table-striped">
                             <thead>
                                 <tr>
-                                    <th><input type="checkbox" name='allCheckbox' onChange={(e) => setAllChecked(e.target.checked)} onClick={() => Checktion()} /></th>
+                                    <th>
+                                        {/* <input type="checkbox" name='allCheckbox' onChange={(e) => setAllChecked(e.target.checked)} onClick={() => Checktion()} /> */}
+                                    </th>
                                     <th>#</th>
                                     <th>ФИО</th>
                                     <th>Почта</th>
@@ -271,7 +296,13 @@ const Order = () => {
                                 {
                                     data?.transactions?.map((item, index) =>
                                         <tr key={index}>
-                                            <td><input type="checkbox" name='oneCheck' /></td>
+                                            <td><input type="checkbox"
+                                                // checked={checked}
+                                                onChange={(e) =>
+                                                    e.target.checked
+                                                        ? setId(s => [...s, item?.id])
+                                                        : setId(id.filter((el) => el !== item.id))}
+                                            /></td>
                                             <td>{item?.id}</td>
                                             <td>{item?.user[0]?.first_name} {item?.user[0]?.father_name}</td>
                                             <td>{item?.user[0]?.email}</td>

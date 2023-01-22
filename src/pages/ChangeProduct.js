@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Form } from 'react-bootstrap'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { categoryAll } from '../api/category'
 import { deletePhotosEn, deletePhotosRu, productCreate, productId, productUpdate, setPhotosProductRu, setPhotsProductEn } from '../api/product'
 
@@ -79,7 +79,7 @@ const ChangeProduct = () => {
         const data =await deletePhotosEn(id)
         getProduct()
     }
-
+    const navigate = useNavigate()
     const changeProduct = async () => {
         let number
         number = count
@@ -89,7 +89,7 @@ const ChangeProduct = () => {
         const data = await productUpdate(actionEn, actionRu, article, categoryEn, categoryRu, compoundEn, compoundRu, contraindicationsEn, contraindicationsRu, Number(count),
             descriptionEn, descriptionRu, Number(id), modeOfAppEn, modeOfAppRus, nameEn, nameRu, Number(price), weight)
         console.log(data)
-        getProduct()
+        navigate("/products")
     }
     useEffect(() => {
         getCategory()

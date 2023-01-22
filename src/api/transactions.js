@@ -13,3 +13,6 @@ export const transactionCopy=async(transaction_id,text)=>{
     const data =instance.post("transaction/comment",{text,transaction_id})
     return data
 }
+export const transactionChangeStatus=async(text,transaction_id)=>{
+    const data =instance.post("transaction/status/add",{text,transaction_id})
+}
