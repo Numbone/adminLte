@@ -43,10 +43,10 @@ const Order = () => {
     }
     //// checked checkbox 
     const [allChecked, setAllChecked] = useState(false)
-    const changeTransStatus=async(text)=>{
+    const changeTransStatus = async (text) => {
         for (let i = 0; i < id.length; i++) {
             const element = id[i];
-            const data =await transactionChangeStatus(text,element)
+            const data = await transactionChangeStatus(text, element)
             console.log(data)
         }
         var clist = document.getElementsByTagName("input");
@@ -196,8 +196,9 @@ const Order = () => {
                                 <div className="form-group">
                                     <label>Товар не в корзине</label>
                                     <Form.Select onChange={e => setNotPaid(e.target.value)} className="form-control" aria-label="Default select example">
-                                        <option value={true}>Да</option>
                                         <option value={""}>Нет</option>
+                                        <option value={true}>Да</option>
+
                                     </Form.Select>
                                 </div>
                             </div>
@@ -253,15 +254,15 @@ const Order = () => {
                     <div className="card-header">
                         <h3 className="card-title">
                             <DropdownButton id="dropdown-basic-button" title="Действие ">
-                                <Dropdown.Item onClick={()=>changeTransStatus("В обработке")} >В обработке</Dropdown.Item>
-                                <Dropdown.Item onClick={()=>changeTransStatus("Обработан")} >Обработан</Dropdown.Item>
-                                <Dropdown.Item onClick={()=>changeTransStatus("Отправлен в сборку на склад")} >Отправлен в сборку на склад</Dropdown.Item>
-                                <Dropdown.Item onClick={()=>changeTransStatus("Собран на складе")} >Собран на складе</Dropdown.Item>
-                                <Dropdown.Item onClick={()=>changeTransStatus("Готов к выдаче")} >Готов к выдаче</Dropdown.Item>
-                                <Dropdown.Item onClick={()=>changeTransStatus("Выдан")} >Выдан</Dropdown.Item>
-                                <Dropdown.Item onClick={()=>changeTransStatus("Возврат")} >Возврат</Dropdown.Item>
-                                <Dropdown.Item onClick={()=>changeTransStatus("Ошибка в заказе")} >Ошибка в заказе</Dropdown.Item>
-                                <Dropdown.Item onClick={()=>changeTransStatus("Ожидает оплаты")} >Ожидает оплаты</Dropdown.Item>
+                                <Dropdown.Item onClick={() => changeTransStatus("В обработке")} >В обработке</Dropdown.Item>
+                                <Dropdown.Item onClick={() => changeTransStatus("Обработан")} >Обработан</Dropdown.Item>
+                                <Dropdown.Item onClick={() => changeTransStatus("Отправлен в сборку на склад")} >Отправлен в сборку на склад</Dropdown.Item>
+                                <Dropdown.Item onClick={() => changeTransStatus("Собран на складе")} >Собран на складе</Dropdown.Item>
+                                <Dropdown.Item onClick={() => changeTransStatus("Готов к выдаче")} >Готов к выдаче</Dropdown.Item>
+                                <Dropdown.Item onClick={() => changeTransStatus("Выдан")} >Выдан</Dropdown.Item>
+                                <Dropdown.Item onClick={() => changeTransStatus("Возврат")} >Возврат</Dropdown.Item>
+                                <Dropdown.Item onClick={() => changeTransStatus("Ошибка в заказе")} >Ошибка в заказе</Dropdown.Item>
+                                <Dropdown.Item onClick={() => changeTransStatus("Ожидает оплаты")} >Ожидает оплаты</Dropdown.Item>
                             </DropdownButton>
 
                         </h3>
