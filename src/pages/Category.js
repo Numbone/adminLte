@@ -44,6 +44,7 @@ const Category = () => {
     const getCategory = async () => {
         const { data } = await categoryAll()
         console.log(data)
+        
         setCategory(data?.all_category)
     }
     const [checked, setChecked] = useState(false)
@@ -269,8 +270,8 @@ const Category = () => {
                             </thead>
                             <tbody>
                                 {
-                                    category?.map(item =>
-                                        <tr>
+                                    category?.map((item,index) =>
+                                        <tr key={index}>
                                             <td><input type="checkbox"
                                                 // checked={checked}
                                                 onChange={(e) =>

@@ -23,13 +23,16 @@ const Order = () => {
 
     const getTransactionAll = async () => {
         const starDate = startTime == "" ? "" : format(new Date(startTime), 'MMM d, yyyy',) + " " + "at 00:00pm (MST)"
-        const EndDate = endTime == "" ? "" : format(new Date(endTime), 'MMM d, yyyy',) + " " + "at 00:00pm (MST)"
+        const EndDate = endTime == "" ? "" : format(new Date(endTime), 'MMM d, yyyy',) + " " + "at 23:59pm (MST)"
 
         console.log(starDate);
         const { data } = await TransactionAll(delivery, EndDate, inBasket, nameORPhoneOREmail, notInBasket, Boolean(notPaid), starDate, status, Number(transactionID))
         if ((data?.products_info == null) || (data.transactions == null)) {
             data = []
         }
+        data?.transactions.sort(function(a, b) { 
+            return - ( a.id - b.id  ||  a.name.localeCompare(b.name) );
+          });
         setData(data)
 
     }
