@@ -155,7 +155,7 @@ const PromocodePage = () => {
                       <td>{item?.code}</td>
                       <td>{item?.type}</td>
                       
-                      <td>{item?.discount} %</td>
+                      <td>{item?.discount} </td>
                       <td>{item?.count}</td>
                       <td >
                         <div style={{ display: 'flex', alignItems: 'center' }}>

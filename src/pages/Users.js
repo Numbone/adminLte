@@ -25,6 +25,22 @@ const Users = () => {
         sendUsers()
     }
     console.log(users);
+    const [allChecked, setAllChecked] = useState(false)
+     function Checktion() {
+        if (!allChecked) {
+            var ele = document.getElementsByName('oneCheck')
+            for (var i = 0; i < ele.length; i++) {
+                if (ele[i].type == 'checkbox')
+                    ele[i].checked = true;
+            }
+        } else {
+            var ele = document.getElementsByName('oneCheck')
+            for (var i = 0; i < ele.length; i++) {
+                if (ele[i].type == 'checkbox')
+                    ele[i].checked = false;
+            }
+        }
+    }
     return (
         <div className="content-wrapper">
             {/* Content Header (Page header) */}
@@ -93,7 +109,7 @@ const Users = () => {
                         <table className="table table-hover text-nowrap">
                             <thead>
                                 <tr>
-                                    
+                                    <th><input type="checkbox" name='allCheckbox' onChange={(e) => setAllChecked(e.target.checked)} onClick={() => Checktion()} /></th>
                                     <th>#</th>
                                     <th>Имя</th>
                                     <th>Email</th>

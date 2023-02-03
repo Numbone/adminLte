@@ -6,11 +6,10 @@ import { TransactionCopy } from '../api/transactions';
 const ModalItem = (props) => {
     const copyTrans=async(id)=>{
         const {data}=await TransactionCopy(id)
-       
+       props.onHide()
     }
     // const [edit,setEdit]=useState(false)
 
-    console.log(props,"props");
     return (
         <Modal
             {...props}
@@ -61,7 +60,7 @@ const ModalItem = (props) => {
                                             <address>
                                                 <strong>Данные о доставке</strong>
                                                 <br></br>
-                                                {props?.state?.delivery}
+                                                {props?.state?.delivery?.delivery_address}
                                                 <br></br>
                                                 adreess
                                                 <br></br>
@@ -77,13 +76,13 @@ const ModalItem = (props) => {
                                             
                                         </div>
                                     </div>
-                                    {/* <div className='row' style={{ marginBottom: '1rem' }}>
+                                    <div className='row' style={{ marginBottom: '1rem' }}>
                                         <div className='col-12'>
                                             <button type="button" class="btn btn-default float-right">
                                                 Редактировать данные
                                             </button>
                                         </div>
-                                    </div> */}
+                                    </div>
                                     <div className='row' style={{ marginBottom: '1rem' }} onClick={()=>copyTrans(props?.state.id)}>
                                         <div className='col-12'>
                                             <button  type="button" class="btn btn-default  float-right">

@@ -1,6 +1,7 @@
 import { Route, Routes } from 'react-router-dom';
 import './App.css';
 import Header from './components/Header';
+import Pdf from './components/Pdf';
 import Sidebar from './components/Sidebar';
 import AddProduct from './pages/AddProduct';
 import Category from './pages/Category';
@@ -18,6 +19,7 @@ import Users from './pages/Users';
 
 
 function App() {
+  
   return (
     <div className="App">
       <Header/>
@@ -36,6 +38,7 @@ function App() {
         <Route path='/statistics' element={<Statistics/>}></Route>
         <Route path='/promocode' element={<PromocodePage/>}></Route>
         <Route path='/promocode/:id' element={<PromocodeId/>}></Route>
+        <Route path='/pdf' element={<Pdf/>}></Route>
       </Routes>
     </div>
   );

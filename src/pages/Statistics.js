@@ -41,6 +41,7 @@ const Statistics = (props) => {
     //     getTransactionAll()
     // }, [])
     // console.log(data)
+    console.log(data)
     return (
         <div className='content-wrapper'>
             <section className="content-header">

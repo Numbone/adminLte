@@ -1,45 +1,64 @@
-import React, { useEffect, useState } from 'react'
-import { Form } from 'react-bootstrap'
-import { NavLink } from 'react-router-dom'
-import { AllProduct, deleteProductId } from '../api/product'
+import React, { useEffect, useState } from "react";
+import { Form } from "react-bootstrap";
+import { NavLink } from "react-router-dom";
+import { AllProduct, deleteProductId } from "../api/product";
 
 const Products = () => {
-    const [products, setProducts] = useState([])
-    const [id, setId] = useState([])
-    const getAllProduct = async () => {
-        const { data } = await AllProduct()
-        setProducts(data?.all_product)
+  const [products, setProducts] = useState([]);
+  const [id, setId] = useState([]);
+  const getAllProduct = async () => {
+    const { data } = await AllProduct();
+    setProducts(data?.all_product);
+  };
+  const deleteProduct = async () => {
+    for (let i = 0; i < id.length; i++) {
+      const data = await deleteProductId(id[i]);
+      console.log(data);
     }
-    const deleteProduct = async () => {
-        for (let i = 0; i < id.length; i++) {
-            const data = await deleteProductId(id[i])
-            console.log(data)
-        }
-        var clist = document.getElementsByTagName("input");
-        for (var i = 0; i < clist.length; ++i) { clist[i].checked = false; }
-        setId([])    
-        getAllProduct()
+    var clist = document.getElementsByTagName("input");
+    for (var i = 0; i < clist.length; ++i) {
+      clist[i].checked = false;
     }
-    useEffect(() => {
-        getAllProduct()
-    }, [])
-    console.log(products)
-    return (
-        <div className="content-wrapper">
-            {/* Content Header (Page header) */}
-            <div className="content-header">
-                <div className="container-fluid">
-                    <div className="row mb-2">
-                        <div className="col-sm-6">
-                            <h1 class="m-0">Все товары</h1>
-                        </div>{/* /.col */}
-                        <div className="col-sm-6">
-
-                        </div>{/* /.col */}
-                    </div>{/* /.row */}
-                </div>
+    setId([]);
+    getAllProduct();
+  };
+  const toggle = (source) => {
+    const checkboxes = document.getElementsByName("foo");
+    if (source.target.checked === true) {
+      for (var i = 0, n = checkboxes.length; i < n; i++) {
+        checkboxes[i].checked = source.target.checked;
+        const checker = Number(checkboxes[i].value);
+        setId((s) => [...s, checker]);
+      }
+    } else {
+      for (var i = 0, n = checkboxes.length; i < n; i++) {
+        checkboxes[i].checked = source.target.checked;
+        const checker = Number(checkboxes[i].value);
+        setId([]);
+      }
+    }
+  };
+  useEffect(() => {
+    getAllProduct();
+  }, []);
+  console.log(products);
+  return (
+    <div className="content-wrapper">
+      {/* Content Header (Page header) */}
+      <div className="content-header">
+        <div className="container-fluid">
+          <div className="row mb-2">
+            <div className="col-sm-6">
+              <h1 class="m-0">Все товары</h1>
             </div>
-            {/*  <section className="content">
+            {/* /.col */}
+            <div className="col-sm-6"></div>
+            {/* /.col */}
+          </div>
+          {/* /.row */}
+        </div>
+      </div>
+      {/*  <section className="content">
                 <div className="container-fluid">
                     <div className="row">
                         
@@ -105,79 +124,93 @@ const Products = () => {
                     </div>
                 </div>
             </section>*/}
-            <div className="col-md-12">
-                <div className="card">
-                    <div className="card-header">
-                        <h3 className="card-title"></h3>
-                        <div className="card-tools">
-
-
-                            <div className="input-group input-group-sm" >
-                                <button type="button" className="btn btn-block btn-danger"
-                                    onClick={() => deleteProduct()} >Удалить</button>
-                            </div>
-
-                        </div>
-                    </div>
-                    <div className="card-body table-responsive p-0">
-                        <table className="table table-hover text-nowrap">
-                            <thead>
-                                <tr>
-                                    <th>
-                                        {/* <input type="checkbox" /> */}
-                                    </th>
-                                    <th>#</th>
-                                    <th>Наименование</th>
-                                    <th>Артикул</th>
-                                    <th>Цена</th>
-                                    <th>Кол-во</th>
-                                    <th>Категория</th>
-                                    {/* <th>Статус</th> */}
-                                    <th> </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {
-                                    products?.map(item =>
-                                        <tr>
-                                            <td><input type="checkbox" onChange={(e) =>
-                                                e.target.checked
-                                                    ? setId(s => [...s, item?.ID])
-                                                    : setId(id.filter((el) => el !== item.ID))} /></td>
-                                            <td>{item?.ID}</td>
-                                            <td> рус :{item?.nameRu}
-                                            <br></br>
-                                            анг : {item?.nameEn} </td>
-                                            <td>{item?.article}</td>
-                                            <td>{item?.price}</td>
-                                            <td>{item?.count}</td>
-                                            <td> рус :{item?.categoryRu}
-                                            <br></br>
-                                            анг :{item?.categoryEn}</td>
-                                            {/* <td class="project-state">
+      <div className="col-md-12">
+        <div className="card">
+          <div className="card-header">
+            <h3 className="card-title"></h3>
+            <div className="card-tools">
+              <div className="input-group input-group-sm">
+                <button
+                  type="button"
+                  className="btn btn-block btn-danger"
+                  onClick={() => deleteProduct()}
+                >
+                  Удалить
+                </button>
+              </div>
+            </div>
+          </div>
+          <div className="card-body table-responsive p-0">
+            <table className="table table-hover text-nowrap">
+              <thead>
+                <tr>
+                  <th>
+                    <input type="checkbox" onChange={(e) => toggle(e)} />
+                  </th>
+                  <th>#</th>
+                  <th>Наименование</th>
+                  <th>Артикул</th>
+                  <th>Цена</th>
+                  <th>Кол-во</th>
+                  <th>Категория</th>
+                  {/* <th>Статус</th> */}
+                  <th> </th>
+                </tr>
+              </thead>
+              <tbody>
+                {products?.map((item) => (
+                  <tr>
+                    <td>
+                      <input
+                        value={item?.id}
+                        name="foo"
+                        type="checkbox"
+                        onChange={(e) =>
+                          e.target.checked
+                            ? setId((s) => [...s, item?.ID])
+                            : setId(id.filter((el) => el !== item.ID))
+                        }
+                      />
+                    </td>
+                    <td>{item?.ID}</td>
+                    <td>
+                      {" "}
+                      рус :{item?.nameRu}
+                      <br></br>
+                      анг : {item?.nameEn}{" "}
+                    </td>
+                    <td>{item?.article}</td>
+                    <td>{item?.price}</td>
+                    <td>{item?.count}</td>
+                    <td>
+                      {" "}
+                      рус :{item?.categoryRu}
+                      <br></br>
+                      анг :{item?.categoryEn}
+                    </td>
+                    {/* <td class="project-state">
                                                 <span class="badge badge-success">Success</span>
                                                 <span class="badge badge-danger">Success</span>
                                             </td> */}
-                                            <td >
-                                                <div style={{ display: 'flex', alignItems: 'center' }}>
-                                                    <NavLink to={"/products/" + item?.ID} className="btn btn-info btn-sm" >
-                                                        <i class="fas fa-pencil-alt">
-                                                        </i>
-                                                    </NavLink>
-
-                                                </div>
-                                            </td>
-                                        </tr>)
-                                }
-
-
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
+                    <td>
+                      <div style={{ display: "flex", alignItems: "center" }}>
+                        <NavLink
+                          to={"/products/" + item?.ID}
+                          className="btn btn-info btn-sm"
+                        >
+                          <i class="fas fa-pencil-alt"></i>
+                        </NavLink>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
-    )
-}
+      </div>
+    </div>
+  );
+};
 
-export default Products
+export default Products;

@@ -9,8 +9,12 @@ export default function useColumns() {
         accessor: "id"
       },
       {
-        Header: "Наименование",
-        accessor: "name"
+        Header: "Наименование анг",
+        accessor: "nameEn"
+      },
+      {
+        Header: "Наименование рус",
+        accessor: "nameRu"
       },
       {
         Header: "Продано шт",
