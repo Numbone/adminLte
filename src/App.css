@@ -119,3 +119,26 @@ td a{
     top:7px;
     right: 1px;
 }
+.real__id{
+  padding: 5px;
+}
+.copy__id{
+    background-color: goldenrod;
+    padding:  0 5px;
+}
+.В{
+    background-color: #6c757d;;
+    color: white;
+}
+.Возврат ,.Ошибка{
+    background-color: red;
+    color: white;
+}
+.Выдан, .Обработан, .Готов, .Собран{
+    background-color: green;
+    color: white;
+}
+.Ожидает , .Отправлен{
+    background-color: gold;
+    color: white;
+}

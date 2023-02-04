@@ -183,8 +183,8 @@ const Etiket = () => {
                             <i class="icon fas fa-check alert-success" style={{marginRight:'5px'}}></i>
                         }
                     
-                      <a href={item?.invoice_url} target="_blank">
-                        {item?.invoice_url}
+                      <a href={item?.label_url} target="_blank">
+                        {item?.label_url.split("https://back-admin.lemousse.beauty/media")}
                       </a>
                     </td>
                     <td>{item?.comment}</td>
@@ -194,16 +194,16 @@ const Etiket = () => {
                     <td>
                       <div style={{ display: "flex", alignItems: "center" }}>
                         <i
-                          class="fas fa-comments"
+                          class="fas fa-comments btn btn-block "
                           onClick={() => handleShow(item?.ID)}
                         ></i>
 
                         <a
-                          href={item?.label_url}
+                          href={item?.invoice_url}
                           style={{ marginLeft: "5px" }}
                           target="_blank"
                         >
-                          <i class="far fa-file-alt mr-1"> </i>
+                          <i class="far fa-file-alt mr-1 btn btn-block"> </i>
                         </a>
                       </div>
                     </td>

@@ -1,7 +1,6 @@
-import { format } from "date-fns";
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import Select from "react-select";
+
 import { AllProduct } from "../api/product";
 import { changeBasketTransaction } from "../api/transactions";
 const ChangOrder = () => {
@@ -13,21 +12,24 @@ const ChangOrder = () => {
   const getProduct = async () => {
     const { data } = await AllProduct();
     setProduct(data?.all_product);
-    setData(props?.state?.products);
+
+    if (props?.state?.products != null) {
+      setData(props?.state?.products);
+    }
   };
-  const deleteItem=async(id)=>{
-    setData(data1.filter(item=>id!=item?.id))
-  }
-  const saveChangeTrans=async()=>{
-    data1.map(item=>(delete item?.product_id,
-        delete item?.id,
-        item.count=1))
-    const data =await changeBasketTransaction(props?.state?.id,data1)
-  }
+  const deleteItem = async (id) => {
+    setData(data1.filter((item) => id !== item?.id));
+  };
+  const saveChangeTrans = async () => {
+    data1.map(
+      (item) => ( delete item?.id, (item.count = 1))
+    );
+    const data = await changeBasketTransaction(props?.state?.id, data1);
+  };
   useEffect(() => {
     getProduct();
   }, []);
-  console.log(product)
+  console.log(props);
   return (
     <div className="content-wrapper">
       <div className="content-header">
@@ -60,16 +62,20 @@ const ChangOrder = () => {
               </div>
             </div>
           </div>
-          {data1.map((item) => (
-            <div className="form-group" style={{position:'relative'}}>
+          {data1?.map((item) => (
+            <div className="form-group" style={{ position: "relative" }}>
               <input
                 type="text"
                 className="form-control"
                 name="article"
                 value={item?.nameRu}
               />
-              <div className="delete_icons"
-              onClick={()=>deleteItem(item?.id)}>X</div>
+              <div
+                className="delete_icons"
+                onClick={() => deleteItem(item?.id)}
+              >
+                X
+              </div>
             </div>
           ))}
 
@@ -80,26 +86,40 @@ const ChangOrder = () => {
                 <select id="cdek-region" className="form-control">
                   <option disabled="true">Выбрать...</option>
                   {product?.map((item) => (
-                 
-                    <option onClick={()=>setData((s)=>[...s,{"article": item?.article,
-                    "count": item?.count,
-                    "nameEn": item?.nameEn,
-                    "nameRu": item?.nameRu,
-                    "price": item?.price,
-                    "id":item?.ID}])}>{item?.nameRu}</option>
+                    <option
+                      onClick={() =>
+                        setData((s) => [
+                          ...s,
+                          {
+                            article: item?.article,
+                            count: item?.count,
+                            nameEn: item?.nameEn,
+                            nameRu: item?.nameRu,
+                            price: item?.price,
+                            id: item?.ID,
+                            product_id:item?.ID
+                          },
+                        ])
+                      }
+                    >
+                      {item?.nameRu}
+                    </option>
                   ))}
                 </select>
               </div>
             </div>
           </div>
           <div className="row">
-                <div className="col-4">
-                  <button type="button" className="btn btn-block btn-success"
-                  onClick={()=>saveChangeTrans()}>
-                    Сохранить
-                  </button>
-                </div>
-              </div>
+            <div className="col-4">
+              <button
+                type="button"
+                className="btn btn-block btn-success"
+                onClick={() => saveChangeTrans()}
+              >
+                Сохранить
+              </button>
+            </div>
+          </div>
         </div>
       </section>
     </div>

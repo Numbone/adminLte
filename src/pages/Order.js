@@ -286,6 +286,20 @@ const Order = () => {
                     getOptionLabel={(item) => item?.nameRu}
                     getOptionValue={(item) => item?.article}
                     isMulti={true}
+                    placeholder="Выберите"
+                    styles={
+                      {
+                        multiValue:(base)=>({
+                          ...base,
+                          backgroundColor:'#0069d9',
+                          color:'white'
+                        }),
+                        multiValueLabel:(base)=>({
+                          ...base,
+                          color:'white',
+                        })
+                      }
+                    }
                   />
                   {/* <Form.Select
                     onChange={(e) => setInBasket(e.target.value)}
@@ -309,9 +323,23 @@ const Order = () => {
                   <Select
                     onChange={(e) => setNotInBasket(e)}
                     options={product}
+                    placeholder="Выберите"
                     getOptionLabel={(item) => item?.nameRu}
                     getOptionValue={(item) => item?.article}
                     isMulti={true}
+                    styles={
+                      {
+                        multiValue:(base)=>({
+                          ...base,
+                          backgroundColor:'#0069d9',
+                          color:'white'
+                        }),
+                        multiValueLabel:(base)=>({
+                          ...base,
+                          color:'white',
+                        })
+                      }
+                    }
                   />
                   {/* <Form.Select
                     onChange={(e) => setNotInBasket(e.target.value)}
@@ -496,7 +524,13 @@ const Order = () => {
                         }
                       />
                     </td>
-                    <td>{item?.id}</td>
+                    <td>
+                      <div className="real__id">{item?.id}</div>
+                      {
+                        item?.trasaction_copy_id!=0&& <div className="copy__id">{item?.trasaction_copy_id}</div>
+                      }
+                     
+                    </td>
                     <td>
                       {item?.user[0]?.first_name} {item?.user[0]?.father_name}
                     </td>
@@ -514,7 +548,7 @@ const Order = () => {
                     <td>
                       <button
                         type="button"
-                        className="btn btn-block btn-secondary btn-sm"
+                        className={"btn btn-block   btn-sm" +" "+ item?.status[0]?.status_text}
                       >
                         {item?.status[0]?.status_text}{" "}
                       </button>
@@ -527,15 +561,15 @@ const Order = () => {
                         >
                           <i
                             // onClick={() => setIndexModal(index)}
-                            className="fas fa-eye"
+                            className="fas fa-eye btn btn-block btn-default"
                             style={{ marginRight: "5px" }}
                           ></i>
                         </NavLink>
 
-                        <div class="dropdown">
+                        <div class="dropdown ">
                           <div>
                             <button
-                              className="btn btn-secondary dropdown-toggle"
+                              className="btn btn-default btn-block  dropdown-toggle"
                               type="button"
                               id="dropdownMenuButton"
                               data-toggle="dropdown"

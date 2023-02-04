@@ -135,7 +135,7 @@ const Sidebar = () => {
                                 </li>
                             </ul>
                         </li> */}
-                                    <li className="nav-item">
+                                    {/* <li className="nav-item">
                                         <NavLink to="/promocode" className="nav-link">
                                             <i className="nav-icon fas fa-book" />
                                             <p>
@@ -144,8 +144,8 @@ const Sidebar = () => {
                                         </NavLink>
 
 
-                                    </li>
-                                    <li className="nav-item">
+                                    </li> */}
+                                    {/* <li className="nav-item">
                                         <a href="#" className="nav-link">
 
                                             <p>
@@ -165,7 +165,7 @@ const Sidebar = () => {
                                             </li>
 
                                         </ul>
-                                    </li>
+                                    </li> */}
                                     {/* <li className="nav-item">
                             <NavLink to="/settings" className="nav-link">
                                 <i className="nav-icon fas fa-search" />

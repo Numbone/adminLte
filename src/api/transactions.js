@@ -28,4 +28,5 @@ export const saveTransactionUpdate=async(delivery,final_payment,id,user)=>{
 }
 export const changeBasketTransaction=async(id,products)=>{
     const data=instance.patch("transaction/product",{id,products})
+    return data
 }
