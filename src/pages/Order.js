@@ -1,7 +1,7 @@
 import { format } from "date-fns";
 import React, { useEffect, useState } from "react";
 import { Dropdown, DropdownButton, Form, Modal } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { AllProduct } from "../api/product";
 import {
   TransactionAll,
@@ -521,11 +521,17 @@ const Order = () => {
                     </td>
                     <td>
                       <div style={{ display: "flex", alignItems: "center" }}>
-                        <i
-                          onClick={() => setIndexModal(index)}
-                          className="fas fa-eye"
-                          style={{ marginRight: "5px" }}
-                        ></i>
+                        <NavLink
+                          to="/changetransaction"
+                          state={data.transactions[index]}
+                        >
+                          <i
+                            // onClick={() => setIndexModal(index)}
+                            className="fas fa-eye"
+                            style={{ marginRight: "5px" }}
+                          ></i>
+                        </NavLink>
+
                         <div class="dropdown">
                           <div>
                             <button

@@ -15,7 +15,17 @@ export const transactionComment=async(transaction_id,text)=>{
 }
 export const transactionChangeStatus=async(text,transaction_id)=>{
     const data =instance.post("transaction/status/add",{text,transaction_id})
+    return data
 }
 export const transactionChangeShipment=async(transactions_id)=>{
     const data =instance.post("transaction/shipment",{transactions_id})
+    return data
+}
+
+export const saveTransactionUpdate=async(delivery,final_payment,id,user)=>{
+    const data =instance.patch("transaction/update",{delivery,final_payment,id,user})
+    return data
+}
+export const changeBasketTransaction=async(id,products)=>{
+    const data=instance.patch("transaction/product",{id,products})
 }

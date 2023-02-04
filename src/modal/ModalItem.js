@@ -1,158 +1,170 @@
-import { format } from 'date-fns';
-import { useState } from 'react';
-import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
-import { TransactionCopy } from '../api/transactions';
+import axios from "axios";
+import { format } from "date-fns";
+import { useEffect } from "react";
+import { useState } from "react";
+import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import { TransactionCopy } from "../api/transactions";
 const ModalItem = (props) => {
-    const copyTrans=async(id)=>{
-        const {data}=await TransactionCopy(id)
-       props.onHide()
+  const location = useLocation();
+  const [countryCode, setCountryCode] = useState();
+  const [region, setRegion] = useState([]);
+  const [regionCode, setRegionCode] = useState(0);
+  const [city, setCity] = useState([]);
+  const [cityCode, setCityCode] = useState(0);
+  const [office,setOffice]=useState([])
+  const [allData,setAllData]=useState()
+  const getRegionCode = async (region) => {
+    const { data } = await axios.get(
+      `https://back.lemousse.beauty/cdek/regions?country=${region}`
+    );
+    setRegion(data);
+  };
+  const getCityCode = async (city) => {
+    const { data } = await axios.get(
+      `https://back.lemousse.beauty/cdek/cities?region=${city}`
+    );
+    setCity(data);
+  };
+  const getOfficeCode = async (code) => {
+    const { data } = await axios.get(
+      `https://back.lemousse.beauty/cdek/office?city=${code}`
+    );
+    setOffice(data);
+  };
+  useEffect(() => {
+    getRegionCode(countryCode);
+  }, [countryCode]);
+  useEffect(()=>{
+    if (regionCode!=0){
+      getCityCode(regionCode)
     }
-    // const [edit,setEdit]=useState(false)
-
-    return (
-        <Modal
-            {...props}
-            size="lg"
-            aria-labelledby="contained-modal-title-vcenter"
-            centered
-        >
-
-            <Modal.Body>
-                <div className="content-header">
-                    <div className="container-fluid">
-                        <div className="row mb-2">
-                            <div className="col-sm-6">
-                                <h1 class="m-0">Заказы #{props?.state?.id}</h1>
-                            </div>{/* /.col */}
-                            <div className="col-sm-6">
-
-                            </div>{/* /.col */}
-                        </div>{/* /.row */}
-                    </div>{/* /.container-fluid */}
+  },[regionCode])
+  useEffect(()=>{
+    if (cityCode!=0){
+      getOfficeCode(cityCode)
+    }
+  },[cityCode])
+  useEffect(()=>{
+    if (allData!=undefined){
+      props.setCdek(allData)
+      props.onHide()
+    }
+  },[allData])
+  console.log(cityCode,"cityCode");
+  console.log(allData,"allData");
+  return (
+    <Modal
+      {...props}
+      size="lg"
+      aria-labelledby="contained-modal-title-vcenter"
+      centered
+    >
+      <Modal.Body>
+        <div className="content-header">
+          <div className="container-fluid">
+            <div className="row mb-2">
+              <div className="col-sm-6">
+                <h1 class="m-0">Доставка СДЭК</h1>
+              </div>
+              {/* /.col */}
+              <div className="col-sm-6"></div>
+              {/* /.col */}
+            </div>
+            {/* /.row */}
+          </div>
+          {/* /.container-fluid */}
+        </div>
+        <section className="content">
+          <div className="container-fluid">
+            <div className="row">
+              <div className="col-12">
+                <div className="invoice p-3 mb-3">
+                  <div classname="form-group mt-3">
+                    <label htmlFor="cdek-region" className="label-input mb-2">
+                      Страна
+                    </label>
+                    <select id="cdek-region" className="form-control">
+                      <option disabled="true" >
+                        Выбрать...
+                      </option>
+                      <option value="RU">Выберите страну</option>
+                      <option onClick={() => setCountryCode("AM")}>
+                        Армения
+                      </option>
+                      <option onClick={() => setCountryCode("BY")}>
+                        Беларусь
+                      </option>
+                      <option onClick={() => setCountryCode("KZ")}>
+                        Казахстан
+                      </option>
+                      <option onClick={() => setCountryCode("KG")}>
+                        Кыргызстан
+                      </option>
+                      <option onClick={() => setCountryCode("RU")} >
+                        Россия
+                      </option>
+                    </select>
+                  </div>
+                  <div classname="form-group mt-3">
+                    <label htmlFor="cdek-region" className="label-input mb-2">
+                      Регион
+                    </label>
+                    <select id="cdek-region" className="form-control">
+                      <option disabled="true" selected="true">
+                        Выбрать...
+                      </option>
+                      {region?.map((item) => (
+                        <option
+                          onClick={() => setRegionCode(item?.region_code)}
+                        >
+                          {item?.region}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div classname="form-group mt-3">
+                    <label htmlFor="cdek-region" className="label-input mb-2">
+                      Город
+                    </label>
+                    <select id="cdek-region" className="form-control">
+                      <option disabled="true" selected="true">
+                        Выбрать...
+                      </option>
+                      {city?.map((item) => (
+                        <option onClick={() => setCityCode(item?.code)}>
+                          {item?.city}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div classname="form-group mt-3">
+                    <label htmlFor="cdek-region" className="label-input mb-2">
+                      Пункт Самовызова
+                    </label>
+                    <select id="cdek-region" className="form-control">
+                      <option disabled="true" selected="true">
+                        Выбрать...
+                      </option>
+                      {
+                        office?.map(item=>
+                          <option onClick={()=>setAllData(item)}>{item?.name}</option>)
+                      }
+                      
+                    </select>
+                  </div>
                 </div>
-                <section className="content">
-                    <div className="container-fluid">
-                        <div className='row'>
-                            <div className='col-12'>
-                                <div className='invoice p-3 mb-3'>
-                                    <div className='row'>
-                                        <div className='col-12'>
-                                            <h4>
-                                                {props.state==null?null: format(new Date(props?.state?.date), "d/M/yyyy H:mm:s") }
-                                                <div
-                                                    className="btn  btn-secondary btn-sm"
-                                                    style={{ float: 'right' }}>Status </div>
-                                            </h4>
-                                        </div>
-                                    </div>
-                                    <div className='row  invoice-info'>
-                                        <div className="col-sm-6">
-                                            Данные получателя
-                                            <address>
-                                                <strong>{props?.state?.user[0]?.first_name} {props?.state?.user[0]?.father_name}</strong>
-                                                <br></br>
-                                                {props?.state?.user[0]?.email}
-                                                <br></br>
-                                                {props?.state?.user[0]?.phone_number}
+              </div>
+            </div>
+          </div>
+        </section>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button onClick={props.onHide}>Close</Button>
+      </Modal.Footer>
+    </Modal>
+  );
+};
 
-                                            </address>
-                                            <address>
-                                                <strong>Данные о доставке</strong>
-                                                <br></br>
-                                                {props?.state?.delivery?.delivery_address}
-                                                <br></br>
-                                                adreess
-                                                <br></br>
-                                                Phone: (804) 123-5432
-
-                                            </address>
-                                            <address>
-                                                <strong>Заказ #{props?.state?.id} </strong>
-                                            </address>
-                                            
-                                                <div><strong>Дата создания</strong> {props.state==null?null: format(new Date(props?.state?.date), "d/M/yyyy H:mm:s") }</div>
-                                                <div><strong>Статус оплаты</strong> {props?.state?.status[0]?.status_text}</div>
-                                            
-                                        </div>
-                                    </div>
-                                    <div className='row' style={{ marginBottom: '1rem' }}>
-                                        <div className='col-12'>
-                                            <button type="button" class="btn btn-default float-right">
-                                                Редактировать данные
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <div className='row' style={{ marginBottom: '1rem' }} onClick={()=>copyTrans(props?.state.id)}>
-                                        <div className='col-12'>
-                                            <button  type="button" class="btn btn-default  float-right">
-                                                Копировать заказ
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <div className="row">
-                                        <div className="col-12 table-responsive">
-                                            <table className="table table-striped">
-                                                <thead>
-                                                    <tr>
-
-                                                        <th>Наименование </th>
-                                                        <th>Артикул</th>
-                                                        <th>Количество</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    {
-                                                        props?.state?.products?.map(item =>
-                                                            <tr>
-
-                                                                <td>{item?.nameRu}</td>
-                                                                <td>артикул</td>
-                                                                <td>{item?.count}</td>
-                                                            </tr>)
-                                                    }
-
-                                                    <tr>
-
-                                                        <td><strong>Сумма товаров</strong></td>
-                                                        <td></td>
-                                                        <td>{props?.state?.total_cost}</td>
-
-                                                    </tr>
-                                                    <tr>
-
-                                                        <td><strong>Промокод</strong></td>
-                                                        <td></td>
-                                                        <td>{props?.state?.promo_code}</td>
-
-                                                    </tr>
-                                                    <tr>
-
-                                                        <td><strong>Итого</strong></td>
-                                                        <td></td>
-                                                        <td>{props?.state?.final_payment}</td>
-
-                                                    </tr>
-
-
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-
-                    </div >
-                </section >
-
-            </Modal.Body >
-            <Modal.Footer>
-                <Button onClick={props.onHide}>Close</Button>
-            </Modal.Footer>
-        </Modal >
-    )
-}
-
-export default ModalItem
+export default ModalItem;

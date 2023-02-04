@@ -7,6 +7,7 @@ import AddProduct from './pages/AddProduct';
 import Category from './pages/Category';
 import ChangeCategory from './pages/ChangeCategory';
 import ChangeProduct from './pages/ChangeProduct';
+import ChangeTransaction from './pages/ChangeTransaction';
 import Etiket from './pages/Etiket';
 import Home from './pages/Home';
 import Order from './pages/Order';
@@ -16,7 +17,8 @@ import PromocodePage from './pages/PromocodePage';
 import Statistics from './pages/Statistics';
 import UserChange from './pages/UserChange';
 import Users from './pages/Users';
-
+import SetDataPerson from './pages/setDataPerson';
+import ChangOrder from './pages/ChangOrder';
 
 function App() {
   
@@ -39,6 +41,9 @@ function App() {
         <Route path='/promocode' element={<PromocodePage/>}></Route>
         <Route path='/promocode/:id' element={<PromocodeId/>}></Route>
         <Route path='/pdf' element={<Pdf/>}></Route>
+        <Route path='/changetransaction' element={<ChangeTransaction/>}></Route>
+        <Route path='/changeperson' element={<SetDataPerson/>}></Route>
+        <Route path='/changeorder' element={<ChangOrder/>}></Route>
       </Routes>
     </div>
   );
