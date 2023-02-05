@@ -9,6 +9,11 @@ const UserChange = () => {
     const userId = async () => {
         const { data } = await getUserId(id)
         setUser(data)
+        setEmail(data?.user?.email)
+        setFather_name(data?.user?.father_name)
+        setFirst_name(data?.user?.first_name)
+        setPhone_number(data?.user?.phone_number)
+        setSecond_name(data?.user?.second_name)
     }
 
     const [email, setEmail] = useState("")
@@ -16,7 +21,7 @@ const UserChange = () => {
     const [first_name, setFirst_name] = useState("")
     const [people, setPeople] = useState(0)
     const [password, setPassword] = useState("")
-    const [phone_number, setPhone_number] = useState("")
+    const [phone_number, setPhone_number] = useState(0)
     const [second_name, setSecond_name] = useState("")
     const postUser = async () => {
         const { data } = await updateUser(email, father_name, first_name, Number(id), password, phone_number, second_name)
@@ -76,7 +81,7 @@ const UserChange = () => {
                                             type="mail"
                                             className="form-control"
                                             placeholder={user?.user?.email}
-
+                                            value={email}
                                             name='action' />
                                     </div>
                                     <div className="form-group">
@@ -86,6 +91,7 @@ const UserChange = () => {
                                             type="text"
                                             className="form-control"
                                             id="exampleInputPassword1"
+                                            value={father_name}
                                             placeholder={user?.user?.father_name}
                                             name='article' />
                                     </div>
@@ -97,7 +103,7 @@ const UserChange = () => {
                                             type="text"
                                             className="form-control"
                                             placeholder={user?.user?.first_name}
-
+                                            value={first_name}
                                             name='compound' />
                                     </div>
                                     <div className="form-group">
@@ -116,6 +122,7 @@ const UserChange = () => {
                                             type="number"
                                             className="form-control"
                                             placeholder={user?.user?.phone_number}
+                                            value={phone_number}
                                             name='count' />
                                     </div>
                                     <div className="form-group">
@@ -124,6 +131,7 @@ const UserChange = () => {
                                             onChange={(e) => { setSecond_name(e.target.value) }}
                                             type="text"
                                             className="form-control"
+                                            value={second_name}
                                             placeholder={user?.user?.second_name}
                                             name='description' />
                                     </div>
