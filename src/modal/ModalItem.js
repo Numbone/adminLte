@@ -6,6 +6,15 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { TransactionCopy } from "../api/transactions";
+import Select from "react-select";
+const options = [
+  { value: "AM", label: "Армения" },
+  { value: "BY", label: "Беларусь" },
+  { value: "KZ", label: "Казахстан" },
+  { value: "KG", label: "Кыргызстан" },
+  { value: "RU", label: "Россия" },
+];
+
 const ModalItem = (props) => {
   const location = useLocation();
   const [countryCode, setCountryCode] = useState();
@@ -85,33 +94,78 @@ const ModalItem = (props) => {
                     <label htmlFor="cdek-region" className="label-input mb-2">
                       Страна
                     </label>
-                    <select id="cdek-region" className="form-control">
-                      <option disabled="true" >
-                        Выбрать...
-                      </option>
-                      <option value="RU">Выберите страну</option>
-                      <option onClick={() => setCountryCode("AM")}>
-                        Армения
-                      </option>
-                      <option onClick={() => setCountryCode("BY")}>
-                        Беларусь
-                      </option>
-                      <option onClick={() => setCountryCode("KZ")}>
-                        Казахстан
-                      </option>
-                      <option onClick={() => setCountryCode("KG")}>
-                        Кыргызстан
-                      </option>
-                      <option onClick={() => setCountryCode("RU")} >
-                        Россия
-                      </option>
-                    </select>
+                    <Select
+                          placeholder={""}
+                          options={options}
+                          onChange={(e) => setCountryCode(e?.value)}
+                          theme={(theme) => ({
+                            ...theme,
+                            borderRadius: "4px",
+                            colors: {
+                              ...theme.colors,
+                              primary25: "#e7dbe2",
+                              primary: "black",
+                            },
+                          })}
+                          styles={{
+                            container: (base) => ({
+                              ...base,
+                              height: "48px",
+                            }),
+                            control: (base, { isFocused }) => ({
+                              ...base,
+                              height: "48px",
+                              border: isFocused && "inherit",
+                            }),
+                            valueContainer: (base) => ({
+                              ...base,
+                              height: "48px",
+                            }),
+                            indicatorsContainer:(base)=>({
+                              display:'none'
+                            })
+                          }}
+                        />
                   </div>
                   <div classname="form-group mt-3">
                     <label htmlFor="cdek-region" className="label-input mb-2">
                       Регион
                     </label>
-                    <select id="cdek-region" className="form-control">
+                    <Select
+                          placeholder={""}
+                          options={region}
+                          getOptionLabel={(status) => status?.region }
+                          getOptionValue={(status) => status?.region_code }
+                          onChange={(e) => setRegionCode(e?.region_code)}
+                          theme={(theme) => ({
+                            ...theme,
+                            borderRadius: "4px",
+                            colors: {
+                              ...theme.colors,
+                              primary25: "#e7dbe2",
+                              primary: "black",
+                            },
+                          })}
+                          styles={{
+                            container: (base) => ({
+                              ...base,
+                              height: "48px",
+                            }),
+                            control: (base, { isFocused }) => ({
+                              ...base,
+                              height: "48px",
+                              border: isFocused && "inherit",
+                            }),
+                            valueContainer: (base) => ({
+                              ...base,
+                              height: "48px",
+                            }),
+                            indicatorsContainer:(base)=>({
+                              display:'none'
+                            })
+                          }}
+                        />
+                    {/* <select id="cdek-region" className="form-control">
                       <option disabled="true" selected="true">
                         Выбрать...
                       </option>
@@ -122,13 +176,47 @@ const ModalItem = (props) => {
                           {item?.region}
                         </option>
                       ))}
-                    </select>
+                    </select> */}
                   </div>
                   <div classname="form-group mt-3">
                     <label htmlFor="cdek-region" className="label-input mb-2">
                       Город
                     </label>
-                    <select id="cdek-region" className="form-control">
+                    <Select
+                          placeholder={""}
+                          options={city}
+                          getOptionLabel={(status) => status?.city }
+                          getOptionValue={(status) => status?.city }
+                          onChange={(e) => setCityCode(e?.code)}
+                          theme={(theme) => ({
+                            ...theme,
+                            borderRadius: "4px",
+                            colors: {
+                              ...theme.colors,
+                              primary25: "#e7dbe2",
+                              primary: "black",
+                            },
+                          })}
+                          styles={{
+                            container: (base) => ({
+                              ...base,
+                              height: "48px",
+                            }),
+                            control: (base, { isFocused }) => ({
+                              ...base,
+                              height: "48px",
+                              border: isFocused && "inherit",
+                            }),
+                            valueContainer: (base) => ({
+                              ...base,
+                              height: "48px",
+                            }),
+                            indicatorsContainer:(base)=>({
+                              display:'none'
+                            })
+                          }}
+                        />
+                    {/* <select id="cdek-region" className="form-control">
                       <option disabled="true" selected="true">
                         Выбрать...
                       </option>
@@ -137,13 +225,47 @@ const ModalItem = (props) => {
                           {item?.city}
                         </option>
                       ))}
-                    </select>
+                    </select> */}
                   </div>
                   <div classname="form-group mt-3">
                     <label htmlFor="cdek-region" className="label-input mb-2">
                       Пункт Самовызова
                     </label>
-                    <select id="cdek-region" className="form-control">
+                    <Select
+                          placeholder={""}
+                          options={office}
+                          getOptionLabel={(status) => status?.name }
+                          getOptionValue={(status) => status?.name }
+                          onChange={(e) => setAllData(e)}
+                          theme={(theme) => ({
+                            ...theme,
+                            borderRadius: "4px",
+                            colors: {
+                              ...theme.colors,
+                              primary25: "#e7dbe2",
+                              primary: "black",
+                            },
+                          })}
+                          styles={{
+                            container: (base) => ({
+                              ...base,
+                              height: "48px",
+                            }),
+                            control: (base, { isFocused }) => ({
+                              ...base,
+                              height: "48px",
+                              border: isFocused && "inherit",
+                            }),
+                            valueContainer: (base) => ({
+                              ...base,
+                              height: "48px",
+                            }),
+                            indicatorsContainer:(base)=>({
+                              display:'none'
+                            })
+                          }}
+                        />
+                    {/* <select id="cdek-region" className="form-control">
                       <option disabled="true" selected="true">
                         Выбрать...
                       </option>
@@ -152,7 +274,7 @@ const ModalItem = (props) => {
                           <option onClick={()=>setAllData(item)}>{item?.name}</option>)
                       }
                       
-                    </select>
+                    </select> */}
                   </div>
                 </div>
               </div>
