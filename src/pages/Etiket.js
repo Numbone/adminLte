@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { invoiceAll, invoiceStatus } from "../api/invoice";
+import { Form } from "react-bootstrap";
+import { invoiceAll, invoiceAllId, invoiceDelivery, invoiceStatus } from "../api/invoice";
 import Example from "../modal/Example";
 import Invoice from "../modal/Invoice";
 
@@ -7,6 +8,8 @@ const Etiket = () => {
   const [eticket, setEticket] = useState([]);
   const [show, setShow] = useState(false);
   const [commentId, setCommentId] = useState(0);
+  const [filterId, setFilterId] = useState(0);
+  const [delivery, setDelivery] = useState("");
   const handleClose = () => setShow(false);
   const handleShow = (index) => {
     setCommentId(index);
@@ -46,10 +49,24 @@ const Etiket = () => {
     }
     getInvoiceAll();
   };
+  const getFilter = async () => {
+    if (filterId!=""){
+      const {data} = await invoiceAllId(filterId);
+      setEticket([data]);
+    }
+    if (delivery!=""){
+      const {data} = await invoiceDelivery(delivery);
+      setEticket(data);
+    }
+    if (delivery==="" && filterId===""){
+      getInvoiceAll()
+    }
+   
+  };
   useEffect(() => {
     getInvoiceAll();
   }, [show]);
-  console.log(eticket)
+  console.log(eticket);
   return (
     <div className="content-wrapper">
       {/* Content Header (Page header) */}
@@ -64,33 +81,51 @@ const Etiket = () => {
           </div>
         </div>
       </div>
-      {/* <section className="content">
+      <section className="content">
         <div className="container-fluid">
           <div className="row">
-        
             <div className="col-md-12">
-            
               <div className="card card-primary">
               
-                <form>
                   <div className="card-body">
                     <div className="form-group">
-                      <label htmlFor="exampleInputEmail1">
-                        Способ доставки
-                      </label>
+                      <label htmlFor="exampleInputEmail1">Номер заказа</label>
                       <input
                         type="email"
                         className="form-control"
                         id="exampleInputEmail1"
-                        placeholder="СДЭК"
+                        placeholder="Номер заказа"
+                        onChange={(e) => setFilterId(e.target.value)}
                       />
                     </div>
+                    <div className="form-group">
+                      <label htmlFor="exampleInputEmail1">
+                        Способ доставки{" "}
+                      </label>
+                      <Form.Select
+                        onChange={(e) => setDelivery(e.target.value)}
+                        className="form-control"
+                        aria-label="Default select example"
+                      >
+                        <option value="">Все</option>
+                        <option value="CDEK">CDEK</option>
+                        <option value="Почта России">Почта России</option>
+                        <option value="Самовызов Волгограде">
+                          {" "}
+                          Самовывоз в Волгограде
+                        </option>
+                      </Form.Select>
+                    </div>
                   </div>
-               
+
                   <div className="card-footer">
                     <div className="row">
                       <div class="col-sm-1">
-                        <button type="submit" className="btn btn-primary">
+                        <button
+                          type="submit"
+                          className="btn btn-primary"
+                          onClick={() => getFilter()}
+                        >
                           Поиск
                         </button>
                       </div>
@@ -102,12 +137,12 @@ const Etiket = () => {
                       </div>
                     </div>
                   </div>
-                </form>
+               
               </div>
             </div>
           </div>
         </div>
-      </section> */}
+      </section>
       <div className="col-md-12">
         <div className="card">
           <div className="card-header">
@@ -154,6 +189,7 @@ const Etiket = () => {
                   <th>
                     <input type="checkbox" onChange={(e) => toggle(e)} />
                   </th>
+                  <th>Номер</th>
                   <th>Файл</th>
                   <th>Комментарий</th>
                   <th>Количество этикеток</th>
@@ -177,14 +213,19 @@ const Etiket = () => {
                         }
                       />
                     </td>
+                    <th>{item?.ID}</th>
                     <td>
-                        {
-                            item?.status==="Printed"&&
-                            <i class="icon fas fa-check alert-success" style={{marginRight:'5px'}}></i>
-                        }
-                    
+                      {item?.status === "Printed" && (
+                        <i
+                          class="icon fas fa-check alert-success"
+                          style={{ marginRight: "5px" }}
+                        ></i>
+                      )}
+
                       <a href={item?.label_url} target="_blank">
-                        {item?.label_url.split("https://back-admin.lemousse.beauty/media")}
+                        {item?.label_url.split(
+                          "https://back-admin.lemousse.beauty/media"
+                        )}
                       </a>
                     </td>
                     <td>{item?.comment}</td>

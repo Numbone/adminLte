@@ -13,3 +13,11 @@ export const invoiceStatus=async(invoice_id,status_text)=>{
     const data =instance.post("invoice/status",{invoice_id,status_text})
     return data
 }
+export const invoiceAllId=async(id)=>{
+    const data =await instance.get(`invoice/all/${id}`)
+    return data
+}
+export const invoiceDelivery=async(delivery)=>{
+    const data =await instance.get(`/invoice/delivery?delivery=${delivery}`)
+    return data
+}

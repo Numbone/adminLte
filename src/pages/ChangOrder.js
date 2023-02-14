@@ -1,13 +1,16 @@
+import { format } from "date-fns";
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import { AllProduct } from "../api/product";
 import { changeBasketTransaction } from "../api/transactions";
 const ChangOrder = () => {
   const props = useLocation();
+  const navigate=useNavigate()
   console.log(props);
   const [product, setProduct] = useState([]);
   const [data1, setData] = useState([]);
+  const [copy,setCopy]=useState({})
   /////get product all
   const getProduct = async () => {
     const { data } = await AllProduct();
@@ -21,10 +24,9 @@ const ChangOrder = () => {
     setData(data1.filter((item) => id !== item?.id));
   };
   const saveChangeTrans = async () => {
-    data1.map(
-      (item) => ( delete item?.id, (item.count = 1))
-    );
+    data1.map((item) => (delete item?.id, (item.count = 1)));
     const data = await changeBasketTransaction(props?.state?.id, data1);
+    navigate("/orders")
   };
   useEffect(() => {
     getProduct();
@@ -54,7 +56,10 @@ const ChangOrder = () => {
                 <div className="row">
                   <div className="col-12">
                     <h4>
-                      {props?.state?.date}
+                      {format(
+                        new Date(props?.state?.date),
+                        "MMM dd, yyyy hh:mm"
+                      )}
                       <div>Корзина</div>
                     </h4>
                   </div>
@@ -63,18 +68,30 @@ const ChangOrder = () => {
             </div>
           </div>
           {data1?.map((item) => (
-            <div className="form-group" style={{ position: "relative" }}>
-              <input
+            <div
+              className="form-group"
+              style={{ position: "relative", height: "auto !important" }}
+            >
+              <div
                 type="text"
                 className="form-control"
                 name="article"
-                value={item?.nameRu}
-              />
-              <div
-                className="delete_icons"
-                onClick={() => deleteItem(item?.id)}
+                style={{
+                  height: "auto",
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  color: "rgb(0, 123, 255)",
+                }}
               >
-                X
+                <div className="text-fill">{item?.nameRu}</div>
+                <div
+                  className="delete_icons"
+                  onClick={() => deleteItem(item?.id)}
+                >
+                  Удалить
+                </div>
               </div>
             </div>
           ))}
@@ -88,18 +105,19 @@ const ChangOrder = () => {
                   {product?.map((item) => (
                     <option
                       onClick={() =>
-                        setData((s) => [
-                          ...s,
-                          {
-                            article: item?.article,
-                            count: item?.count,
-                            nameEn: item?.nameEn,
-                            nameRu: item?.nameRu,
-                            price: item?.price,
-                            id: item?.ID,
-                            product_id:item?.ID
-                          },
-                        ])
+                        setCopy(item)
+                        // setData((s) => [
+                        //   ...s,
+                        //   {
+                        //     article: item?.article,
+                        //     count: item?.count,
+                        //     nameEn: item?.nameEn,
+                        //     nameRu: item?.nameRu,
+                        //     price: item?.price,
+                        //     id: item?.ID,
+                        //     product_id: item?.ID,
+                        //   },
+                        // ])
                       }
                     >
                       {item?.nameRu}
@@ -108,7 +126,29 @@ const ChangOrder = () => {
                 </select>
               </div>
             </div>
+            <div className="col-8"></div>
+            <div className="col-4">
+              <button
+                type="button"
+                className="btn btn-block btn-primary"
+               onClick={()=>setData((s) => [
+                ...s,
+                {
+                  article: copy?.article,
+                  count: copy?.count,
+                  nameEn: copy?.nameEn,
+                  nameRu: copy?.nameRu,
+                  price: copy?.price,
+                  id: copy?.ID,
+                  product_id: copy?.ID,
+                },
+              ])} 
+              >
+                Добавить
+              </button>
+            </div>
           </div>
+
           <div className="row">
             <div className="col-4">
               <button

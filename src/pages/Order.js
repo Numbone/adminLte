@@ -1,5 +1,5 @@
 import { format } from "date-fns";
-import React, { useEffect, useState } from "react";
+import React, { forwardRef, useEffect, useState } from "react";
 import { Dropdown, DropdownButton, Form, Modal } from "react-bootstrap";
 import { NavLink, useNavigate } from "react-router-dom";
 import { AllProduct } from "../api/product";
@@ -12,7 +12,9 @@ import ModalItem from "../modal/ModalItem";
 import ModalStatistics from "../modal/ModalStatistics";
 import Select from "react-select";
 import Example from "../modal/Example";
-
+import ReactDatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import Pagination from "react-bootstrap/Pagination";
 const Order = () => {
   ///// modalShowExample
   const [show, setShow] = useState(false);
@@ -22,6 +24,9 @@ const Order = () => {
     setCommentId(index);
     setShow(true);
   };
+  ////limit
+  const [limit, setLimit] = useState(0);
+  //////////
   const [id, setId] = useState([]);
   /// state
   const [delivery, setDelivery] = useState("");
@@ -34,6 +39,7 @@ const Order = () => {
   const [status, setStatus] = useState("");
   const [notShipment, setNotShipment] = useState(false);
   const [transactionID, setTransactionID] = useState(0);
+  const [transStatus, setTransStatus] = useState("");
   /// get data //
   const [data, setData] = useState([]);
 
@@ -41,11 +47,25 @@ const Order = () => {
     const starDate =
       startTime == ""
         ? ""
-        : format(new Date(startTime), "MMM d, yyyy") + " " + "at 00:00pm (MST)";
+        : format(new Date(startTime), "MMM d, yyyy") +
+          " " +
+          "at" +
+          " " +
+          format(new Date(startTime), "hh:mm") +
+          "pm" +
+          " " +
+          "(MST)";
     const EndDate =
       endTime == ""
         ? ""
-        : format(new Date(endTime), "MMM d, yyyy") + " " + "at 23:59pm (MST)";
+        : format(new Date(endTime), "MMM d, yyyy") +
+          " " +
+          "at" +
+          " " +
+          format(new Date(endTime), "hh:mm") +
+          "pm" +
+          " " +
+          "(MST)";
     let basket = [];
     for (let i = 0; i < inBasket.length; i++) {
       const element = inBasket[i];
@@ -54,9 +74,9 @@ const Order = () => {
     let notBasket = [];
     for (let i = 0; i < notInBasket.length; i++) {
       const element = notInBasket[i];
-      notBasket.push(notInBasket[i]?.article);
+      notBasket.push(notInBasket[i]?.nameRu);
     }
-    console.log(basket);
+
     const { data } = await TransactionAll(
       delivery,
       EndDate,
@@ -75,6 +95,7 @@ const Order = () => {
     data?.transactions.sort(function (a, b) {
       return -(a.id - b.id || a.name.localeCompare(b.name));
     });
+    setLimit(Math.ceil(data?.transactions.length));
     setData(data);
   };
   const [product, setProduct] = useState([]);
@@ -112,6 +133,7 @@ const Order = () => {
     setId([]);
     const data = await transactionChangeShipment(id);
     console.log(data);
+    setActivePagi(0);
     getTransactionAll();
   };
   const navigate = useNavigate();
@@ -132,11 +154,43 @@ const Order = () => {
       }
     }
   };
+  /////custom input
+  const ExampleCustomInput = forwardRef(({ value, onClick }, ref) => (
+    <button
+      className="form-control justify-content-start "
+      onClick={onClick}
+      ref={ref}
+    >
+      {value}
+    </button>
+  ));
+
+  ///pagination
+  const [portion, setPortion] = useState(10);
+  const [activePagi, setActivePagi] = useState(1);
+
+  let active = activePagi;
+  let pagi = [];
+  for (let number = 1; number <= limit; number++) {
+    pagi.push(
+      <Pagination.Item
+        key={number}
+        active={number === active}
+        value={number}
+        onClick={() => {
+          setActivePagi(number);
+        }}
+      >
+        {number}
+      </Pagination.Item>
+    );
+  }
+
   useEffect(() => {
     getProduct();
     getTransactionAll();
-  }, [modalShow, show]);
-  console.log(data, "data");
+  }, [modalShow, show, limit]);
+  console.log(data?.transaction, "////////////////////notInBasket");
   return (
     <div className="content-wrapper">
       {/* Content Header (Page header) */}
@@ -163,7 +217,7 @@ const Order = () => {
                 {" "}
                 <div className="form-group">
                   <label>Заказы от даты:</label>
-                  <div
+                  {/* <div
                     className="input-group date"
                     id="reservationdate"
                     data-target-input="nearest"
@@ -179,7 +233,18 @@ const Order = () => {
                       data-target="#reservationdate"
                       data-toggle="datetimepicker"
                     ></div>
-                  </div>
+                  </div> */}
+                  <ReactDatePicker
+                    selected={startTime}
+                    onChange={(date) => setStartTime(date)}
+                    locale="pt-BR"
+                    showTimeSelect
+                    timeFormat="HH:mm"
+                    timeIntervals={15}
+                    dateFormat="Pp"
+                    customInput={<ExampleCustomInput />}
+                    isClearable
+                  />
                 </div>
               </div>
 
@@ -187,7 +252,7 @@ const Order = () => {
               <div className="col-md-6">
                 <div className="form-group">
                   <label>Заказы до даты:</label>
-                  <div
+                  {/* <div
                     className="input-group date"
                     id="reservationdatetime"
                     data-target-input="nearest"
@@ -203,7 +268,18 @@ const Order = () => {
                       data-target="#reservationdatetime"
                       data-toggle="datetimepicker"
                     ></div>
-                  </div>
+                  </div> */}
+                  <ReactDatePicker
+                    selected={endTime}
+                    onChange={(date) => setEndTime(date)}
+                    locale="pt-BR"
+                    showTimeSelect
+                    timeFormat="HH:mm"
+                    timeIntervals={15}
+                    dateFormat="Pp"
+                    customInput={<ExampleCustomInput />}
+                    isClearable
+                  />
                 </div>
               </div>
             </div>
@@ -287,19 +363,17 @@ const Order = () => {
                     getOptionValue={(item) => item?.article}
                     isMulti={true}
                     placeholder="Выберите"
-                    styles={
-                      {
-                        multiValue:(base)=>({
-                          ...base,
-                          backgroundColor:'#0069d9',
-                          color:'white'
-                        }),
-                        multiValueLabel:(base)=>({
-                          ...base,
-                          color:'white',
-                        })
-                      }
-                    }
+                    styles={{
+                      multiValue: (base) => ({
+                        ...base,
+                        backgroundColor: "#0069d9",
+                        color: "white",
+                      }),
+                      multiValueLabel: (base) => ({
+                        ...base,
+                        color: "white",
+                      }),
+                    }}
                   />
                   {/* <Form.Select
                     onChange={(e) => setInBasket(e.target.value)}
@@ -327,19 +401,17 @@ const Order = () => {
                     getOptionLabel={(item) => item?.nameRu}
                     getOptionValue={(item) => item?.article}
                     isMulti={true}
-                    styles={
-                      {
-                        multiValue:(base)=>({
-                          ...base,
-                          backgroundColor:'#0069d9',
-                          color:'white'
-                        }),
-                        multiValueLabel:(base)=>({
-                          ...base,
-                          color:'white',
-                        })
-                      }
-                    }
+                    styles={{
+                      multiValue: (base) => ({
+                        ...base,
+                        backgroundColor: "#0069d9",
+                        color: "white",
+                      }),
+                      multiValueLabel: (base) => ({
+                        ...base,
+                        color: "white",
+                      }),
+                    }}
                   />
                   {/* <Form.Select
                     onChange={(e) => setNotInBasket(e.target.value)}
@@ -420,48 +492,48 @@ const Order = () => {
         <div className="card">
           <div className="card-header">
             <h3 className="card-title">
-              <DropdownButton id="dropdown-basic-button" title="Действие ">
-                <Dropdown.Item onClick={() => changeTransStatus("В обработке")}>
+              <DropdownButton
+                id="dropdown-basic-button"
+                title={transStatus === "" ? "Действие" : transStatus}
+              >
+                <Dropdown.Item onClick={() => setTransStatus("В обработке")}>
                   В обработке
                 </Dropdown.Item>
-                <Dropdown.Item onClick={() => changeTransStatus("Обработан")}>
+                <Dropdown.Item onClick={() => setTransStatus("Обработан")}>
                   Обработан
                 </Dropdown.Item>
                 <Dropdown.Item
-                  onClick={() =>
-                    changeTransStatus("Отправлен в сборку на склад")
-                  }
+                  onClick={() => setTransStatus("Отправлен в сборку на склад")}
                 >
                   Отправлен в сборку на склад
                 </Dropdown.Item>
                 <Dropdown.Item
-                  onClick={() => changeTransStatus("Собран на складе")}
+                  onClick={() => setTransStatus("Собран на складе")}
                 >
                   Собран на складе
                 </Dropdown.Item>
-                <Dropdown.Item
-                  onClick={() => changeTransStatus("Готов к выдаче")}
-                >
+                <Dropdown.Item onClick={() => setTransStatus("Готов к выдаче")}>
                   Готов к выдаче
                 </Dropdown.Item>
-                <Dropdown.Item onClick={() => changeTransStatus("Выдан")}>
+                <Dropdown.Item onClick={() => setTransStatus("Выдан")}>
                   Выдан
                 </Dropdown.Item>
-                <Dropdown.Item onClick={() => changeTransStatus("Возврат")}>
+                <Dropdown.Item onClick={() => setTransStatus("Возврат")}>
                   Возврат
                 </Dropdown.Item>
                 <Dropdown.Item
-                  onClick={() => changeTransStatus("Ошибка в заказе")}
+                  onClick={() => setTransStatus("Ошибка в заказе")}
                 >
                   Ошибка в заказе
                 </Dropdown.Item>
-                <Dropdown.Item
-                  onClick={() => changeTransStatus("Ожидает оплаты")}
-                >
+                <Dropdown.Item onClick={() => setTransStatus("Ожидает оплаты")}>
                   Ожидает оплаты
                 </Dropdown.Item>
                 <Dropdown.Divider />
-                <Dropdown.Item onClick={() => changeTransShipment()}>
+                <Dropdown.Item
+                  onClick={() => setTransStatus("Отправить СДЕК")}
+                  // onClick={() => changeTransShipment()}
+                >
                   Отправить СДЕК
                 </Dropdown.Item>
               </DropdownButton>
@@ -490,6 +562,31 @@ const Order = () => {
               )}
             </div>
           </div>
+          {
+            transStatus!=""&&
+            <div className="card-header">
+            <h3 className="card-title">
+              {transStatus != "Отправить СДЕК"? (
+                <button
+                  type="button"
+                  className="btn btn-block btn-primary"
+                  onClick={() => changeTransStatus(transStatus)}
+                >
+                  Применить
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  className="btn btn-block btn-primary"
+                  onClick={() => changeTransShipment()}
+                >
+                  Применить
+                </button>
+              )}
+            </h3>
+          </div>
+          }
+          
           <div className="card-body table-responsive p-0">
             <table className="table table-hover text-nowrap table-striped">
               <thead>
@@ -509,104 +606,118 @@ const Order = () => {
                 </tr>
               </thead>
               <tbody>
-                {data?.transactions?.map((item, index) => (
-                  <tr key={index}>
-                    <td>
-                      <input
-                        type="checkbox"
-                        name="foo"
-                        value={item?.id}
-                        // checked={checked}
-                        onChange={(e) =>
-                          e.target.checked
-                            ? setId((s) => [...s, item?.id])
-                            : setId(id.filter((el) => el !== item.id))
-                        }
-                      />
-                    </td>
-                    <td>
-                      <div className="real__id">{item?.id}</div>
-                      {
-                        item?.trasaction_copy_id!=0&& <div className="copy__id">{item?.trasaction_copy_id}</div>
-                      }
-                     
-                    </td>
-                    <td>
-                      {item?.user[0]?.first_name} {item?.user[0]?.father_name}
-                    </td>
-                    <td>{item?.user[0]?.email}</td>
-                    <td>{item?.user[0]?.phone_number}</td>
-                    <td>
-                      {item?.products?.map((data) => (
-                        <div>
-                          {data?.nameRu} {data?.count} шт
-                        </div>
-                      ))}
-                    </td>
-                    <td>{item?.total_cost}</td>
-                    <td>{item?.delivery?.delivery_commpany}</td>
-                    <td>
-                      <button
-                        type="button"
-                        className={"btn btn-block   btn-sm" +" "+ item?.status[0]?.status_text}
-                      >
-                        {item?.status[0]?.status_text}{" "}
-                      </button>
-                    </td>
-                    <td>
-                      <div style={{ display: "flex", alignItems: "center" }}>
-                        <NavLink
-                          to="/changetransaction"
-                          state={data.transactions[index]}
-                        >
-                          <i
-                            // onClick={() => setIndexModal(index)}
-                            className="fas fa-eye btn btn-block btn-default"
-                            style={{ marginRight: "5px" }}
-                          ></i>
-                        </NavLink>
-
-                        <div class="dropdown ">
-                          <div>
-                            <button
-                              className="btn btn-default btn-block  dropdown-toggle"
-                              type="button"
-                              id="dropdownMenuButton"
-                              data-toggle="dropdown"
-                              aria-haspopup="true"
-                              aria-expanded="false"
-                            />
-                            <div
-                              className="dropdown-menu"
-                              aria-labelledby="dropdownMenuButton"
-                              x-placement="bottom-start"
-                              style={{
-                                position: "absolute",
-                                transform: "translate3d(0px, 38px, 0px)",
-                                top: 0,
-                                left: 0,
-                                willChange: "transform",
-                              }}
+                {data?.transactions?.map(
+                  (item, index) =>
+                    (activePagi - 1) * portion <= index &&
+                    index < activePagi * portion && (
+                      <tr key={index}>
+                        <td>
+                          <input
+                            type="checkbox"
+                            name="foo"
+                            value={item?.id}
+                            // checked={checked}
+                            onChange={(e) =>
+                              e.target.checked
+                                ? setId((s) => [...s, item?.id])
+                                : setId(id.filter((el) => el !== item.id))
+                            }
+                          />
+                        </td>
+                        <td>
+                          <div className="real__id">{item?.id}</div>
+                          {item?.trasaction_copy_id != 0 && (
+                            <div className="copy__id">
+                              {item?.trasaction_copy_id}
+                            </div>
+                          )}
+                        </td>
+                        <td>
+                          {item?.user[0]?.first_name}{" "}
+                          {item?.user[0]?.father_name}
+                        </td>
+                        <td>{item?.user[0]?.email}</td>
+                        <td>{item?.user[0]?.phone_number}</td>
+                        <td>
+                          {item?.products?.map((data) => (
+                            <div>
+                              {data?.nameRu} {data?.count} шт
+                            </div>
+                          ))}
+                        </td>
+                        <td>{item?.total_cost}</td>
+                        <td>{item?.delivery?.delivery_commpany}</td>
+                        <td>
+                          <button
+                            type="button"
+                            className={
+                              "btn btn-block   btn-sm" +
+                              " " +
+                              item?.status[0]?.status_text
+                            }
+                          >
+                            {item?.status[0]?.status_text}{" "}
+                          </button>
+                        </td>
+                        <td>
+                          <div
+                            style={{ display: "flex", alignItems: "center" }}
+                          >
+                            <NavLink
+                              to="/changetransaction"
+                              state={data.transactions[index]}
                             >
-                              <div
-                                className="dropdown-item"
-                                onClick={() => handleShow(item?.id)}
-                              >
-                                {item?.comment === "" ? (
-                                  <>Написать комментарий</>
-                                ) : (
-                                  <>{item?.comment}</>
-                                )}
+                              <i
+                                // onClick={() => setIndexModal(index)}
+                                className="fas fa-eye btn btn-block btn-default"
+                                style={{ marginRight: "5px" }}
+                              ></i>
+                            </NavLink>
+
+                            <div class="dropdown ">
+                              <div>
+                                <button
+                                  className="btn btn-default btn-block  dropdown-toggle"
+                                  type="button"
+                                  id="dropdownMenuButton"
+                                  data-toggle="dropdown"
+                                  aria-haspopup="true"
+                                  aria-expanded="false"
+                                  onClick={() =>
+                                    item?.comment === ""
+                                      ? handleShow(item?.id)
+                                      : null
+                                  }
+                                />
+                                <div
+                                  className="dropdown-menu"
+                                  aria-labelledby="dropdownMenuButton"
+                                  x-placement="bottom-start"
+                                  style={{
+                                    position: "absolute",
+                                    transform: "translate3d(0px, 38px, 0px)",
+                                    top: 0,
+                                    left: 0,
+                                    willChange: "transform",
+                                  }}
+                                >
+                                  <div
+                                    className="dropdown-item"
+                                    onClick={() => handleShow(item?.id)}
+                                  >
+                                    <>{item?.comment}</>
+                                  </div>
+                                </div>
                               </div>
                             </div>
                           </div>
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
+                        </td>
+                      </tr>
+                    )
+                )}
               </tbody>
             </table>
+
             <Example
               commentId={commentId}
               show={show}
@@ -622,6 +733,50 @@ const Order = () => {
               onHide={() => setModalShowStat(false)}
               state={data?.length === 0 ? null : data}
             />
+          </div>
+        </div>
+        <div className="pagination__bottom">
+          <div>
+            <Pagination className="pagi">
+              {Array.from({ length: limit / portion + 1 }, (_, i) => i).map(
+                (_, i) => (
+                  <Pagination.Item
+                    onClick={() => setActivePagi(i + 1)}
+                    active={i + 1 === activePagi}
+                  >
+                    {i + 1}
+                  </Pagination.Item>
+                )
+              )}
+            </Pagination>
+          </div>
+          <div>
+            <Pagination className="pagi">
+              <Pagination.Item
+                onClick={() => setPortion(10)}
+                active={portion === 10}
+              >
+                10
+              </Pagination.Item>
+              <Pagination.Item
+                onClick={() => {
+                  setPortion(25);
+                  setActivePagi(1);
+                }}
+                active={portion === 25}
+              >
+                25
+              </Pagination.Item>
+              <Pagination.Item
+                onClick={() => {
+                  setPortion(50);
+                  setActivePagi(1);
+                }}
+                active={portion === 50}
+              >
+                50
+              </Pagination.Item>
+            </Pagination>
           </div>
         </div>
       </div>

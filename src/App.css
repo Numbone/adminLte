@@ -112,13 +112,13 @@ td a{
     color: black !important;
     text-decoration: none;
 }
-.delete_icons{
+/* .delete_icons{
     position: absolute;
     width: 20px;
     height: 20px;
     top:7px;
-    right: 1px;
-}
+    right: 40px;
+} */
 .real__id{
   padding: 5px;
 }
@@ -141,4 +141,19 @@ td a{
 .Ожидает , .Отправлен{
     background-color: gold;
     color: white;
+}
+.pagi{
+    display: flex!important;
+}
+.pagination__bottom{
+    display: flex;
+    justify-content: space-between;
+}
+.visually-hidden{
+    display: none;
+}
+.text-fill{
+    max-width: 70%;
+    text-overflow: ellipsis;
+    height: auto;
 }

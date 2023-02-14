@@ -6,28 +6,24 @@ export default function useColumns() {
     () => [
       {
         Header: "#",
-        accessor: "id"
-      },
-      {
-        Header: "Наименование анг",
-        accessor: "nameEn"
+        accessor: "id",
       },
       {
         Header: "Наименование рус",
-        accessor: "nameRu"
-      },
-      {
-        Header: "Продано шт",
-        accessor: "count"
-      },
-      {
-        Header: "Продано на сумму",
-        accessor: "price"
+        accessor: "nameRu",
       },
       {
         Header: "Артикул",
-        accessor: "product_id"
-      }
+        accessor: "product_id",
+      },
+      {
+        Header: "Продано шт",
+        accessor: "count",
+      },
+      {
+        Header: "Продано на сумму",
+        accessor: "price",
+      },
     ],
     []
   );

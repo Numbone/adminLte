@@ -1,48 +1,31 @@
 import { format } from "date-fns";
-import React, { forwardRef, useState } from "react";
-import ReactDatePicker from "react-datepicker";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { promocodeUpdate } from "../api/promocode";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { promocodeCreate } from "../api/promocode";
 
-const PromocodeId = () => {
-  const locate = useLocation();
-  console.log(locate);
-  const { id } = useParams();
-  const navigate = useNavigate();
+const PromocodeChange = () => {
+    const navigate=useNavigate()
   const [code, setCode] = useState("");
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(1);
   const [discount, setDiscount] = useState(0);
   const [type, setType] = useState("");
-  const [startTime, setStartTime] = useState("");
   const updatePromo = async () => {
-    const data = await promocodeUpdate(
+    const data = await promocodeCreate(
       code,
       Number(count),
-      Number(id),
       Number(discount),
       type,
-      format(new Date(startTime), "MMM d, yyyy") +
-          " " +
-          "at" +
-          " " +
-          format(new Date(startTime), "hh:mm") +
-          "pm" +
-          " " +
-          "(MST)"
+      format(Date.now(), "MMM d, yyyy") +
+      " " +
+      "at" +
+      " " +
+      format(Date.now(), "hh:mm") +
+      "pm" +
+      " " +
+      "(MST)"
     );
-    navigate("/promocode");
-    console.log(data);
+    navigate("/promocode")
   };
-   /////custom input
-   const ExampleCustomInput = forwardRef(({ value, onClick }, ref) => (
-    <button
-      className="form-control justify-content-start "
-      onClick={onClick}
-      ref={ref}
-    >
-      {value}
-    </button>
-  ));
   return (
     <div className="content-wrapper">
       {/* Content Header (Page header) */}
@@ -50,31 +33,21 @@ const PromocodeId = () => {
         <div className="container-fluid">
           <div className="row mb-2">
             <div className="col-sm-6">
-              <h1 class="m-0">Промокоды </h1>
+              <h1 class="m-0">Добавить купоны на скидку</h1>
             </div>
-            {/* /.col */}
+
             <div className="col-sm-6"></div>
-            {/* /.col */}
           </div>
-          {/* /.row */}
         </div>
-        {/* /.container-fluid */}
       </div>
+
       <section className="content">
         <div className="container-fluid">
           <div className="row">
             <div className="col-md-12">
               <div className="card card-primary">
                 <div className="card-body">
-                  <div className="form-group">
-                    <label htmlFor="exampleInputEmail1">Купон</label>
-                    <input
-                      type="email"
-                      className="form-control"
-                      onChange={(e) => setCode(e.target.value)}
-                      placeholder={locate?.state?.code}
-                    />
-                  </div>
+                 
                   <div className="form-group ">
                     <input
                       onChange={(e) => setType(e.target.value)}
@@ -114,10 +87,9 @@ const PromocodeId = () => {
                       onChange={(e) => setDiscount(e.target.value)}
                       type="number"
                       className="form-control"
-                      placeholder={locate?.state?.discount}
                     />
                   </div>
-                  <div className="form-group">
+                  {/* <div className="form-group">
                     <label htmlFor="exampleInputEmail1">
                       Количество использования
                     </label>
@@ -125,23 +97,20 @@ const PromocodeId = () => {
                       onChange={(e) => setCount(e.target.value)}
                       type="number"
                       className="form-control"
-                      placeholder={locate?.state?.count}
                     />
-                  </div>
+                  </div> */}
                   <div className="form-group">
                     <label htmlFor="exampleInputEmail1">
-                      Дата истечение срока
+                        Введите промокоды по одному в строке
+                        <span style={{color:'yellow'}}>
+                            Не больше 200 промокодов за раз 
+                        </span>
                     </label>
-                    <ReactDatePicker
-                      selected={startTime}
-                      onChange={(date) => setStartTime(date)}
-                      locale="pt-BR"
-                      showTimeSelect
-                      timeFormat="HH:mm"
-                      timeIntervals={15}
-                      dateFormat="Pp"
-                      customInput={<ExampleCustomInput />}
-                      isClearable
+                    <textarea 
+                        rows={4}
+                      type="email"
+                      className="form-control"
+                      onChange={(e) => setCode(e.target.value)}
                     />
                   </div>
                 </div>
@@ -151,7 +120,7 @@ const PromocodeId = () => {
                     className="btn btn-primary"
                     onClick={() => updatePromo()}
                   >
-                    Обновить
+                    Добавить
                   </button>
                 </div>
               </div>
@@ -163,4 +132,4 @@ const PromocodeId = () => {
   );
 };
 
-export default PromocodeId;
+export default PromocodeChange;

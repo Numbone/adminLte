@@ -62,28 +62,28 @@ const Statistics = (props) => {
                             <div className="card">
                                 <div className="card-header">
                                     <div className='row' style={{ fontWeight: '500' }}>
-                                        <div className='col-sm-12'>
+                                        <div className='col-sm-12 mb-2'>
                                             <h3 class="card-title"><strong>Сумма Продукта</strong> {locate?.state[1]?.ProductCost} </h3>
                                         </div>
-                                        <div className='col-sm-12'>
+                                        <div className='col-sm-12 mb-2'>
                                             <h3 class="card-title"> <strong>Сумма Доставки (OZON)</strong> </h3>
                                         </div>
-                                        <div className='col-sm-12'>
+                                        <div className='col-sm-12 mb-2'>
                                             <h3 class="card-title"> <strong>Сумма Доставки (СДЭК)</strong> </h3>
                                         </div>
-                                        <div className='col-sm-12'>
+                                        <div className='col-sm-12 mb-2'>
                                             <h3 class="card-title"> <strong>Сумма Доставки (СДЭК курьер)</strong> </h3>
                                         </div>
-                                        <div className='col-sm-12'>
+                                        <div className='col-sm-12 mb-2'>
                                             <h3 class="card-title"> <strong>Сумма Доставки (Boxberry)</strong></h3>
                                         </div>
-                                        <div className='col-sm-12'>
+                                        <div className='col-sm-12 mb-2'>
                                             <h3 class="card-title"> <strong>Сумма Доставки (Почта)</strong> </h3>
                                         </div>
-                                        <div className='col-sm-12'>
+                                        <div className='col-sm-12 mb-2'>
                                             <h3 class="card-title"> <strong>Сумма Доставки </strong>{locate?.state[1]?.DeliveryCost} </h3>
                                         </div>
-                                        <div className='col-sm-12'>
+                                        <div className='col-sm-12 mb-2'>
                                             <h3 class="card-title"> <strong>Сумма Скидки </strong> {locate?.state[1]?.DiscountCost}  </h3>
                                         </div>
                                     </div>
