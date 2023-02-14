@@ -74,7 +74,7 @@ const Order = () => {
     let notBasket = [];
     for (let i = 0; i < notInBasket.length; i++) {
       const element = notInBasket[i];
-      notBasket.push(notInBasket[i]?.nameRu);
+      notBasket.push(notInBasket[i]?.article);
     }
 
     const { data } = await TransactionAll(
