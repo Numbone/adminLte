@@ -682,7 +682,9 @@ const Order = () => {
                             }
                           >
                             {item?.status[0]?.status_text}{" "}
+                            
                           </button>
+                          <>{item?.comment}</>
                         </td>
                         <td>
                           <div
@@ -730,7 +732,7 @@ const Order = () => {
                                     className="dropdown-item"
                                     onClick={() => handleShow(item?.id)}
                                   >
-                                    <>{item?.comment}</>
+                                    <>Комментарий</>
                                   </div>
                                 </div>
                               </div>
