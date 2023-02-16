@@ -95,6 +95,22 @@ const Order = () => {
     data?.transactions.sort(function (a, b) {
       return -(a.id - b.id || a.name.localeCompare(b.name));
     });
+    for (let w = 0; w < data?.transactions?.length; w++) {
+      const element = data?.transactions[w]?.status   ;
+      console.log(element);
+      for (let m = 0; m < element?.length; m++) {
+        let res = element[m];
+        console.log(res)
+        const date = new Date(res?.status_time);
+        date.setHours(date.getHours() - 6);
+        const formattedDate = format(date, "yyyy-MM-dd'T'HH:mm:ss.SSS");
+        res.status_time=formattedDate
+        console.log(formattedDate)
+      }
+     
+      
+
+    }
     setLimit(Math.ceil(data?.transactions.length));
     setData(data);
   };

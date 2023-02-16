@@ -4,7 +4,9 @@ import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { TransactionCopy } from "../api/transactions";
 import Timeline from "../components/Timeline";
 import ModalItem from "../modal/ModalItem";
-
+import { registerLocale } from "react-datepicker";
+import { enUS } from "date-fns/locale";
+import { ru } from "date-fns/locale";
 const ChangeTransaction = () => {
   const props = useLocation();
   let dasa
@@ -19,7 +21,16 @@ const ChangeTransaction = () => {
     navigate("/orders");
   };
   const [modalShow, setModalShow] = useState(false);
-  console.log(props)
+  const date = new Date(Date.UTC(
+    parseInt(props?.state?.date.substr(0, 4)), // Year
+    parseInt(props?.state?.date.substr(5, 2)) - 1, // Month (subtract 1 to adjust for zero-based index)
+    parseInt(props?.state?.date.substr(8, 2)), // Day
+    parseInt(props?.state?.date.substr(11, 2))-6, // Hours
+    parseInt(props?.state?.date.substr(14, 2)), // Minutes
+    parseInt(props?.state?.date.substr(17, 2)), // Seconds
+    parseInt(props?.state?.date.substr(20, 3)) // Milliseconds
+  ));
+  console.log(date)
   return (
     <div className="content-wrapper">
       <div className="content-header">
@@ -103,8 +114,8 @@ const ChangeTransaction = () => {
                             {props.state == null
                               ? null
                               : format(
-                                  new Date(props?.state?.date),
-                                  "d/M/yyyy H:mm:s"
+                                  new Date(date),
+                                  "d/M/yyyy H:mm:s ",
                                 )}
                             <div
                               className={
@@ -146,9 +157,9 @@ const ChangeTransaction = () => {
                             <strong>Дата создания</strong>{" "}
                             {props.state == null
                               ? null
-                              : format(
-                                  new Date(props?.state?.date),
-                                  "d/M/yyyy H:mm:s"
+                              :  format(
+                                  new Date(date),
+                                  "d/M/yyyy H:mm:s ",
                                 )}
                           </div>
                           <div>

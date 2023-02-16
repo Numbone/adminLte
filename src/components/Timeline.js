@@ -17,8 +17,7 @@ const Timeline = ({ dates }) => {
 
     return acc;
   }, []);
-
-  console.log(parsedDates);
+ 
 
   return (
     <div>
@@ -57,7 +56,7 @@ const Timeline = ({ dates }) => {
                         <i className="fas fa-cart-plus bg-green" />
                         <div className="timeline-item">
                           <span className="time">
-                            <i className="fas fa-clock" />{format(new Date(data?.status_time),"HH mm")}
+                            <i className="fas fa-clock" />{format(new Date(data?.status_time),"HH mm ")}
                           </span>
                           <h3 className="timeline-header no-border">
                             <div>
