@@ -193,8 +193,8 @@ const AddProduct = () => {
                         className="custom_checbox"
                         type="checkbox"
                         id="1"
-                        name="rub"
-                        value="ru"
+                        
+                        
                       ></input>
                       <label>рускком</label>
                     </div>
@@ -267,9 +267,8 @@ const AddProduct = () => {
                         onChange={(e) => setChangeEn(e.target.checked)}
                         className="custom_checbox"
                         type="checkbox"
-                        id="1"
-                        name="rub"
-                        value="ru"
+                        
+                       
                       ></input>
                       <label>на английском</label>
                     </div>
