@@ -42,7 +42,7 @@ const Order = () => {
   const [transStatus, setTransStatus] = useState("");
   /// get data //
   const [data, setData] = useState([]);
-
+  const [checkerCopy,setCheckerCopy]=useState([])
   const getTransactionAll = async () => {
     const starDate =
       startTime == ""
@@ -96,23 +96,28 @@ const Order = () => {
       return -(a.id - b.id || a.name.localeCompare(b.name));
     });
     for (let w = 0; w < data?.transactions?.length; w++) {
-      const element = data?.transactions[w]?.status   ;
+      const element = data?.transactions[w]?.status;
       console.log(element);
       for (let m = 0; m < element?.length; m++) {
         let res = element[m];
-        console.log(res)
+        console.log(res);
         const date = new Date(res?.status_time);
         date.setHours(date.getHours() - 6);
         const formattedDate = format(date, "yyyy-MM-dd'T'HH:mm:ss.SSS");
-        res.status_time=formattedDate
-        console.log(formattedDate)
+        res.status_time = formattedDate;
+        console.log(formattedDate);
       }
-     
-      
-
     }
     setLimit(Math.ceil(data?.transactions.length));
     setData(data);
+    let res=[]
+    const result=data?.transactions.filter(item=>item?.trasaction_copy_id!==0)
+    for (let s = 0; s < result.length; s++) {
+      const element = result[s];
+      res.push(element.trasaction_copy_id)
+    }
+    const uniqueArr = [...new Set(res)];
+    setCheckerCopy(uniqueArr)
   };
   const [product, setProduct] = useState([]);
   /////get product all
@@ -147,7 +152,7 @@ const Order = () => {
   };
   const changeTransShipment = async () => {
     setId([]);
-    
+
     for (let i = 0; i < id.length; i++) {
       const element = id[i];
       const data = await transactionChangeShipment(element);
@@ -215,7 +220,7 @@ const Order = () => {
     getProduct();
     getTransactionAll();
   }, [modalShow, show, limit]);
-  console.log(data?.transaction, "////////////////////notInBasket");
+
   return (
     <div className="content-wrapper">
       {/* Content Header (Page header) */}
@@ -587,31 +592,30 @@ const Order = () => {
               )}
             </div>
           </div>
-          {
-            transStatus!=""&&
+          {transStatus != "" && (
             <div className="card-header">
-            <h3 className="card-title">
-              {transStatus != "Отправить СДЕК"? (
-                <button
-                  type="button"
-                  className="btn btn-block btn-primary"
-                  onClick={() => changeTransStatus(transStatus)}
-                >
-                  Применить
-                </button>
-              ) : (
-                <button
-                  type="button"
-                  className="btn btn-block btn-primary"
-                  onClick={() => changeTransShipment()}
-                >
-                  Применить
-                </button>
-              )}
-            </h3>
-          </div>
-          }
-          
+              <h3 className="card-title">
+                {transStatus != "Отправить СДЕК" ? (
+                  <button
+                    type="button"
+                    className="btn btn-block btn-primary"
+                    onClick={() => changeTransStatus(transStatus)}
+                  >
+                    Применить
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    className="btn btn-block btn-primary"
+                    onClick={() => changeTransShipment()}
+                  >
+                    Применить
+                  </button>
+                )}
+              </h3>
+            </div>
+          )}
+
           <div className="card-body table-responsive p-0">
             <table className="table table-hover text-nowrap table-striped">
               <thead>
@@ -641,7 +645,6 @@ const Order = () => {
                             type="checkbox"
                             name="foo"
                             value={item?.id}
-                            // checked={checked}
                             onChange={(e) =>
                               e.target.checked
                                 ? setId((s) => [...s, item?.id])
@@ -650,8 +653,13 @@ const Order = () => {
                           />
                         </td>
                         <td>
-                          <div className="real__id">{item?.id}</div>
-                          {item?.trasaction_copy_id != 0 && (
+                          <div
+                            className="real__id"
+                            style={checkerCopy.includes(item?.id)?{background:"blue"}:undefined}
+                          >
+                            {item?.id}
+                          </div>
+                          {item?.trasaction_copy_id !== 0 && (
                             <div className="copy__id">
                               {item?.trasaction_copy_id}
                             </div>
@@ -666,7 +674,7 @@ const Order = () => {
                         <td>
                           {item?.products?.map((data) => (
                             <div>
-                              {data?.nameRu} {data?.count} шт
+                              {data?.article} {data?.count} шт
                             </div>
                           ))}
                         </td>
@@ -682,7 +690,6 @@ const Order = () => {
                             }
                           >
                             {item?.status[0]?.status_text}{" "}
-                            
                           </button>
                           <>{item?.comment}</>
                         </td>

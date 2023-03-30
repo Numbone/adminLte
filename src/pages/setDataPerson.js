@@ -5,7 +5,7 @@ import { saveTransactionUpdate } from "../api/transactions";
 import ModalItem from "../modal/ModalItem";
 
 const SetDataPerson = () => {
-  const navigate=useNavigate()
+  const navigate = useNavigate();
   const props = useLocation();
   const [modalShow, setModalShow] = useState(false);
   const [email, setEmail] = useState("");
@@ -26,45 +26,76 @@ const SetDataPerson = () => {
   };
   const saveTransaction = async () => {
     try {
-      const { data } = await saveTransactionUpdate({
-        "delivery_address":
-          cdek != undefined
-            ? cdek?.location?.address_full
-            : props?.state?.delivery?.delivery_address,
-        "delivery_commpany":
-          cdek != undefined
-            ? cdek?.owner_code
-            : props?.state?.delivery?.delivery_commpany,
-        "delivery_cost":
-          cdek != undefined ? cdekSum : props?.state?.delivery?.delivery_cost,
-        "delivery_point":
-          cdek != undefined ? cdek?.code : props?.state?.delivery?.delivery_point,
-        "transaction_id":props?.state?.delivery?.transaction_id,
-      },
-      cdek!=undefined ? props?.state?.total_cost+cdekSum:props?.state?.final_payment,
-      props?.state?.id,
-      [{
-        "email": email,
-        "father_name":father_name ,
-        "first_name": first_name,
-        "id": props?.state?.user[0]?.id,
-        "phone_number": phone_number,
-        "second_name": second_name
-      
-        
-      }]);
+      const { data } = await saveTransactionUpdate(
+        {
+          delivery_address:
+            cdek != undefined
+              ? cdek?.location?.address_full
+              : props?.state?.delivery?.delivery_address,
+          delivery_commpany:
+            cdek != undefined
+              ? cdek?.owner_code
+              : props?.state?.delivery?.delivery_commpany,
+          delivery_cost:
+            cdek != undefined ? cdekSum : props?.state?.delivery?.delivery_cost,
+          delivery_point:
+            cdek != undefined
+              ? cdek?.code
+              : props?.state?.delivery?.delivery_point,
+          transaction_id: props?.state?.delivery?.transaction_id,
+        },
+        cdek != undefined
+          ? props?.state?.total_cost + cdekSum
+          : props?.state?.final_payment,
+        props?.state?.id,
+        [
+          {
+            email: email,
+            father_name: father_name,
+            first_name: first_name,
+            id: props?.state?.user[0]?.id,
+            phone_number: phone_number,
+            second_name: second_name,
+          },
+        ]
+      );
       setCheckTrans(data);
     } catch (error) {
-      
-    }finally{
-      navigate("/orders")
+    } finally {
+      navigate("/orders");
     }
-    
-    
-    
-   
   };
+  const [checkerselfOrder, setCheckerOrder] = useState(false);
+  const saveTransactionSelfOrder = async () => {
+    try {
+      const { data } = await saveTransactionUpdate(
+        {
+          delivery_address: "г. Волгоград, пр. Жукова 100б ",
+          delivery_commpany: "Самовызов Волгограде",
+          delivery_cost: 0,
+          delivery_point: "Самовызов Волгограде",
+          transaction_id: props?.state?.delivery?.transaction_id,
+        },
 
+        props?.state?.final_payment,
+
+        [
+          {
+            email: email,
+            father_name: father_name,
+            first_name: first_name,
+            id: props?.state?.user[0]?.id,
+            phone_number: phone_number,
+            second_name: second_name,
+          },
+        ]
+      );
+      setCheckTrans(data);
+    } catch (error) {
+    } finally {
+      navigate("/orders");
+    }
+  };
   useEffect(() => {
     setEmail(props?.state?.user[0]?.email);
     setFather_name(props?.state?.user[0]?.father_name);
@@ -176,13 +207,22 @@ const SetDataPerson = () => {
                     <div>Данные о доставке</div>
                   </h4>
                 </div>
-                <div className="col-6">
+                <div className="col-4">
                   <button
                     type="button"
                     className="btn btn-block btn-primary"
-                    onClick={() => setModalShow(true)}
+                    onClick={() => {setModalShow(true);setCheckerOrder(false)}}
                   >
                     Выбрать ПВЗ
+                  </button>
+                </div>
+                <div className="col-4">
+                  <button
+                    type="button"
+                    className="btn btn-block btn-primary"
+                    onClick={() => setCheckerOrder(true)}
+                  >
+                    Выбрать Самывызов
                   </button>
                 </div>
               </div>
@@ -198,12 +238,27 @@ const SetDataPerson = () => {
                 </div>
               </div>
               <div className="row">
-                <div className="col-4">
-                  <button type="button" className="btn btn-block btn-success"
-                  onClick={()=>saveTransaction()}>
-                    Сохранить
-                  </button>
-                </div>
+                {!checkerselfOrder ? (
+                  <div className="col-4">
+                    <button
+                      type="button"
+                      className="btn btn-block btn-success"
+                      onClick={() => saveTransaction()}
+                    >
+                      Сохранить
+                    </button>
+                  </div>
+                ) : (
+                  <div className="col-4">
+                    <button
+                      type="button"
+                      className="btn btn-block btn-success"
+                      onClick={() => saveTransactionSelfOrder()}
+                    >
+                      Сохранить Самовызов
+                    </button>
+                  </div>  
+                )}
               </div>
             </div>
           </div>

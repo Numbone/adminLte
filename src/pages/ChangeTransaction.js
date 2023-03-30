@@ -30,7 +30,7 @@ const ChangeTransaction = () => {
     parseInt(props?.state?.date.substr(17, 2)), // Seconds
     parseInt(props?.state?.date.substr(20, 3)) // Milliseconds
   ));
-  console.log(date)
+  console.log(props)
   return (
     <div className="content-wrapper">
       <div className="content-header">
@@ -148,7 +148,7 @@ const ChangeTransaction = () => {
                             <br></br>
                             {props?.state?.delivery?.delivery_address}
                             <br></br>
-                            Phone: {props?.state?.user?.[0].phone_number}
+                            {/* Phone: {props?.state?.user?.[0].phone_number} */}
                           </address>
                           <address>
                             <strong>Заказ #{props?.state?.id} </strong>
@@ -164,7 +164,7 @@ const ChangeTransaction = () => {
                           </div>
                           <div>
                             <strong>Статус оплаты</strong>{" "}
-                            {props?.state?.paid == false
+                            {props?.state?.status?.[0].status_text === "Возврат" ||props?.state?.status?.[0].status_text === "Ошибка в заказе"||props?.state?.status?.[0].status_text==="Ожидает оплаты" 
                               ? "Не оплачен"
                               : "Оплачен"}
                           </div>

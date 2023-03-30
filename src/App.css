@@ -120,11 +120,17 @@ td a{
     right: 40px;
 } */
 .real__id{
-  padding: 5px;
+ 
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .copy__id{
     background-color: goldenrod;
-    padding:  0 5px;
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 .В{
     background-color: #6c757d;;
