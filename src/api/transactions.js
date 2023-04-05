@@ -18,7 +18,7 @@ export const transactionChangeStatus=async(text,transaction_id)=>{
     return data
 }
 export const transactionChangeShipment=async(transactions_id)=>{
-    const data =instance.post("transaction/shipment",{transactions_id})
+    const data =instance.post("transaction/shipment",{transactions_id:transactions_id})
     return data
 }
 

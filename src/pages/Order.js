@@ -152,12 +152,7 @@ const Order = () => {
   };
   const changeTransShipment = async () => {
     setId([]);
-
-    for (let i = 0; i < id.length; i++) {
-      const element = id[i];
-      const data = await transactionChangeShipment(element);
-      console.log(data);
-    }
+    const data = await transactionChangeShipment(id);
     var clist = document.getElementsByTagName("input");
     for (var i = 0; i < clist.length; ++i) {
       clist[i].checked = false;
@@ -166,6 +161,7 @@ const Order = () => {
     setActivePagi(1);
     getTransactionAll();
   };
+  console.log(id)
   const navigate = useNavigate();
 
   const toggle = (source) => {

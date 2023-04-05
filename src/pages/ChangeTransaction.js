@@ -148,7 +148,7 @@ const ChangeTransaction = () => {
                             <br></br>
                             {props?.state?.delivery?.delivery_address}
                             <br></br>
-                            {/* Phone: {props?.state?.user?.[0].phone_number} */}
+                            Телефон: {props?.state?.pvz_phone}
                           </address>
                           <address>
                             <strong>Заказ #{props?.state?.id} </strong>

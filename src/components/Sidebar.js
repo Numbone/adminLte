@@ -1,28 +1,36 @@
-import React from 'react'
-import { NavLink, useLocation } from 'react-router-dom'
+import React, { useState } from "react";
+import { NavLink, useLocation } from "react-router-dom";
 
 const Sidebar = () => {
-    const location = useLocation()
-    
-    return (
-        <>
-            {
-
-                location.pathname != "/pdf"
-                    ? <aside className="main-sidebar sidebar-dark-primary elevation-4">
-                        {/* Brand Logo */}
-                        <NavLink to="/" className="brand-link">
-                            <img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" className="brand-image img-circle elevation-3" style={{ opacity: '.8' }} />
-                            <span className="brand-text font-weight-light">Администратор</span>
-                        </NavLink>
-                        {/* Sidebar */}
-                        <div className="sidebar">
-                            {/* Sidebar Menu */}
-                            <nav className="mt-2">
-                                <ul className="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                                    {/* Add icons to the links using the .nav-icon class
+  const location = useLocation();
+  const [active, setActive] = useState(false);
+  return (
+    <>
+      {location.pathname != "/pdf" ? (
+        <aside className="main-sidebar sidebar-dark-primary elevation-4">
+          {/* Brand Logo */}
+          <NavLink to="/" className="brand-link">
+            <img
+              src="dist/img/AdminLTELogo.png"
+              alt="AdminLTE Logo"
+              className="brand-image img-circle elevation-3"
+              style={{ opacity: ".8" }}
+            />
+            <span className="brand-text font-weight-light">Администратор</span>
+          </NavLink>
+          {/* Sidebar */}
+          <div className="sidebar">
+            {/* Sidebar Menu */}
+            <nav className="mt-2">
+              <ul
+                className="nav nav-pills nav-sidebar flex-column"
+                data-widget="treeview"
+                role="menu"
+                data-accordion="false"
+              >
+                {/* Add icons to the links using the .nav-icon class
          with font-awesome or any other icon font library */}
-                                    {/* <li className="nav-item">
+                {/* <li className="nav-item">
                             <NavLink to="/" className="nav-link ">
                                 <i className="nav-icon fas fa-tachometer-alt" />
                                 <p>
@@ -31,16 +39,16 @@ const Sidebar = () => {
                             </NavLink>
 
                         </li> */}
-                                    <li className="nav-item">
-                                        <NavLink to="/orders" className="nav-link">
-                                            <i class="nav-icon fas fa-shopping-basket"></i>
-                                            <p>
-                                                Заказы
-                                                {/* <span className="right badge badge-danger">New</span> */}
-                                            </p>
-                                        </NavLink>
-                                    </li>
-                                    {/* <li className="nav-item">
+                <li className="nav-item">
+                  <NavLink to="/orders" className="nav-link">
+                    <i class="nav-icon fas fa-shopping-basket"></i>
+                    <p>
+                      Заказы
+                      {/* <span className="right badge badge-danger">New</span> */}
+                    </p>
+                  </NavLink>
+                </li>
+                {/* <li className="nav-item">
                             <NavLink to="/partners" className="nav-link">
                                 <i className="nav-icon fas fa-copy" />
                                 <p>
@@ -49,64 +57,67 @@ const Sidebar = () => {
                             </NavLink>
 
                         </li> */}
-                                    <li className="nav-item">
-                                        <NavLink to="/etiket" className="nav-link">
-                                            <i className="nav-icon fas fa-chart-pie" />
-                                            <p>
-                                                Этикеты ШК
-
-                                            </p>
-                                        </NavLink>
-                                    </li>
-                                    <li className="nav-item">
-                                        <NavLink to="/users" className="nav-link">
-                                            <i className="nav-icon fas fa-tree" />
-                                            <p>
-                                                Пользователи
-                                            </p>
-                                        </NavLink>
-                                    </li>
-                                    <li className="nav-item">
-                                        <NavLink to="/category" className="nav-link">
-                                            <i className="nav-icon fas fa-edit" />
-                                            <p>
-                                                Категории
-
-                                            </p>
-                                        </NavLink>
-
-                                    </li>
-                                    <li className="nav-item">
-                                        <a className="nav-link">
-                                            <i className="nav-icon fas fa-table" />
-                                            <p>
-                                                Продукции
-                                                <i className="fas fa-angle-left right" />
-                                            </p>
-                                        </a>
-                                        <ul className="nav nav-treeview">
-                                            <li className="nav-item">
-                                                <NavLink to='/products' className="nav-link">
-
-                                                    <p>Все товары</p>
-                                                </NavLink>
-                                            </li>
-                                            <li className="nav-item">
-                                                <NavLink to='/addproduct' href="pages/tables/data.html" className="nav-link">
-
-                                                    <p>Добавить товар</p>
-                                                </NavLink>
-                                            </li>
-                                            {/* <li className="nav-item">
+                <li className="nav-item">
+                  <NavLink to="/etiket" className="nav-link">
+                    <i className="nav-icon fas fa-chart-pie" />
+                    <p>Этикеты ШК</p>
+                  </NavLink>
+                </li>
+                <li className="nav-item">
+                  <NavLink to="/users" className="nav-link">
+                    <i className="nav-icon fas fa-tree" />
+                    <p>Пользователи</p>
+                  </NavLink>
+                </li>
+                <li className="nav-item">
+                  <NavLink to="/category" className="nav-link">
+                    <i className="nav-icon fas fa-edit" />
+                    <p>Категории</p>
+                  </NavLink>
+                </li>
+                <li
+                  className={
+                    active ? "nav-item menu-is-opening menu-open" : "nav-item"
+                  }
+                >
+                  <a
+                    className="nav-link"
+                    onClick={(e) => {
+                      setActive(!active);
+                      e.preventDefault();
+                    }}
+                  >
+                    <i className="nav-icon fas fa-table" />
+                    <p>
+                      Продукции
+                      <i className="fas fa-angle-left right" />
+                    </p>
+                  </a>
+                  <ul className="nav nav-treeview">
+                    <li className="nav-item">
+                      <NavLink to="/products" className="nav-link">
+                        <p>Все товары</p>
+                      </NavLink>
+                    </li>
+                    <li className="nav-item">
+                      <NavLink
+                        to="/addproduct"
+                        href="pages/tables/data.html"
+                        className="nav-link"
+                      >
+                        <p>Добавить товар</p>
+                      </NavLink>
+                    </li>
+                    {/* <li className="nav-item">
                                     <NavLink to="/" className="nav-link">
 
                                         <p>Отзывы</p>
                                     </NavLink>
                                 </li> */}
-                                        </ul>
-                                    </li>
+                  </ul>
+                </li>
 
-                                    {/* <li className="nav-item">
+                {/* <li className="nav-item">
                             <NavLink to="/deliverbybus" className="nav-link">
                                 <i className="nav-icon far fa-envelope" />
                                 <p>
@@ -135,17 +146,13 @@ const Sidebar = () => {
                                 </li>
                             </ul>
                         </li> */}
-                                    <li className="nav-item">
-                                        <NavLink to="/promocode" className="nav-link">
-                                            <i className="nav-icon fas fa-book" />
-                                            <p>
-                                                Промокоды
-                                            </p>
-                                        </NavLink>
-
-
-                                    </li>
-                                    {/* <li className="nav-item">
+                <li className="nav-item">
+                  <NavLink to="/promocode" className="nav-link">
+                    <i className="nav-icon fas fa-book" />
+                    <p>Промокоды</p>
+                  </NavLink>
+                </li>
+                {/* <li className="nav-item">
                                         <a href="#" className="nav-link">
 
                                             <p>
@@ -166,7 +173,7 @@ const Sidebar = () => {
 
                                         </ul>
                                     </li> */}
-                                    {/* <li className="nav-item">
+                {/* <li className="nav-item">
                             <NavLink to="/settings" className="nav-link">
                                 <i className="nav-icon fas fa-search" />
                                 <p>
@@ -186,18 +193,15 @@ const Sidebar = () => {
                             </NavLink>
 
                         </li> */}
-                                </ul>
-                            </nav>
-                            {/* /.sidebar-menu */}
-                        </div>
-                        {/* /.sidebar */}
-                    </aside>
-                    : null
-            }
+              </ul>
+            </nav>
+            {/* /.sidebar-menu */}
+          </div>
+          {/* /.sidebar */}
+        </aside>
+      ) : null}
+    </>
+  );
+};
 
-        </>
-
-    )
-}
-
-export default Sidebar
+export default Sidebar;
