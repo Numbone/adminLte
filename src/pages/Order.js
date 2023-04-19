@@ -192,7 +192,7 @@ const Order = () => {
   ));
 
   ///pagination
-  const [portion, setPortion] = useState(10);
+  const [portion, setPortion] = useState(50);
   const [activePagi, setActivePagi] = useState(1);
 
   let active = activePagi;
@@ -783,28 +783,28 @@ const Order = () => {
           <div>
             <Pagination className="pagi">
               <Pagination.Item
-                onClick={() => setPortion(10)}
-                active={portion === 10}
-              >
-                10
-              </Pagination.Item>
-              <Pagination.Item
-                onClick={() => {
-                  setPortion(25);
-                  setActivePagi(1);
-                }}
-                active={portion === 25}
-              >
-                25
-              </Pagination.Item>
-              <Pagination.Item
-                onClick={() => {
-                  setPortion(50);
-                  setActivePagi(1);
-                }}
+                onClick={() => setPortion(50)}
                 active={portion === 50}
               >
                 50
+              </Pagination.Item>
+              <Pagination.Item
+                onClick={() => {
+                  setPortion(100);
+                  setActivePagi(1);
+                }}
+                active={portion === 100}
+              >
+                100
+              </Pagination.Item>
+              <Pagination.Item
+                onClick={() => {
+                  setPortion(500);
+                  setActivePagi(1);
+                }}
+                active={portion === 500}
+              >
+                500
               </Pagination.Item>
             </Pagination>
           </div>
